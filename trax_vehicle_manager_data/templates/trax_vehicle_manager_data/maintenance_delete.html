@@ -14,10 +14,11 @@
 <div id="del_btn"><button class="btn btn-danger">Delete Data</button></div>
 
 <div>
+{% if maintenance_data_objects %}
     <table id="test_table" class="display" style="width:100%">
         <thead>
             <tr>
-                <th>Vehicle Deatail</th>
+                <th>Vehicle Detail</th>
                 <th>Bill Date</th>
                 <th>Vehicle Type</th>
                 <th>Company Name</th>
@@ -32,22 +33,27 @@
             </tr>
         </thead>
         <tbody>
+            {% for maintenance_data in maintenance_data_objects %}
             <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td>{{maintenance_data.vehicle_detail}}</td>
+                <td>{{maintenance_data.bill_date}}</td>
+                <td>{{maintenance_data.vehicle_type}}</td>
+                <td>{{maintenance_data.company_name}}</td>
+                <td>{{maintenance_data.odometer_reading}}</td>
+                <td>{{maintenance_data.bill_number}}</td>
+                <td>{{maintenance_data.dealer_part_number}}</td>
+                <td>{{maintenance_data.dealer_part_number}}</td>
+                <td>{{maintenance_data.particular}}</td>
+                <td>{{maintenance_data.particular_details}}</td>
+                <td>{{maintenance_data.quantity}}</td>
+                <td>{{maintenance_data.rate}}</td>
             </tr>
+        {% endfor %}
 
         </tbody>
     </table>
+     {% else %}
+    <p class="no-leads text-primary">No data added yet.</p>
+    {% endif %}
 </div>
 {% endblock %}

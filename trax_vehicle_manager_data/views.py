@@ -4,7 +4,7 @@ from django.urls import reverse, reverse_lazy
 
 
 
-from trax_vehicle_manager_data.models import Drivers,Vehicles,Cleaners,Drivers_Odometer_Data
+from trax_vehicle_manager_data.models import Drivers,Vehicles,Cleaners,Drivers_Odometer_Data,Expenses,Maintenance
 # Create your views here.
 #<----------------- Authentication Views --------------------
 
@@ -110,19 +110,27 @@ def diesel_delete_data(request):
 
 #Maintenance Data page view
 def maintenance_data(request):
-    return render(request,'trax_vehicle_manager_data/maintenance_data.html')
+    maintenance_data_objects = Maintenance.objects.all()
+    data = {'maintenance_data_objects':maintenance_data_objects}
+    return render(request,'trax_vehicle_manager_data/maintenance_data.html',data)
 
 #Maintenance Details page view
 def maintenance_details(request):
-    return render(request,'trax_vehicle_manager_data/maintenance_detail.html')
+    maintenance_data_objects = Maintenance.objects.all()
+    data = {'maintenance_data_objects':maintenance_data_objects}
+    return render(request,'trax_vehicle_manager_data/maintenance_detail.html',data)
 
 #Maintenance update payment page view
 def maintenance_update_payment(request):
-    return render(request,'trax_vehicle_manager_data/maintenance_update_payment.html')
+    maintenance_data_objects = Maintenance.objects.all()
+    data = {'maintenance_data_objects':maintenance_data_objects}
+    return render(request,'trax_vehicle_manager_data/maintenance_update_payment.html',data)
 
 #Maintenance Delete data page view
 def maintenance_delete_data(request):
-    return render(request,'trax_vehicle_manager_data/maintenance_delete.html')
+    maintenance_data_objects = Maintenance.objects.all()
+    data = {'maintenance_data_objects':maintenance_data_objects}
+    return render(request,'trax_vehicle_manager_data/maintenance_delete.html',data)
 
 #Recurring expense page view
 def recurring_expense(request):

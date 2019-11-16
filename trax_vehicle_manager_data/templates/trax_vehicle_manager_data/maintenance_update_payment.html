@@ -10,6 +10,7 @@
 <h3>Maintenance Update Payment</h3>
 <hr>
 <div>
+{% if maintenance_data_objects %}
     <table id="test_table" class="display" style="width:100%">
         <thead>
             <tr>
@@ -17,20 +18,21 @@
                 <th>Bill Number</th>
                 <th>Bill Date</th>
                 <th>Total Amount</th>
-
-
             </tr>
         </thead>
         <tbody>
+        {% for maintenance_data in maintenance_data_objects %}
             <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-
+                <td>{{maintenance_data.company_name}}</td>
+                <td>{{maintenance_data.bill_number}}</td>
+                <td>{{maintenance_data.bill_date}}</td>
+                <td>{{maintenance_data.total_amount}}</td>
             </tr>
-
+        {% endfor %}
         </tbody>
     </table>
+    {% else %}
+    <p class="no-leads text-primary">No data added yet.</p>
+    {% endif %}
 </div>
 {% endblock %}
