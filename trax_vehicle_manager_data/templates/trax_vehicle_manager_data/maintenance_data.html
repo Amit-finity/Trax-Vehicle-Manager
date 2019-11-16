@@ -1,0 +1,50 @@
+{% extends 'trax_vehicle_manager_data/base.html' %}
+
+{% load static %}
+
+{% block content %}
+<span><span id="date"><b>From:</b><input type="date"> - <b>To:</b><input type="date"></span><span id="btn"><button class="btn btn-primary">Upload File</button>
+        <button class="btn btn-success">Export Excel</button><button class="btn btn-danger">Export PDF</button></span> </span>
+
+<hr>
+<h3>Maintenance Data</h3>
+<hr>
+<div>
+    <table id="test_table" class="display" style="width:100%">
+        <thead>
+            <tr>
+                <th>Vehicle Details</th>
+                <th>Dealer</th>
+                <th>Bill Number</th>
+                <th>Bill Date</th>
+                <th>Particular</th>
+                <th>Quantity</th>
+                <th>Rate</th>
+                <th>Labour Charge</th>
+                <th>Discount</th>
+                <th>Tax</th>
+                <th>Total Amount</th>
+                <th>Edit</th>
+                <th>Add</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+{% endblock %}

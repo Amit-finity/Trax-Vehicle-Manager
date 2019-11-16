@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+{% load static %}
+<head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Bootstrap CSS -->
+    {% block stylesheets %}
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    {% endblock stylesheets %}
+    
+    <!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+     {% block headscript %}
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    {% endblock headscript %}
+	<style>
+		.jumbotron {
+			background-color: #1B4965;
+		}
+	</style>
+
+	<title>Aaron Tours</title>
+</head>
+
+<body>
+	<div class="jumbotron">
+		<h1 class="display-4 text-white" >धन्यवाद!!</h1>
+		<p class="lead text-white">आपकी जानकारी दर्ज की गई है. </p>
+        <a href="{% url 'trax_vehicle_manager_data:drivers_odometer_form' %}" style="color:#2BA84A ">फिर से फॉर्म भरने के लिए यहां क्लिक करें</a>
+		<hr class="my-4" style="background-color:  white">
+		<h4 style="color: white">अधिक जानकारी के लिए कॉल करें : <a href="tel:+917045678009" style="color: white">+917045678009</a></h4>
+	</div>
+    
+    <footer style="background-color: #D3D0CB;padding-left: 5px;padding-right: : 5px">
+        <p>&copy;2019 <a href="http://www.aarontours.in" style="color:#1B4965 ">Aaron Tours.</a><span style="float: right;font-size: 12px"> Design & Developed By Finity TechServ</span></p>
+    </footer>
+
+</body>
+
+</html>

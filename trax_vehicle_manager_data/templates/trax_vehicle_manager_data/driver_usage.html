@@ -1,0 +1,39 @@
+{% extends 'trax_vehicle_manager_data/base.html' %}
+
+{% load static %}
+
+{% block content %}
+<hr>
+<h3>Driver Usage</h3>
+<hr>
+<div>
+    <table id="test_table" class="display" style="width:100%;text-align: center">
+        <thead>
+            <tr>
+                <th>Refrence Number</th>
+                <th>Driver Name</th>
+                <th>Driver Contact Number</th>
+                <th>View Odometer Report</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for driver in driver_objects %}
+            <tr>
+                <td>{{driver.driver_reference_no}}</td>
+                <td>{{driver.driver_driver_name}}</td>
+                <td>{{driver.driver_contact_number}}</td>
+        
+                <td><button type="button" class="btn btn-sm btn-primary">
+                                <a href="{% url 'trax_vehicle_manager_data:drivers_details' pk=driver.pk %}">
+                                    Click Here
+                                </a>
+                            </button></td>
+               
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+</div>
+
+{% endblock %}

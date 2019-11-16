@@ -1,0 +1,24 @@
+{% extends 'trax_vehicle_manager_data/base.html' %}
+
+{% load static %}
+
+{% block content %}
+<span><span id="date"><b>From:</b><input type="date"> - <b>To:</b><input type="date"></span><span id="btn"><button class="btn btn-primary">Upload File</button>
+        <button class="btn btn-success">Export Excel</button><button class="btn btn-danger">Export PDF</button></span> </span>
+<hr>
+<h3>Diesel Data Delete</h3>
+<hr>
+<div>
+    <form>
+        <h6> Company Name:
+            <select>
+                <option>Default</option>
+                <option>Aaron Tours</option>
+                <option>Aaron Travels</option>
+                <option>Aaron Comet</option>
+            </select>
+        </h6>
+        <div id="del_btn"><button class="btn btn-danger">Delete Data</button></div>
+    </form>
+</div>
+{% endblock %}

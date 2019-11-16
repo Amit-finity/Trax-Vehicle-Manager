@@ -1,0 +1,54 @@
+{% extends 'trax_vehicle_manager_data/base.html' %}
+
+{% load static %}
+
+{% block content %}
+<span><span id="date"><b>From:</b><input type="date"> - <b>To:</b><input type="date"></span><span id="btn"></span> </span>
+
+<hr>
+<h3>Vehicles</h3>
+<hr style="background-color: black">
+
+<div>
+    <table id="test_table" class="display" style="width:100%;text-align: center">
+        <thead>
+            <tr>
+                <th>Sr. No.</th>
+                <th>Vehicle No.</th>
+                <th>Vehicle Register No.</th>
+                <th>Vehicle Card No.</th>
+                <th>Capacity</th>
+                <th>Min Average</th>
+                <th>INC Average</th>
+                <th>Vehicle Current Status</th>
+                <th>Vehicle Buying Date</th>
+                <th>Vehicle Type</th>
+                <th>Vehicle Ownership</th>
+                <th>Vehicle Ownership Details</th>
+                <th>Vehicle Manufacturer</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td><button class="btn btn-primary"><i class="fa fa-edit"></i></button></td>
+                <td><button class="btn btn-danger"><i class="fa fa-trash"></i></button></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+{% endblock %}

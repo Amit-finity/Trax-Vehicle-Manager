@@ -1,0 +1,77 @@
+{% extends 'trax_vehicle_manager_data/base.html' %}
+
+{% load static %}
+
+{% block content %}
+<hr>
+<h3>Driver Master</h3>
+<hr>
+<div>
+    <table id="test_table" class="display" style="width:100%;text-align: center">
+        <thead>
+            <tr>
+                <th>Reference No</th>
+                <th>Driver Name</th>
+                <th>Vehicle Short Number</th>
+                <th>Vehicle Number </th>
+                <th>Vehicle Type</th>
+                <th>Type of Module</th>
+                <th>Joining Date </th>
+                <th>License Number</th>
+                <th>Aadhar Number</th>
+                <th>Contact Number</th>
+                <th>Alternate Contact Number</th>
+                <th>Pan Number</th>
+                <th>Address Proof</th>
+                <th>Photo Id Proof</th>
+                <th>Driver Bank Name</th>
+                <th>Bank Name</th>
+                <th>Bank Account Number</th>
+                <th>Bank IFSC Code</th>
+                <th>Bank Branch</th>
+                <th>License Residence Address</th>
+                <th>Aadhar Card Residence Address</th>
+                <th>Years of Experience</th>
+                <th>Last Employer Name</th>
+                <th>Years with Kruze or Aaron</th>
+                <th>Edit</th>
+                <th>Delete</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            {% for master in driver_master_list %}
+            <tr>
+                <td>{{ master.driver_reference_no }}</td>
+                <td>{{ master.driver_driver_name }}</td>
+                <td>{{ master.driver_vehicle_short_number }}</td>
+                <td>{{ master.driver_vehicle_number }}</td>
+                <td>{{ master.driver_vehicle_type }}</td>
+                <td>{{ master.vehicle_type_of_module }}</td>
+                <td>{{ master.driver_joining_date }}</td>
+                <td>{{ master.driver_license_number }}</td>
+                <td>{{ master.driver_aadhar_number }}</td>
+                <td>{{ master.driver_contact_number }}</td>
+                <td>{{ master.driver_alternate_contact_number }}</td>
+                <td>{{ master.driver_pan_number }}</td>
+                <td>{{ master.driver_address_proof }}</td>
+                <td>{{ master.driver_photoid_proof }}</td>
+                <td>{{ master.driver_driver_bank_name }}</td>
+                <td>{{ master.driver_bank_name }}</td>
+                <td>{{ master.driver_bank_account_number  }}</td>
+                <td>{{ master.driver_ban_ifsc_code }}</td>
+                <td>{{ master.driver_bank_branch }}</td>
+                <td>{{ master.driver_license_residence_address }}</td>
+                <td>{{ master.driver_aadhar_card_residence_address }}</td>
+                <td>{{ master.driver_years_of_experience }}</td>
+                <td>{{ master.driver_last_employer_name }}</td>
+                <td>{{ master.driver_years_with_kruze_or_aaron }}</td>
+                <td><button class="btn btn-primary"><i class="fa fa-edit"></i></button></td>
+                <td><button class="btn btn-danger"><i class="fa fa-trash"></i></button></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

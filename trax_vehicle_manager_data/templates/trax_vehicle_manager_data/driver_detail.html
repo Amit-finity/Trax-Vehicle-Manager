@@ -1,0 +1,57 @@
+{% extends 'trax_vehicle_manager_data/base.html' %}
+{% load static %}
+
+{% block content %}
+        
+                <hr style="background-color: black">
+
+                <h2>Driver Name</h2>
+
+               <hr style="background-color: black">
+
+                <div>
+                {% if driver_odometer_filered_based_on_driver_pk %}
+                    <table id="test_table" class="display" style="width:100%;text-align: center">
+                        <thead>
+                            <tr>
+                                <th>Date of Entry</th>
+                                <th>Driver ID</th>
+                                <th>Bus Number</th>
+                                <th>Odometer Kilometer</th>
+                                <th>Kilometer Running per day</th>
+                                <th>Average</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                        
+                            {% for driver_odometer in driver_odometer_filered_based_on_driver_pk %}
+                            <tr>
+                                <td>{{driver_odometer.drivers_odometer_data_date_of_entry}}</td>
+                                <td>{{driver_odometer.drivers_odometer_data_driver_id}}</td>
+                                <td>{{driver_odometer.drivers_odometer_data_vehicle_number}}</td>
+                                <td>{{driver_odometer.drivers_odometer_data_odometer_kilometer}}</td>
+                                {% if driver_odometer.drivers_odometer_data_odometer_kilometer == "0" %}
+                                <td>0</td>
+                                <td>0</td>
+                                {% else %}
+                                <td>{{calculated_odometer_kilmeter_value}}</td>
+                                <td>{{calculated_average_kilmeter_value}}</td>
+                                {% endif %}
+                                <td><button class="btn btn-primary"><i class="fa fa-edit"></i></button></td>
+                                <td><button class="btn btn-danger"><i class="fa fa-trash"></i></button></td>
+                            </tr>
+                            {% endfor %}
+                           
+                        </tbody>
+                    </table>
+                    {% else %}
+                    <p class="no-leads text-primary">No data added yet.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

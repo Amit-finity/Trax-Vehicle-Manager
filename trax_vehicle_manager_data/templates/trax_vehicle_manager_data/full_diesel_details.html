@@ -1,0 +1,63 @@
+{% extends 'trax_vehicle_manager_data/base.html' %}
+
+{% load static %}
+
+{% block content %}
+<span><span id="date"><b>From:</b><input type="date"> - <b>To:</b><input type="date"></span><span id="btn">
+        <button class="btn btn-success">Export Excel</button><button class="btn btn-danger">Export PDF</button></span> </span>
+
+<hr>
+<h3>Full Diesel Details</h3>
+<hr>
+<div>
+
+    <form>
+        <h6> Company Name:
+            <select>
+                <option>All</option>
+                <option>Aaron Tours</option>
+                <option>Aaron Travels</option>
+                <option>Aaron Comet</option>
+            </select>
+        </h6>
+    </form>
+
+</div>
+<hr>
+<div>
+    <table id="test_table" class="display" style="width:100%">
+        <thead>
+            <tr>
+                <th>Vehicle No.</th>
+                <th>Card USed</th>
+                <th>Company Name</th>
+                <th>Ownership</th>
+                <th>Date</th>
+                <th>Litres</th>
+                <th>Amount</th>
+                <th>OD Readings</th>
+                <th>KM Runs</th>
+                <th>Avg</th>
+                <th>Remarks</th>
+                <th>Odometer Issues</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+{% endblock %}

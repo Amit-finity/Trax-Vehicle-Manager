@@ -1,0 +1,47 @@
+{% extends 'trax_vehicle_manager_data/base.html' %}
+
+{% load static %}
+
+{% block content %}
+<hr>
+<h3>Driver Odometer Data</h3>
+                
+<hr style="background-color: black">
+
+<div>
+    <table id="test_table" class="display" style="width:100%;text-align: center">
+        <thead>
+            <tr>
+                <th>Date of Entry</th>
+                <th>Driver ID</th>
+                <th>Driver Name</th>
+                <th>Driver Mobile Number</th>
+                <th>Bus Number</th>
+                <th>Odometer Kilometer</th>
+                <th>Cleaner ID</th>
+                <th>Cleaner Name</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for odometer in driver_odometer_list %}
+            <tr>
+                <td>{{odometer.drivers_odometer_data_date_of_entry}}</td>
+                <td>{{odometer.drivers_odometer_data_driver_id}}</td>
+                <td>{{odometer.drivers_odometer_data_driver_id.driver_driver_name}}</td>
+                <td>{{odometer.drivers_odometer_data_mobile_number}}</td>
+                <td>{{odometer.drivers_odometer_data_vehicle_number}}</td>
+                <td>{{odometer.drivers_odometer_data_odometer_kilometer}}</td>
+                <td>{{odometer.drivers_odometer_data_cleaner_id.cleaner_Id}}</td>
+                <td>{{odometer.drivers_odometer_data_cleaner_id.cleaner_Name}}</td>
+                <td><button class="btn btn-primary"><i class="fa fa-edit"></i></button></td>
+                <td><button class="btn btn-danger"><i class="fa fa-trash"></i></button></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+</div>
+
+{% endblock %}
