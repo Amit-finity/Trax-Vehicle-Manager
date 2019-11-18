@@ -2,6 +2,12 @@
 
 {% load static %}
 
+{% block stylesheets %}
+<link rel="stylesheet" href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+<script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+
+{% endblock stylesheets %}
+
 {% block content %}
 <hr>
 <h3>Driver Odometer Data</h3>
@@ -45,3 +51,10 @@
 </div>
 
 {% endblock %}
+{% block extrascript %}
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#test_table').DataTable();
+    });
+</script>
+{% endblock extrascript %}

@@ -2,9 +2,39 @@
 
 {% load static %}
 
+{% block stylesheets %}
+<link rel="stylesheet" href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+<script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<style>
+.exportExcel{
+  padding: 7px;
+  border: 2px solid #28a745;
+  margin-right: 150px;
+  cursor: pointer;
+  float: right;
+  margin-top : -140px;
+  border-radius:6px;
+  background-color:#28a745;
+  color:white;
+  width:130px;
+}
+.exportPDF{
+  padding: 7px;
+  border: 2px solid #dc3545;
+  margin: 5px;
+  cursor: pointer;
+  float: right;
+  margin-top : -140px;
+  border-radius:6px;
+  background-color:#dc3545;
+  color:white;
+  width:130px;
+}
+</style>
+{% endblock stylesheets %}
+
 {% block content %}
-<span><span id="date"><b>From:</b><input type="date"> - <b>To:</b><input type="date"></span><span id="btn">
-        <button class="btn btn-success">Export Excel</button><button class="btn btn-danger">Export PDF</button></span> </span>
+<span><span id="date"><b>From:</b><input type="date"> - <b>To:</b><input type="date"></span><span id="btn"></span> </span>
 
 <hr>
 <h3>Maintenance Update Payment</h3>
@@ -36,3 +66,50 @@
     {% endif %}
 </div>
 {% endblock %}
+{% block script %}
+<script src="{% static 'js/jquery.bootstrap.modal.forms.js' %}"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/fixedheader/3.1.5/js/dataTables.fixedHeader.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.flash.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>
+
+{% endblock %}
+{% block extrascript %}
+<script type="text/javascript">
+ $(document).ready(function() {
+$('#test_table').DataTable({
+	orderCellsTop: true,
+    fixedHeader: false,
+    "lengthMenu": [ [-1], ["All"] ],
+    dom: 'Bfrtip',
+    buttons: [
+        {
+        extend: 'excel',
+        text: 'Export Excel',
+        className: 'exportExcel',
+        filename: 'Export excel',
+        exportOptions: {
+            modifier: {
+            page: 'all'
+            }
+        }
+        }, 
+        {
+        extend: 'pdf',
+        text: 'Export PDF',
+        className: 'exportPDF',
+        filename: 'Export PDF',
+        exportOptions: {
+            modifier: {
+            page: 'all'
+            }
+        }
+        }, 
+        ]
+});
+});
+</script>
+{% endblock extrascript %}

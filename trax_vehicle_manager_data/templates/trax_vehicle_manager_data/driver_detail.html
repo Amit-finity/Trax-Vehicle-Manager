@@ -1,6 +1,14 @@
 {% extends 'trax_vehicle_manager_data/base.html' %}
 {% load static %}
 
+{% block stylesheets %}
+<link rel="stylesheet" href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+<script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+
+{% endblock stylesheets %}
+
+
+
 {% block content %}
         
                 <hr style="background-color: black">
@@ -26,20 +34,16 @@
                             </tr>
                         </thead>
                         <tbody>
-                        
-                            {% for driver_odometer in driver_odometer_filered_based_on_driver_pk %}
+                            {% for key,value in driver_odometer_calculated_dict.items %}
                             <tr>
-                                <td>{{driver_odometer.drivers_odometer_data_date_of_entry}}</td>
-                                <td>{{driver_odometer.drivers_odometer_data_driver_id}}</td>
-                                <td>{{driver_odometer.drivers_odometer_data_vehicle_number}}</td>
-                                <td>{{driver_odometer.drivers_odometer_data_odometer_kilometer}}</td>
-                                {% if driver_odometer.drivers_odometer_data_odometer_kilometer == "0" %}
-                                <td>0</td>
-                                <td>0</td>
-                                {% else %}
-                                <td>{{calculated_odometer_kilmeter_value}}</td>
+                                <td>{{key.drivers_odometer_data_date_of_entry}}</td>
+                                <td>{{key.drivers_odometer_data_driver_id}}</td>
+                                <td>{{key.drivers_odometer_data_vehicle_number}}</td>
+                                <td>{{key.drivers_odometer_data_odometer_kilometer}}</td>
+                                
+                                <td>{{value.driver_single_per_day_km}}</td>
                                 <td>{{calculated_average_kilmeter_value}}</td>
-                                {% endif %}
+                                
                                 <td><button class="btn btn-primary"><i class="fa fa-edit"></i></button></td>
                                 <td><button class="btn btn-danger"><i class="fa fa-trash"></i></button></td>
                             </tr>
@@ -55,3 +59,10 @@
         </div>
     </div>
 {% endblock %}
+{% block extrascript %}
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#test_table').DataTable();
+    });
+</script>
+{% endblock extrascript %}
