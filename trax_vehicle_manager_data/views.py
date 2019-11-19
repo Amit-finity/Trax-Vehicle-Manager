@@ -49,27 +49,31 @@ def drivers_usage(request):
 
 #Drivers Details Page View
 def drivers_details(request,pk):
+    #Driver_odometer Objects
     driver_odometer_filered_based_on_driver_pk = Drivers_Odometer_Data.objects.filter(drivers_odometer_data_driver_id=Drivers.objects.get(pk=pk)).all()
-    driver_odometer_calculated_dict = {}
-    driver_average_calculated_dict = {}
-    temp1 = [0]
+    #Km and Average
+    objects_odometer_list = []
     for driver_odometer_filered_based_on_driver_pk_single in driver_odometer_filered_based_on_driver_pk:
-        temp = [0]
-        driver_odometer_calculated_dict[driver_odometer_filered_based_on_driver_pk_single] = {'driver_single_per_day_km':(int(driver_odometer_filered_based_on_driver_pk_single.drivers_odometer_data_odometer_kilometer)-temp[0])}
-        driver_average_calculated_dict[driver_odometer_filered_based_on_driver_pk_single.pk]={'driver_single_per_day_average':((int(driver_odometer_filered_based_on_driver_pk_single.drivers_odometer_data_odometer_kilometer)-temp1[0])/2)}
-        temp.append(driver_odometer_calculated_dict[driver_odometer_filered_based_on_driver_pk_single]['driver_single_per_day_km'])
-        temp.clear()
-        temp.append(0)
-        temp1.append(driver_average_calculated_dict[driver_odometer_filered_based_on_driver_pk_single.pk]['driver_single_per_day_average'])
-    
-    #calculated_odometer_kilmeter_value = driver_odometer_calculated_dict[driver_odometer_filered_based_on_driver_pk_single.pk]['driver_single_per_day_km']
-    #calculated_average_kilmeter_value = driver_average_calculated_dict[driver_odometer_filered_based_on_driver_pk_single.pk]['driver_single_per_day_average']
-    """ for driver_odometer_filered_based_on_driver_pk_single in driver_odometer_filered_based_on_driver_pk:
-        driver_odometer_filered_based_on_driver_pk_count = Drivers_Odometer_Data.objects.filter(drivers_odometer_data_driver_id=Drivers.objects.get(pk=pk)).all().count()
-    driver_odometer_latest_object = Drivers_Odometer_Data.objects.latest('drivers_odometer_data_date_of_entry')
-    average_calculated_per_day = int(driver_odometer_latest_object.drivers_odometer_data_odometer_kilometer)/driver_odometer_filered_based_on_driver_pk_count """
-    data = {'driver_odometer_filered_based_on_driver_pk':driver_odometer_filered_based_on_driver_pk,'driver_odometer_calculated_dict':driver_odometer_calculated_dict}
-    #data = {'driver_odometer_filered_based_on_driver_pk':driver_odometer_filered_based_on_driver_pk,'average_calculated_per_day':average_calculated_per_day}
+        objects_odometer_list.append(int(driver_odometer_filered_based_on_driver_pk_single.drivers_odometer_data_odometer_kilometer))
+    objects_km_per_day = []
+    for i in range(1,len(objects_odometer_list)):
+        x = objects_odometer_list[i] - objects_odometer_list[i-1]
+        objects_km_per_day.append(x)
+    odometer_total = 0
+    objects_average_list = []
+    for j in range(0,len(objects_km_per_day)):
+        odometer_total = (odometer_total+objects_km_per_day[j])
+        average_total = odometer_total/(j+1)
+        objects_average_list.append(average_total)
+    objects_km_per_day.insert(0,0)
+    objects_average_list.insert(0,0)
+    driver_odometer_km_average_dict = {}
+    counter = 0
+    driver_odometer_filered_based_on_driver_pk_in_desc = Drivers_Odometer_Data.objects.filter(drivers_odometer_data_driver_id=Drivers.objects.get(pk=1)).all().order_by('-pk')
+    for driver_odometer_filered_based_on_driver_pk_desc in driver_odometer_filered_based_on_driver_pk_in_desc:
+        counter = counter + 1
+        driver_odometer_km_average_dict[driver_odometer_filered_based_on_driver_pk_desc]=[objects_km_per_day[len(objects_km_per_day)-counter],objects_average_list[len(objects_average_list)-counter]]
+    data = {'driver_odometer_filered_based_on_driver_pk':driver_odometer_filered_based_on_driver_pk,'driver_odometer_km_average_dict':driver_odometer_km_average_dict}
     return render(request,'trax_vehicle_manager_data/driver_detail.html',data)
 
 #Driver Odometer form page view

@@ -52,7 +52,7 @@ urlpatterns = [
     path('driver/drivers_details/<int:pk>',views.drivers_details,name='drivers_details'),
     
     #url for driver form page
-    path('driver/form',views.drivers_odometer_form,name='drivers_odometer_form'),
+    path('',views.drivers_odometer_form,name='drivers_odometer_form'),
     
     #url for driver form submit page
     path('drivers_odometer_form_submit',views.drivers_odometer_form_submit,name='drivers_odometer_form_submit'),

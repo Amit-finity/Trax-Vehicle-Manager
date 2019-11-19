@@ -34,15 +34,15 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {% for key,value in driver_odometer_calculated_dict.items %}
+                            {% for key,value in driver_odometer_km_average_dict.items %}
                             <tr>
                                 <td>{{key.drivers_odometer_data_date_of_entry}}</td>
                                 <td>{{key.drivers_odometer_data_driver_id}}</td>
                                 <td>{{key.drivers_odometer_data_vehicle_number}}</td>
                                 <td>{{key.drivers_odometer_data_odometer_kilometer}}</td>
                                 
-                                <td>{{value.driver_single_per_day_km}}</td>
-                                <td>{{calculated_average_kilmeter_value}}</td>
+                                <td>{{value.0}}</td>
+                                <td>{{value.1}}</td>
                                 
                                 <td><button class="btn btn-primary"><i class="fa fa-edit"></i></button></td>
                                 <td><button class="btn btn-danger"><i class="fa fa-trash"></i></button></td>

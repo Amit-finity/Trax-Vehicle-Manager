@@ -60,9 +60,9 @@
                 <h4>TRAX</h4>
             </div>
             <ul class="list-unstyled components">
-                {% comment %} <li>
+                <li>
                     <a href="{% url 'trax_vehicle_manager_data:vehicles' %}">Vehicles</a>
-                </li> {% endcomment %}
+                </li>
                 <li>
                     <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Driver</a>
                     <ul class="collapse list-unstyled" id="homeSubmenu">
@@ -77,7 +77,7 @@
                         </li>
                     </ul>
                 </li>
-               {% comment %}  <li>
+                 <li>
                     <a href="#homeSubmenu1" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Diesel</a>
                     <ul class="collapse list-unstyled" id="homeSubmenu1">
                         <li>
@@ -93,8 +93,8 @@
                             <a href="{% url 'trax_vehicle_manager_data:diesel_delete_data' %}">Delete Data</a>
                         </li>
                     </ul>
-                </li> {% endcomment %}
-                {% comment %} <li>
+                </li>
+                <li>
                     <a href="#homeSubmenu2" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Maintenance</a>
                     <ul class="collapse list-unstyled" id="homeSubmenu2">
                         <li>
@@ -111,9 +111,7 @@
                         </li>
                     </ul>
                 </li>
-                {% endcomment %}
-
-               {% comment %}  <li> 
+                <li> 
                     <a href="{% url 'trax_vehicle_manager_data:recurring_expense' %}">Reccuring Expense</a>
                 </li>
                 <li>
@@ -165,7 +163,7 @@
                         <font color="#1B4965">Logout</font>
                     </a>
                 </li>
-            </ul> {% endcomment %}
+            </ul>
         </nav>
         <!--SIDEBAR ENDS HERE-->
 
