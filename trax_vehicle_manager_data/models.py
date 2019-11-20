@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from model_utils.managers import InheritanceManager
 from django.utils import timezone
+from datetime import datetime
 
 # Create your models here.
 
@@ -87,7 +88,7 @@ class Vehicles(models.Model):
         cleaner_id = models.ForeignKey(Cleaners, on_delete = models.CASCADE)
 
         def __str__(self):
-            return (self.vehicle_card_number)
+            return str(self.pk)
 
         class Meta:
                 verbose_name_plural = "Vehicles Master List"
@@ -96,7 +97,7 @@ class Vehicles(models.Model):
 class Expenses(models.Model):
     expense_name = models.CharField(max_length=50)
     expense_id = models.PositiveSmallIntegerField()
-    
+    expense_vehicle_id = models.ForeignKey(Vehicles, on_delete = models.CASCADE)
     
     def __str__(self):
         return str(self.pk)
@@ -128,13 +129,14 @@ class Maintenance(Expenses):
     chalak_malak_choices = ((YES,'yes'),(NO,'no'))
     vehicle_number = models.PositiveIntegerField()
     vehicle_detail = models.CharField(max_length=50)
-    bill_date = models.DateTimeField()
+    bill_date = models.DateTimeField(default=timezone.now)
     vehicle_type = models.CharField(max_length=50)
     chalak_malal = models.CharField(choices=chalak_malak_choices,max_length=100)
     company_name = models.CharField(max_length=50)
     odometer_reading = models.PositiveIntegerField()
     bill_number = models.PositiveIntegerField()
     dealer_part_number = models.PositiveIntegerField()
+    maintenance_dealer_name = models.CharField(max_length=900)
     particular = models.CharField(max_length=50)
     particular_details = models.CharField(max_length=50)
     quantity = models.PositiveIntegerField()

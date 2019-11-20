@@ -2,9 +2,17 @@ from django.shortcuts import render,HttpResponseRedirect
 from django.http import HttpResponse
 from django.urls import reverse, reverse_lazy
 
+from bootstrap_modal_forms.generic import (BSModalCreateView,
+                                           BSModalUpdateView,
+                                           BSModalReadView,
+                                           BSModalDeleteView)
 
 
 from trax_vehicle_manager_data.models import Drivers,Vehicles,Cleaners,Drivers_Odometer_Data,Expenses,Maintenance
+from trax_vehicle_manager_data.forms import MaintenanceForm
+
+from django.db.models import Sum
+
 # Create your views here.
 #<----------------- Authentication Views --------------------
 
@@ -128,8 +136,27 @@ def maintenance_data(request):
 
 #Maintenance Details page view
 def maintenance_details(request):
-    maintenance_data_objects = Maintenance.objects.all()
-    data = {'maintenance_data_objects':maintenance_data_objects}
+    """ maintenance_data_objects = Maintenance.objects.all()
+    maintenance_details_monthly_expense_total_dict = {}
+    maintenance_details_vehicle_km_dict = {}
+    maintenance_objects = Maintenance.objects.filter(expense_vehicle_id=Vehicles.objects.get(pk=pk)).all()
+    total_expense_per_vehicle = 0
+    total_km_per_vehicle = 0
+    for maintenance in maintenance_objects:
+        total_expense_per_vehicle = total_expense_per_vehicle + maintenance.amount
+        total_km_per_vehicle = total_km_per_vehicle + maintenance.odometer_reading
+        maintenance_details_monthly_expense_total_dict[maintenance.pk]=total_expense_per_vehicle
+        maintenance_details_vehicle_km_dict[maintenance.pk]=total_km_per_vehicle
+
+        ItemPrice.objects.aggregate(Sum('price'))
+    data = {'maintenance_data_objects':maintenance_data_objects,'maintenance_details_monthly_expense_total_dict':maintenance_details_monthly_expense_total_dict,'maintenance_details_vehicle_km_dict':maintenance_details_vehicle_km_dict} """
+    vehicle_dict = {}
+    vehicle_objects_all = Vehicles.objects.all()
+    for one_vehicle_object in vehicle_objects_all:
+        km_sum = Maintenance.objects.filter(expense_vehicle_id=one_vehicle_object.pk).aggregate(Sum('odometer_reading'))
+        amount_sum = Maintenance.objects.filter(expense_vehicle_id=one_vehicle_object.pk).aggregate(Sum('amount'))
+        vehicle_dict[one_vehicle_object] = km_sum,amount_sum
+    data = {'vehicle_dict':vehicle_dict}
     return render(request,'trax_vehicle_manager_data/maintenance_detail.html',data)
 
 #Maintenance update payment page view
@@ -179,3 +206,24 @@ def profile(requset):
 #Report Error page view
 def report_error(requset):
     return render(requset,'trax_vehicle_manager_data/report_error.html')
+
+class Upload_New_Maintenance_Form(BSModalCreateView):
+    template_name = 'trax_vehicle_manager_data/upload_maintenance_form.html'
+    form_class = MaintenanceForm
+    success_message = 'Success: Maintenance Form was Uploaded Successfully.'
+    success_url = reverse_lazy('trax_vehicle_manager_data:maintenance_data')
+
+class MaintenanceUpdateView(BSModalUpdateView):
+    model = Maintenance
+    template_name = 'trax_vehicle_manager_data/update_data.html'
+    form_class = MaintenanceForm
+    success_message = 'Success: Maintenance data was updated.'
+    success_url = reverse_lazy('trax_vehicle_manager_data:maintenance_data')
+
+class MaintenanceDeleteView(BSModalDeleteView):
+    model = Maintenance
+    template_name = 'trax_vehicle_manager_data/delete_data.html'
+    success_message = 'Success: Maintenance data was Deleted.'
+    success_url = reverse_lazy('trax_vehicle_manager_data:maintenance_data')
+
+    

@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'import_export',
     'django.contrib.staticfiles',
     'trax_vehicle_manager_data',
+    'bootstrap_modal_forms',
+    'widget_tweaks',
     'django_extensions',
 ]
 

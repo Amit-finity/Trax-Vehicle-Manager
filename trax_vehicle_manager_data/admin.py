@@ -34,9 +34,24 @@ class VehiclesAdmin(ImportExportModelAdmin):
         "vehicle_registered_number"
     ]
 
+class CleanersAdmin(ImportExportModelAdmin):
+    list_display = [
+        "pk",
+        "cleaner_Id",
+        "cleaner_Name",
+        "cleaner_Age",
+        "cleaner_License_Number",
+        "cleaner_Address",
+        "cleaner_Contact_Number",
+        "cleaner_Salary"
+    ]
+
+
+
+
 
 admin.site.register(Drivers,DriversAdmin)
-admin.site.register(Cleaners)
+admin.site.register(Cleaners,CleanersAdmin)
 admin.site.register(Vehicles,VehiclesAdmin)
 admin.site.register(Expenses)
 admin.site.register(Diesel)

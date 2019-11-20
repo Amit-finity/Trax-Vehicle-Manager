@@ -1,15 +1,25 @@
 {% extends 'trax_vehicle_manager_data/base.html' %}
+{% load maintenance_data_filters %}
+
 
 {% load static %}
 
 {% block stylesheets %}
 <link rel="stylesheet" href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
 <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-
 {% endblock stylesheets %}
 
 {% block content %}
-<span><span id="date"><b>From:</b><input type="date"> - <b>To:</b><input type="date"></span><span id="btn"><button class="btn btn-primary">Upload File</button><button class="btn btn-info">Upload Form</button><button class="btn btn-success">Export Excel</button><button class="btn btn-danger">Export PDF</button></span> </span>
+<!-- Modal for CURD Operation -->
+<div class="modal fade" tabindex="-1" role="dialog" id="modal">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content"></div>
+    </div>
+</div>
+
+
+
+<span><span id="date"><b>From:</b><input type="date"> - <b>To:</b><input type="date"></span><span id="btn"><button class="upload_maintenance_form btn btn-info">Upload Form </button><button class="btn btn-primary">Upload File</button><button class="btn btn-success">Export Excel</button><button class="btn btn-danger">Export PDF</button></span> </span>
 
 <hr>
 <h3>Maintenance Details</h3>
@@ -17,7 +27,7 @@
 <div id="del_btn"><button class="btn btn-info">Show Data</button></div>
 
 <div>
-{% if maintenance_data_objects %}
+{% if vehicle_dict %}
     <table id="test_table" class="display" style="width:100%">
         <thead>
             <tr>
@@ -29,14 +39,13 @@
 
         </thead>
         <tbody>
-        {% for maintenance_data in maintenance_data_objects %}
+        {% for key,value in vehicle_dict.items %}
             <tr>
-                <td>{{maintenance_data.vehicle_detail}}</td>
-                <td>{{maintenance_data.company_name}}</td>
-                <td>{{maintenance_data.vehicle_type}}</td>
-                <td>{{maintenance_data.total_amount}}</td>
-                <td>{{maintenance_data.}}</td>
-
+                <td>{{key.vehicle_number}}</td>
+                <td>{{key.vehicle_number}}</td>
+                <td>{{key.vehicle_type}}</td>
+                <td>{{value.0.odometer_reading__sum}}</td>
+                <td>{{value.1.amount__sum}}</td>
             </tr>
         {% endfor %}
         </tbody>
@@ -71,5 +80,26 @@ $('#test_table').DataTable({
   ]
 });
 });
+</script>
+<script type="text/javascript">
+    $(function() {
+         $(".upload_maintenance_form").modalForm({
+        formURL: "{% url 'trax_vehicle_manager_data:upload_maintenance_form' %}"
+    });
+        $(".update-data-entered").each(function() {
+            $(this).modalForm({
+                formURL: $(this).data('id')
+            });
+        });
+         $(".delete-data-entered").each(function() {
+			$(this).modalForm({
+				formURL: $(this).data('id')
+			});
+		});
+        
+      $(".read-data-entered").each(function () {
+        $(this).modalForm({formURL: $(this).data('id')});
+      });
+    });
 </script>
 {% endblock extrascript %}
