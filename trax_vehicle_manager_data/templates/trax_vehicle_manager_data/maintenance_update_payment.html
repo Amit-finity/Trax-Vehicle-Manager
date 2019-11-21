@@ -18,7 +18,7 @@
   color:white;
   width:130px;
 }
-.exportPDF{
+{% comment %} .exportPDF{
   padding: 7px;
   border: 2px solid #dc3545;
   margin: 5px;
@@ -29,7 +29,7 @@
   background-color:#dc3545;
   color:white;
   width:130px;
-}
+} {% endcomment %}
 </style>
 {% endblock stylesheets %}
 
@@ -53,7 +53,7 @@
         <tbody>
         {% for maintenance_data in maintenance_data_objects %}
             <tr>
-                <td>{{maintenance_data.company_name}}</td>
+                <td>{{maintenance_data.maintenance_dealer_name}}</td>
                 <td>{{maintenance_data.bill_number}}</td>
                 <td>{{maintenance_data.bill_date}}</td>
                 <td>{{maintenance_data.total_amount}}</td>
@@ -97,7 +97,7 @@ $('#test_table').DataTable({
             }
         }
         }, 
-        {
+        {% comment %} {
         extend: 'pdf',
         text: 'Export PDF',
         className: 'exportPDF',
@@ -107,7 +107,7 @@ $('#test_table').DataTable({
             page: 'all'
             }
         }
-        }, 
+        },  {% endcomment %}
         ]
 });
 });

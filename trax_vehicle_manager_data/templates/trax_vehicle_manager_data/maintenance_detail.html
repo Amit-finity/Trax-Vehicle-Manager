@@ -7,6 +7,33 @@
 {% block stylesheets %}
 <link rel="stylesheet" href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
 <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+
+<style>
+.exportExcel{
+  padding: 5.5px;
+  border: 2px solid #28a745;
+  margin-right: 110px;
+  cursor: pointer;
+  float: right;
+  margin-top : -205px;
+  border-radius:6px;
+  background-color:#28a745;
+  color:white;
+  width:120px;
+}
+{% comment %} .exportPDF{
+  padding: 5.5px;
+  border: 2px solid #dc3545;
+  cursor: pointer;
+  float: right;
+  margin-top : -205px;
+  border-radius:6px;
+  background-color:#dc3545;
+  color:white;
+  width:100px;
+  margin-left:-20px;
+} {% endcomment %}
+</style>
 {% endblock stylesheets %}
 
 {% block content %}
@@ -19,12 +46,43 @@
 
 
 
-<span><span id="date"><b>From:</b><input type="date"> - <b>To:</b><input type="date"></span><span id="btn"><button class="upload_maintenance_form btn btn-info">Upload Form </button><button class="btn btn-primary">Upload File</button><button class="btn btn-success">Export Excel</button><button class="btn btn-danger">Export PDF</button></span> </span>
+<span id="date"><b>From:</b><input type="date"> - <b>To:</b><input type="date"></span>
+<span id="btn">
+<button class="upload_maintenance_form btn btn-info" style="margin-left:-500px;">Upload Form </button>
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalforUploadFile">Upload File</button>
+</span>
 
 <hr>
 <h3>Maintenance Details</h3>
 <hr>
-<div id="del_btn"><button class="btn btn-info">Show Data</button></div>
+
+
+
+
+
+
+<div id="del_btn"><button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModalforUploadFile">Show Report</button></div>
+
+
+<div class="modal fade" id="exampleModalforUploadFile" tabindex="-1" role="dialog" aria-labelledby="exampleModalforUploadFileLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalforUploadFileLabel">Upload File</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h3>Coming Soon</h3>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 <div>
 {% if vehicle_dict %}
@@ -74,10 +132,31 @@ $('#test_table').DataTable({
 	orderCellsTop: true,
     fixedHeader: false,
     "lengthMenu": [ [-1], ["All"] ],
- dom: 'Bfrtip',
-  buttons: [
-    'excelHtml5', 'csvHtml5'
-  ]
+    dom: 'Bfrtip',
+    buttons: [
+        {
+        extend: 'excel',
+        text: 'Export Excel',
+        className: 'exportExcel',
+        filename: 'Export excel',
+        exportOptions: {
+            modifier: {
+            page: 'all'
+            }
+        }
+        }, 
+       {% comment %}  {
+        extend: 'pdf',
+        text: 'Export PDF',
+        className: 'exportPDF',
+        filename: 'Export PDF',
+        exportOptions: {
+            modifier: {
+            page: 'all'
+            }
+        }
+        },  {% endcomment %}
+        ]
 });
 });
 </script>
