@@ -226,4 +226,12 @@ class MaintenanceDeleteView(BSModalDeleteView):
     success_message = 'Success: Maintenance data was Deleted.'
     success_url = reverse_lazy('trax_vehicle_manager_data:maintenance_data')
 
-    
+class MaintenanceReadView(BSModalReadView):
+    model = Maintenance
+    context_object_name = 'maintenance_data'
+    template_name = 'trax_vehicle_manager_data/read_maintenance_data.html'   
+
+class MaintenanceReadOnDeletePageView(BSModalReadView):
+    model = Maintenance
+    context_object_name = 'maintenance_data'
+    template_name = 'trax_vehicle_manager_data/read_maintenance_data_on_delete_page.html'  

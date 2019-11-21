@@ -69,6 +69,8 @@ class Cleaners(models.Model):
                 verbose_name = "Cleaner"
 
 class Vehicles(models.Model):
+        vehicle_ownership_choices = (('ATPL','ATPL'),('AT','AT'),('CT','CT'))
+        vehicle_ownership_name = models.CharField(choices=vehicle_ownership_choices,max_length=900,default="AT")
         vehicle_id = models.CharField(max_length=900,blank=True)
         vehicle_number = models.CharField(max_length=900,blank=True)
         vehicle_card_number = models.CharField(max_length=900,blank=True)

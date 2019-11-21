@@ -38,6 +38,7 @@
                 <th>Discount</th>
                 <th>Tax</th>
                 <th>Total Amount</th>
+                <th>Read</th>
                 <th>Edit</th>
             </tr>
         </thead>
@@ -55,6 +56,11 @@
                 <td>{{maintenance_data.discount}}</td>
                 <td>{{maintenance_data.tax}}</td>
                 <td>{{maintenance_data.total_amount}}</td>
+                <td>
+                        <button type="button" class="read-data-entered btn btn-sm btn-primary" data-id="{% url 'trax_vehicle_manager_data:read_maintenance_data' pk=maintenance_data.pk %}">
+        <span class="fa fa-eye"></span>
+      </button>
+      </td>
                 <td>
 							<button type="button" class="update-data-entered btn btn-sm btn-primary" data-id="{% url 'trax_vehicle_manager_data:update_maintenance_data' pk=maintenance_data.pk %}">
 								<span class="fa fa-edit"></span>

@@ -78,6 +78,9 @@ urlpatterns = [
     #url for Upload Maintenance Form
     path('maintenance/upload_maintenance_form', views.Upload_New_Maintenance_Form.as_view(), name='upload_maintenance_form'),
 
+    #url for Read Maintenance Data
+    path('maintenance/read_maintenance_data/<int:pk>', views.MaintenanceReadView.as_view(), name='read_maintenance_data'),
+
     #url for Update Maintenance Data
     path('maintenance/update_maintenance_data/<int:pk>', views.MaintenanceUpdateView.as_view(), name='update_maintenance_data'),    
 
@@ -91,6 +94,9 @@ urlpatterns = [
     path('maintenance/maintenance_update_payment',views.maintenance_update_payment,name='maintenance_update_payment'),
 
     
+    #url for Read Maintenance Data on Delete Page
+    path('maintenance/read_maintenance_data_on_delete_page/<int:pk>', views.MaintenanceReadOnDeletePageView.as_view(), name='read_maintenance_data_on_delete_page'),
+
     #url for Diesel delete page
     path('maintenance/maintenance_delete_data',views.maintenance_delete_data,name='maintenance_delete_data'),    
 

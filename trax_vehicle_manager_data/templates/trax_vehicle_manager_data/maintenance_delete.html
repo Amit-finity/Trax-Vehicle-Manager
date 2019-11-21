@@ -43,6 +43,7 @@
                 <th>Perticular Details</th>
                 <th>Quantity</th>
                 <th>Rate</th>
+                <th>Read</th>
                 <th>Delete</th>
             </tr>
         </thead>
@@ -61,6 +62,11 @@
                 <td>{{maintenance_data.particular_details}}</td>
                 <td>{{maintenance_data.quantity}}</td>
                 <td>{{maintenance_data.rate}}</td>
+                <td>
+                    <button type="button" class="read-data-entered btn btn-sm btn-primary" data-id="{% url 'trax_vehicle_manager_data:read_maintenance_data_on_delete_page' pk=maintenance_data.pk %}">
+                    <span class="fa fa-eye"></span>
+                    </button>
+                </td>
                 <td>
 							<button type="button" class="delete-data-entered btn btn-sm btn-danger" data-id="{% url 'trax_vehicle_manager_data:delete_maintenance_data' pk=maintenance_data.pk  %}">
 								<span class="fa fa-trash"></span>

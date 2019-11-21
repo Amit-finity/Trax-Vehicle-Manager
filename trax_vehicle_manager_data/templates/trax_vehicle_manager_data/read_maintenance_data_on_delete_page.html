@@ -1,0 +1,86 @@
+{% load widget_tweaks %}
+
+<div class="modal-header">
+  <h3 class="modal-title">Maintenance Data</h3>
+  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<div class="modal-body">
+
+  <div class="">
+    Vehicle Detail:
+    {{ maintenance_data.vehicle_detail }}
+  </div>
+  <br>
+  <div class="">
+    Bill Date:
+    {{ maintenance_data.bill_date }}
+  </div>
+  <br>
+  <div class="">
+    Vehicle Type:
+    {{ maintenance_data.vehicle_type }}
+    
+  </div>
+  <br>
+  <div class="">
+    Company Name:
+    {{ maintenance_data.company_name }}
+    
+  </div>
+  <br>
+  <div class="">
+    Odometer:
+    {{ maintenance_data.odometer_reading }}
+    
+  </div>
+  <br>
+  <div class="">
+    Bill Number:
+    {{ maintenance_data.bill_number }}
+    
+  </div>
+  <br>
+  <div class="">
+    Dealer:
+    {{ maintenance_data.maintenance_dealer_name }}
+    
+  </div>
+  <br>
+  <div class="">
+    Part Number:
+    {{ maintenance_data.dealer_part_number }}
+    
+  </div>
+  <br>
+  <div class="">
+    Perticular:
+    {{ maintenance_data.particular }}
+    
+  </div>
+  <br>
+  <div class="">
+    Perticular Details:
+    {{ maintenance_data.particular_details }}
+    
+  </div>
+  <br>
+  <div class="">
+    Quantity:
+    {{ maintenance_data.quantity }}
+    
+  </div>
+  <br>
+  <div class="">
+    Rate:
+    {{ maintenance_data.rate }}
+    
+  </div>
+
+</div>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+</div>

@@ -42,7 +42,7 @@
         {% for key,value in vehicle_dict.items %}
             <tr>
                 <td>{{key.vehicle_number}}</td>
-                <td>{{key.vehicle_number}}</td>
+                <td>{{key.vehicle_ownership_name}}</td>
                 <td>{{key.vehicle_type}}</td>
                 <td>{{value.0.odometer_reading__sum}}</td>
                 <td>{{value.1.amount__sum}}</td>
