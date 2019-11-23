@@ -8,7 +8,7 @@ from bootstrap_modal_forms.generic import (BSModalCreateView,
                                            BSModalDeleteView)
 
 
-from trax_vehicle_manager_data.models import Drivers,Vehicles,Cleaners,Drivers_Odometer_Data,Expenses,Maintenance
+from trax_vehicle_manager_data.models import Drivers,Vehicles,Cleaners,Drivers_Odometer_Data,Expenses,Maintenance,Diesel
 from trax_vehicle_manager_data.forms import MaintenanceForm
 
 from django.db.models import Sum
@@ -114,7 +114,9 @@ def drivers_odometer_successfull_form(request):
 
 #Full diesel details page view
 def full_diesel_details(request):
-    return render(request,'trax_vehicle_manager_data/full_diesel_details.html')
+    diesel_objects = Diesel.objects.all()
+    data = {'diesel_objects':diesel_objects}
+    return render(request,'trax_vehicle_manager_data/full_diesel_details.html',data)
 
 #Diesel transaction details page view
 def diesel_transaction_details(request):
