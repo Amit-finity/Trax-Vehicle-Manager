@@ -53,20 +53,26 @@ class Drivers(models.Model):
                 return str(self.driver_reference_no)
 
 class Cleaners(models.Model):
-        cleaner_Id = models.PositiveSmallIntegerField() 
-        cleaner_Name = models.CharField(max_length=20)
-        cleaner_Age = models.IntegerField()
-        cleaner_License_Number = models.IntegerField()
-        cleaner_Address = models.CharField(max_length=20)
-        cleaner_Contact_Number = models.IntegerField()
-        cleaner_Salary = models.IntegerField()
+    cleaner_Id = models.CharField(max_length=900,blank=True)
+    cleaner_Name = models.CharField(max_length=900,blank=True)
+    cleaner_Age = models.CharField(max_length=900,blank=True)
+    cleaner_License_Number = models.CharField(max_length=900,blank=True)
+    cleaner_Address = models.CharField(max_length=900,blank=True)
+    cleaner_Contact_Number = models.CharField(max_length=900,blank=True)
+    cleaner_Salary = models.CharField(max_length=900,blank=True)
+    cleaner_joining_date = models.DateTimeField(blank=True)
+    cleaner_aadhar_number = models.CharField(max_length=900,blank=True)
+    cleaner_pan_number = models.CharField(max_length=900,blank=True)
+    cleaner_alternate_contact_number = models.CharField(max_length=900,blank=True)
+    cleaner_address_proof = models.CharField(max_length=900,blank=True)
+    cleaner_photo_id_proof = models.CharField(max_length=900,blank=True)
+    
+    def __str__(self):
+        return str(self.pk)
 
-        def __str__(self):
-                return str(self.pk)
-
-        class Meta:
-                verbose_name_plural = "Cleaners Master List"
-                verbose_name = "Cleaner"
+    class Meta:
+        verbose_name_plural = "Cleaners Master List"
+        verbose_name = "Cleaner"
 
 class Vehicles(models.Model):
         vehicle_ownership_choices = (('ATPL','ATPL'),('AT','AT'),('CT','CT'))

@@ -77,7 +77,7 @@ def drivers_details(request,pk):
     objects_average_list.insert(0,0)
     driver_odometer_km_average_dict = {}
     counter = 0
-    driver_odometer_filered_based_on_driver_pk_in_desc = Drivers_Odometer_Data.objects.filter(drivers_odometer_data_driver_id=Drivers.objects.get(pk=1)).all().order_by('-pk')
+    driver_odometer_filered_based_on_driver_pk_in_desc = Drivers_Odometer_Data.objects.filter(drivers_odometer_data_driver_id=Drivers.objects.get(pk=pk)).all().order_by('-pk')
     for driver_odometer_filered_based_on_driver_pk_desc in driver_odometer_filered_based_on_driver_pk_in_desc:
         counter = counter + 1
         driver_odometer_km_average_dict[driver_odometer_filered_based_on_driver_pk_desc]=[objects_km_per_day[len(objects_km_per_day)-counter],objects_average_list[len(objects_average_list)-counter]]
