@@ -27,3 +27,39 @@ class MaintenanceForm(BSModalForm):
         'labour_charge',
         'total_amount')  
 
+class DriverForm(BSModalForm):
+    class Meta:
+        model = Drivers
+        fields = ('driver_reference_no',
+        'driver_driver_name',
+        'driver_vehicle_short_number',
+        'driver_vehicle_number',
+        'driver_vehicle_type',
+        'vehicle_type_of_module',
+        'driver_license_number',
+        'driver_aadhar_number',
+        'driver_contact_number',
+        'driver_pan_number',
+        'driver_address_proof',
+        'driver_photoid_proof',
+        'driver_driver_bank_name',
+        'driver_bank_name',
+        'driver_bank_account_number',
+        'driver_ban_ifsc_code',
+        'driver_bank_branch',
+        'driver_alternate_contact_number',
+        'driver_license_residence_address',
+        'driver_aadhar_card_residence_address',
+        'driver_years_of_experience',
+        'driver_last_employer_name',
+        'driver_years_with_kruze_or_aaron')
+
+class DriverOdometerForm(BSModalForm):
+    class Meta:
+        model = Drivers_Odometer_Data
+        fields = ('drivers_odometer_data_driver_id',
+        'drivers_odometer_data_mobile_number',
+        'drivers_odometer_data_vehicle_number',
+        'drivers_odometer_data_odometer_kilometer',
+        'drivers_odometer_data_cleaner_id')
+

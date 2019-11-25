@@ -5,11 +5,36 @@
 {% block stylesheets %}
 <link rel="stylesheet" href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
 <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<style>
+.exportExcel{
+  padding: 5.5px;
+  border: 2px solid #28a745;
+  margin-right: 110px;
+  cursor: pointer;
+  float: right;
+  margin-top : -140px;
+  border-radius:6px;
+  background-color:#28a745;
+  color:white;
+  width:120px;
+}
+.exportPDF{
+  padding: 5.5px;
+  border: 2px solid #dc3545;
+  cursor: pointer;
+  float: right;
+  margin-top : -140px;
+  border-radius:6px;
+  background-color:#dc3545;
+  color:white;
+  width:100px;
+  margin-left:-20px;
+}
+</style>
 {% endblock stylesheets %}
 
 {% block content %}
-<span><span id="date"><b>From:</b><input type="date"> - <b>To:</b><input type="date"></span><span id="btn"><button class="btn btn-primary">Upload File</button>
-        <button class="btn btn-success">Export Excel</button><button class="btn btn-danger">Export PDF</button></span> </span>
+<span><span id="date"><b>From:</b><input type="date"> - <b>To:</b><input type="date"></span><span id="btn"><button class="btn btn-primary">Upload File</button></span></span>
 
 <hr>
 <h3>Diesel Transaction Details</h3>
@@ -66,8 +91,37 @@
 {% endblock %}
 {% block extrascript %}
 <script type="text/javascript">
-    $(document).ready(function() {
-        $('#test_table').DataTable();
-    });
+ $(document).ready(function() {
+$('#test_table').DataTable({
+	orderCellsTop: true,
+    fixedHeader: false,
+    "lengthMenu": [ [-1], ["All"] ],
+    dom: 'Bfrtip',
+    buttons: [
+        {
+        extend: 'excel',
+        text: 'Export Excel',
+        className: 'exportExcel',
+        filename: 'Export excel',
+        exportOptions: {
+            modifier: {
+            page: 'all'
+            }
+        }
+        }, 
+       {
+        extend: 'pdf',
+        text: 'Export PDF',
+        className: 'exportPDF',
+        filename: 'Export PDF',
+        exportOptions: {
+            modifier: {
+            page: 'all'
+            }
+        }
+        },
+        ]
+});
+});
 </script>
 {% endblock extrascript %}

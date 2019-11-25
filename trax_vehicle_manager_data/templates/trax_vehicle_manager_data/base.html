@@ -87,10 +87,13 @@
                     <a href="#homeSubmenu1" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Diesel</a>
                     <ul class="collapse list-unstyled" id="homeSubmenu1">
                         <li>
-                            <a href="{% url 'trax_vehicle_manager_data:full_diesel_details' %}">Full Diesel Details</a>
+                            <a href="{% url 'trax_vehicle_manager_data:full_diesel_details_filtered_by_date' %}">Full Diesel Details</a>
                         </li>
                         <li>
                             <a href="{% url 'trax_vehicle_manager_data:diesel_transaction_details' %}">Transaction Details</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'trax_vehicle_manager_data:vehicle_diesel_report' %}">Vehicle Diesel Report</a>
                         </li>
                         <li>
                             <a href="{% url 'trax_vehicle_manager_data:transaction_tally' %}">Transaction Tally</a>

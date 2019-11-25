@@ -2,6 +2,7 @@
 
 {% load static %}
 
+{% load maintenance_data_filters %}
 {% block stylesheets %}
 <link rel="stylesheet" href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
 <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
@@ -34,8 +35,28 @@
 {% endblock stylesheets %}
 
 {% block content %}
-<span><span id="date"><b>From:</b><input type="date"> - <b>To:</b><input type="date"></span>
-        
+
+<form action={% url 'trax_vehicle_manager_data:full_diesel_details_filtered_by_date' %} method="post">
+                     {% csrf_token %}
+                       
+                        <div>
+                        <div class="form-row">
+                        <div class="form-group col-md-3">
+                            <label for="start_date_lbl">From:</label><br>
+                            <input type="date" class="datepicker" id="date1" name="date1">
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label for="end_date_lbl">To:</label><br>
+                            <input type="date" class="datepicker" id="date2" name="date2">
+                        </div>
+                        <div class="form-group col-md-3">
+                        <br>
+                        <button type="submit" class="submit-btn btn btn-primary">Search</button>
+                        </div>
+                        </div>
+                        <br>
+                    </form> 
+
 
 <hr>
 <h3>Full Diesel Details</h3>
@@ -74,18 +95,18 @@
             </tr>
         </thead>
         <tbody>
-        {% for diesel in diesel_objects %}
+        {% for key,value in diesel_data_dict.items %}
             <tr>
-                <td>{{diesel.vehicle_number}}</td>
-                <td>{{diesel.card_used}}</td>
-                <td>{{diesel.}}</td>
-                <td>{{diesel.ownership}}</td>
-                <td>{{diesel.}}</td>
-                <td>{{diesel.volume}}</td>
-                <td>{{diesel.amount_Rs}}</td>
-                <td>{{diesel.odometer_reading}}</td>
-                <td>{{diesel.odometer_reading}}</td>
-                <td>{{diesel.odometer_reading}}</td>
+                <td>{{key.vehicle_number}}</td>
+                <td>{{ diesel_data_card_used_dict|get_item:key.pk }}</td>
+                <td>{{key.vehicle_ownership}}</td>
+                <td>{{ diesel_ownership_dict|get_item:key.pk }}</td>
+                <td>{{ diesel_transaction_date_dict|get_item:key.pk }}</td>
+                <td>{{ diesel_litres_dict|get_item:key.pk }}</td>
+                <td>{{ diesel_data_amount_dict|get_item:key.pk }}</td>
+                <td>{{ diesel_data_odometer_dict|get_item:key.pk }}</td>
+                <td>{{ diesel_data_km_runs_dict|get_item:key.pk }}</td>
+                <td>{{value.odometer_reading}}</td>
                 <td>{{diesel.}}</td>
                 <td>{{diesel.}}</td>
             </tr>

@@ -12,7 +12,7 @@
   margin-right: 110px;
   cursor: pointer;
   float: right;
-  margin-top : -205px;
+  margin-top : -140px;
   border-radius:6px;
   background-color:#28a745;
   color:white;
@@ -23,7 +23,7 @@
   border: 2px solid #dc3545;
   cursor: pointer;
   float: right;
-  margin-top : -205px;
+  margin-top : -140px;
   border-radius:6px;
   background-color:#dc3545;
   color:white;
@@ -34,60 +34,46 @@
 {% endblock stylesheets %}
 
 {% block content %}
-<span><span id="date"><b>From:</b><input type="date"> - <b>To:</b><input type="date"></span>
-        
+<span><span id="date"><b>From:</b><input type="date"> - <b>To:</b><input type="date"></span><span id="btn"><button class="btn btn-primary">Upload File</button></span></span>
 
 <hr>
-<h3>Full Diesel Details</h3>
-<hr>
-<div>
-
-    <form>
-        <h6> Company Name:
-            <select>
-                <option>All</option>
-                <option>Aaron Tours</option>
-                <option>Aaron Travels</option>
-                <option>Aaron Comet</option>
-            </select>
-        </h6>
-    </form>
-
-</div>
+<h3>Vehicle Diesel Report</h3>
 <hr>
 <div>
     <table id="test_table" class="display" style="width:100%">
         <thead>
             <tr>
                 <th>Vehicle No.</th>
-                <th>Card USed</th>
-                <th>Company Name</th>
-                <th>Ownership</th>
-                <th>Date</th>
+                <th>Vehicle Details</th>
+                <th>Company</th>
+                <th>Type</th>
+                <th>Seat cap</th>
                 <th>Litres</th>
                 <th>Amount</th>
-                <th>OD Readings</th>
                 <th>KM Runs</th>
                 <th>Avg</th>
-                <th>Remarks</th>
-                <th>Odometer Issues</th>
+                <th>Min Avg</th>
+                <th>Performance</th>
+                <th>Total Error</th>
+                <th>Card Error</th>
             </tr>
         </thead>
         <tbody>
-        {% for diesel in diesel_objects %}
+        {% for key,value in diesel_dict.items %}
             <tr>
-                <td>{{diesel.vehicle_number}}</td>
-                <td>{{diesel.card_used}}</td>
-                <td>{{diesel.}}</td>
-                <td>{{diesel.ownership}}</td>
-                <td>{{diesel.}}</td>
-                <td>{{diesel.volume}}</td>
-                <td>{{diesel.amount_Rs}}</td>
-                <td>{{diesel.odometer_reading}}</td>
-                <td>{{diesel.odometer_reading}}</td>
-                <td>{{diesel.odometer_reading}}</td>
-                <td>{{diesel.}}</td>
-                <td>{{diesel.}}</td>
+                <td>{{key.vehicle_number}}</td>
+                <td>{{value.0.vehicle_detail}}</td>
+                <td>{{key.vehicle_ownership}}</td>
+                <td>{{key.vehicle_type}}</td>
+                <td>{{key.vehicle_seating_capacity}}</td>
+                <td>{{value.0.volume}}</td>
+                <td>{{value.0.amount_Rs}}</td>
+                <td></td>
+                <td></td>
+                <td>{{key.minimum_average}}</td>
+                <td>1</td>
+                <td>1</td>
+                <td>1</td>
             </tr>
         {% endfor %}
         </tbody>

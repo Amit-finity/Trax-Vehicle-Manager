@@ -41,10 +41,25 @@ urlpatterns = [
     
     #url for driver master page
     path('driver/driver_master',views.driver_master,name='driver_master'),
-    
+
+    #url for add a new driver Create_New_Driver
+    path('driver/driver_master/create',views.Create_New_Driver.as_view(),name='driver_master_create'),
+
+    #url for update a driver in driver master
+    path('driver/driver_master/update_driver_data/<int:pk>', views.DriverUpdateView.as_view(), name='update_driver_data'),   
+
+    #url for delete a driver in driver master
+    path('driver/driver_master/delete_driver_data/<int:pk>', views.DriverDeleteView.as_view(), name='delete_driver_data'),
+
     #url for driver odometer page
     path('driver/driver_odometer',views.driver_odometer,name='driver_odometer'),
-    
+
+    #url for driver odometer update view 
+    path('driver/driver_odometer/update_driver_odometer_data/<int:pk>', views.DriverOdometerUpdateView.as_view(), name='update_driver_odometer_data'),
+
+    #url for driver odometer delete view 
+    path('driver/driver_odometer/delete_driver_odometer_data/<int:pk>', views.DriverOdometerDeleteView.as_view(), name='delete_driver_odometer_data'),
+
     #url for driver Usage page
     path('driver/drivers_usage',views.drivers_usage,name='drivers_usage'),
 
@@ -62,9 +77,15 @@ urlpatterns = [
     
     #url for Diesel details page
     path('diesel/full_diesel_details',views.full_diesel_details,name='full_diesel_details'),
-    
+
+    #url for Full Diesel details page filtered by date
+    path('diesel/full_diesel_details_filtered_by_date',views.full_diesel_details_filtered_by_date,name='full_diesel_details_filtered_by_date'),
+
     #url for Diesel Transaction details page
     path('diesel/diesel_transaction_details',views.diesel_transaction_details,name='diesel_transaction_details'),
+    
+    #url for vehicle diesel report page
+    path('diesel/vehicle_diesel_report',views.vehicle_diesel_report,name='vehicle_diesel_report'),
     
     #url for Diesel Transaction Tally page
     path('diesel/transaction_tally',views.transaction_tally,name='transaction_tally'),
