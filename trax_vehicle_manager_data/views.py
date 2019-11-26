@@ -173,9 +173,11 @@ def full_diesel_details_filtered_by_date(request):
         date1=request.POST['date1']
         date2=request.POST['date2']
         dieselobjectlist = Diesel.objects.filter(transaction_date__range=[date1,date2]).all()
+        filter_date = "True"
+        data =  {'dieselobjectlist':dieselobjectlist,'date1':date1,'date2':date2,'filter_date':filter_date}
     else:
         dieselobjectlist = Diesel.objects.all()
-    data =  {'dieselobjectlist':dieselobjectlist}
+        data =  {'dieselobjectlist':dieselobjectlist}
     return render(request,'trax_vehicle_manager_data/full_diesel_detail_filtered_by_date.html',data)
 
 

@@ -42,8 +42,8 @@
     </div>
 </div>
 <span id="btn">
-<button class="upload_diesel_data_form btn btn-info" style="margin-left:-500px;margin-top:-3px">Upload Form </button>
-<button type="button" class="btn btn-primary" style="margin-left:-5px;margin-top:-3px" data-toggle="modal" data-target="#exampleModalforUploadFile">Upload File</button>
+<button class="upload_diesel_data_form btn btn-info" style="margin-left:-500px;margin-top:-2px">Upload Form </button>
+<button type="button" class="btn btn-primary" style="margin-left:-5px;margin-top:-2px" data-toggle="modal" data-target="#exampleModalforUploadFile">Upload File</button>
 </span>
 <hr>
 <h3>Full Diesel Details</h3>
@@ -93,8 +93,13 @@
 
 
 <div>
+{% if filter_date == "True" %}
+<h4>{{date1|title}}To{{date2|title}}</h4>
+{% else %}
+<h4>Please select Dates to filter Data</h4>
+{% endif %}
 
-    <form>
+    {% comment %} <form>
         <h6> Company Name:
             <select>
                 <option>All</option>
@@ -103,7 +108,7 @@
                 <option>Aaron Comet</option>
             </select>
         </h6>
-    </form>
+    </form> {% endcomment %}
 
 </div>
 <hr>
