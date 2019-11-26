@@ -45,19 +45,20 @@
             </tr>
         </thead>
         <tbody>
+        {% for one_diesel_object in diesel_objects %}
             <tr>
 
-                <td>1</td>
-                <td>1</td>
-                <td>1</td>
-                <td>1</td>
-                <td>1</td>
-                <td>1</td>
-                <td>1</td>
-                <td>1</td>
-                <td>1</td>
+                <td>{{one_diesel_object.vehicle_number}}</td>
+                <td>{{one_diesel_object.merchant}}</td>
+                <td>{{one_diesel_object.transaction_date}}</td>
+                <td>{{one_diesel_object.volume}}</td>
+                <td>{{one_diesel_object.transaction_type}}</td>
+                <td>{{one_diesel_object.}}</td>
+                <td>{{one_diesel_object.}}</td>
+                <td>{{one_diesel_object.}}</td>
+                <td>{{one_diesel_object.ownership}}</td>
             </tr>
-
+        {% endfor %}
         </tbody>
     </table>
 </div>

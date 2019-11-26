@@ -247,7 +247,9 @@ def diesel_transaction_details(request):
 
 #Diesel transaction tally page view
 def transaction_tally(request):
-    return render(request,'trax_vehicle_manager_data/diesel_transaction_tally.html')
+    diesel_objects = Diesel.objects.all()
+    data = {'diesel_objects':diesel_objects}
+    return render(request,'trax_vehicle_manager_data/diesel_transaction_tally.html',data)
 
 #Diesel delete data page view
 def diesel_delete_data(request):
