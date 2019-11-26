@@ -12,7 +12,9 @@ from trax_vehicle_manager_data.models import Drivers,Vehicles,Cleaners,Drivers_O
 from trax_vehicle_manager_data.forms import MaintenanceForm,DriverForm,DriverOdometerForm,DieselOdometerReadingUpdateForm,DieselDataForm
 
 from django.db.models import Sum
-
+from math import ceil
+from django.db.models import FloatField
+from django.db.models.functions import Cast
 # Create your views here.
 #<----------------- Authentication Views --------------------
 
@@ -180,13 +182,62 @@ def full_diesel_details_filtered_by_date(request):
 #Vehicle Diesel Report view
 def vehicle_diesel_report(request):
     diesel_dict = {}
-    vehicle_objects_all = Vehicles.objects.all()
-    for one_vehicle_object in vehicle_objects_all:
-        diesel_object = Diesel.objects.filter(expense_vehicle_id=one_vehicle_object.pk).all()
-        diesel_dict[one_vehicle_object]=diesel_object
-    data={'diesel_dict':diesel_dict}
+    diesel_litres_dict = {}
+    total_liters = 0
+    diesel_data_amount_dict = {}
+    total_amount = 0
+    diesel_data_km_runs_dict = {}
+    total_km = 0
+    diesel_data_average_dict = {}
+    diesel_data_performance_dict = {}
+    dieselobjectlist = []
+    if request.method == "POST":
+        date1=request.POST['date1']
+        date2=request.POST['date2']
+        vehicle_objects_all = Vehicles.objects.all()
+        for one_vehicle_object in vehicle_objects_all:
+            dieselobjectlist = Diesel.objects.filter(transaction_date__range=[date1,date2]).all()
+            vehicle_object_list = []
+            for one_diesel_object in dieselobjectlist:
+                vehicle_object_list.append(one_diesel_object.expense_vehicle_id)
+            diesel_dict[one_vehicle_object]=vehicle_object_list
+    else:
+        vehicle_objects_all = Vehicles.objects.all()
+        for one_vehicle_object in vehicle_objects_all:
+            dieselobjectlist = Diesel.objects.filter(expense_vehicle_id=one_vehicle_object.pk).all()
+            for one_diesel_object in dieselobjectlist:
+                total_liters=total_liters+int(one_diesel_object.volume)
+                total_amount=total_amount+int(one_diesel_object.amount_Rs)
+            driver_odometer_object =  Drivers_Odometer_Data.objects.filter(drivers_odometer_data_vehicle_number=one_vehicle_object.pk).all()
+            for one_driver_odometer_object in driver_odometer_object:
+                total_km=total_km+int(one_driver_odometer_object.drivers_odometer_data_odometer_kilometer)
+            total_average = total_amount/total_km
+            #performance = int(total_average)-one_vehicle_object.minimum_average
+            #if performance>0:
+                #performance_name = "Good"
+            #else:
+                #performance_name = "Bad"
+            #diesel_data_performance_dict[one_vehicle_object.pk]=performance_name
+            diesel_data_average_dict[one_vehicle_object.pk]=total_average
+            diesel_data_km_runs_dict[one_vehicle_object.pk]=total_km
+            diesel_litres_dict[one_vehicle_object.pk]=total_liters
+            diesel_data_amount_dict[one_vehicle_object.pk]=total_amount
+            diesel_dict[one_vehicle_object]=dieselobjectlist
+    data={'diesel_dict':diesel_dict,'diesel_litres_dict':diesel_litres_dict,'diesel_data_amount_dict':diesel_data_amount_dict,'diesel_data_km_runs_dict':diesel_data_km_runs_dict,'diesel_data_average_dict':diesel_data_average_dict,'diesel_data_performance_dict':diesel_data_performance_dict}
     return render(request,'trax_vehicle_manager_data/vehicle_diesel_report.html',data)
 
+def vehicle_diesel_report_one_vehicle(request,pk):
+    diesel_objects = Diesel.objects.filter(expense_vehicle_id=pk).all()
+    total_liters = 0
+    total_amount = 0
+    total_odometer = 0
+    for one_diesel_objects in diesel_objects:
+        total_liters=total_liters+int(one_diesel_objects.volume)
+        total_amount=total_amount+int(one_diesel_objects.amount_Rs)
+        total_odometer=total_odometer+int(one_diesel_objects.odometer_reading)
+    vehicle_number = Vehicles.objects.get(pk=pk).vehicle_number
+    data = {'diesel_objects':diesel_objects,'total_liters':total_liters,'total_amount':total_amount,'total_odometer':total_odometer,'vehicle_number':vehicle_number}
+    return render(request,'trax_vehicle_manager_data/view_vehicle_diesel_report.html',data)
 
 #Diesel transaction details page view
 def diesel_transaction_details(request):

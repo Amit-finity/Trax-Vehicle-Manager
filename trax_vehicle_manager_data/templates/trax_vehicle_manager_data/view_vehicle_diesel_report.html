@@ -1,0 +1,112 @@
+{% extends 'trax_vehicle_manager_data/base.html' %}
+
+{% load static %}
+
+{% load maintenance_data_filters %}
+{% block stylesheets %}
+<link rel="stylesheet" href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+<script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+
+<style>
+        table, th, td,caption{
+        border: 1px solid black;
+        border-collapse: collapse;
+        } 
+</style>
+
+{% endblock stylesheets %}
+
+{% block content %}
+<!-- Modal for CURD Operation -->
+<div class="modal fade" tabindex="-1" role="dialog" id="modal">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content"></div>
+    </div>
+</div>
+
+<hr>
+<h3>Full Diesel Details of {{vehicle_number}}</h3>
+<hr>
+
+<div>
+    <table id="test_table" class="display" style="width:100%">
+        <thead>
+            <tr>
+                <th>Vehicle No.</th>
+                <th>Terminal ID</th>
+                <th>Merchant Name</th>
+                <th>Card Used</th>
+                <th>Ownership</th>
+                <th>Date</th>
+                <th>Litres</th>
+                <th>Amount</th>
+                <th>OD Readings</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for one_object in diesel_objects %}
+            <tr>
+                <td>{{one_object.vehicle_number}}</td>
+                <td>{{ one_object.terminal_id }}</td>
+                <td>{{one_object.merchant }}</td>
+                <td>{{ one_object.card_used }}</td>
+                <td>{{ one_object.ownership }}</td>
+                <td>{{ one_object.transaction_date }}</td>
+                <td>{{ one_object.volume }}</td>
+                <td>{{ one_object.amount_Rs }}</td>
+                <td>{{ one_object.odometer_reading }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+            <td>Total</td>
+            <td colspan="5"></td>
+                            <td>{{ total_liters }}</td>
+                            <td>{{ total_amount }}</td>
+                            <td>{{ total_odometer }}</td>                         
+
+                                                    </tr>
+                                                  </tfoot>
+    </table>
+</div>
+{% endblock %}
+
+{% block script %}
+<script src="{% static 'js/jquery.bootstrap.modal.forms.js' %}"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/fixedheader/3.1.5/js/dataTables.fixedHeader.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.flash.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>
+{% endblock %}
+{% block extrascript %}
+<script type="text/javascript">
+    $(function() {
+         $(".upload_diesel_data_form").modalForm({
+        formURL: "{% url 'trax_vehicle_manager_data:diesel_data_create_form' %}"
+    });
+        $(".update-data-entered").each(function() {
+            $(this).modalForm({
+                formURL: $(this).data('id')
+            });
+        });
+         $(".delete-data-entered").each(function() {
+			$(this).modalForm({
+				formURL: $(this).data('id')
+			});
+		});
+        
+      $(".read-data-entered").each(function () {
+        $(this).modalForm({formURL: $(this).data('id')});
+      });
+    });
+</script>
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#test_table').DataTable();
+    });
+</script>
+{% endblock extrascript %}

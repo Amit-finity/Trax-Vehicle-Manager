@@ -92,6 +92,9 @@ urlpatterns = [
     
     #url for vehicle diesel report page
     path('diesel/vehicle_diesel_report',views.vehicle_diesel_report,name='vehicle_diesel_report'),
+
+    #url for details of one vehicle diesel report 
+    path('diesel/vehicle_diesel_report/one_vehicle/<int:pk>',views.vehicle_diesel_report_one_vehicle,name='vehicle_diesel_report_one_vehicle'),
     
     #url for Diesel Transaction Tally page
     path('diesel/transaction_tally',views.transaction_tally,name='transaction_tally'),

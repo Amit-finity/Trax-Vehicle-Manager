@@ -2,6 +2,7 @@
 
 {% load static %}
 
+{% load maintenance_data_filters %}
 {% block stylesheets %}
 <link rel="stylesheet" href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
 <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
@@ -12,7 +13,7 @@
   margin-right: 110px;
   cursor: pointer;
   float: right;
-  margin-top : -140px;
+  margin-top : -243px;
   border-radius:6px;
   background-color:#28a745;
   color:white;
@@ -23,7 +24,7 @@
   border: 2px solid #dc3545;
   cursor: pointer;
   float: right;
-  margin-top : -140px;
+  margin-top : -243px;
   border-radius:6px;
   background-color:#dc3545;
   color:white;
@@ -34,7 +35,54 @@
 {% endblock stylesheets %}
 
 {% block content %}
-<span><span id="date"><b>From:</b><input type="date"> - <b>To:</b><input type="date"></span><span id="btn"><button class="btn btn-primary">Upload File</button></span></span>
+<!-- Modal for CURD Operation -->
+<div class="modal fade" tabindex="-1" role="dialog" id="modal">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content"></div>
+    </div>
+</div>
+<span id="btn">
+<button type="button" class="btn btn-primary" style="margin-left:-355px;margin-top:-3px" data-toggle="modal" data-target="#exampleModalforUploadFile">Upload File</button>
+</span>
+<div class="modal fade" id="exampleModalforUploadFile" tabindex="-1" role="dialog" aria-labelledby="exampleModalforUploadFileLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalforUploadFileLabel">Upload File</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h3>Coming Soon</h3>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<form action={% url 'trax_vehicle_manager_data:vehicle_diesel_report' %} method="post">
+                     {% csrf_token %}
+                       
+                        <div>
+                        <div class="form-row">
+                        <div class="form-group col-md-3">
+                            <label for="start_date_lbl">From:</label><br>
+                            <input type="date" class="datepicker" id="date1" name="date1">
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label for="end_date_lbl">To:</label><br>
+                            <input type="date" class="datepicker" id="date2" name="date2">
+                        </div>
+                        <div class="form-group col-md-3">
+                        <br>
+                        <button type="submit" class="submit-btn btn btn-primary">Search</button>
+                        </div>
+                        </div>
+                        <br>
+                    </form> 
 
 <hr>
 <h3>Vehicle Diesel Report</h3>
@@ -54,26 +102,24 @@
                 <th>Avg</th>
                 <th>Min Avg</th>
                 <th>Performance</th>
-                <th>Total Error</th>
-                <th>Card Error</th>
+                <th>View Report</th>
             </tr>
         </thead>
         <tbody>
         {% for key,value in diesel_dict.items %}
             <tr>
                 <td>{{key.vehicle_number}}</td>
-                <td>{{value.0.vehicle_detail}}</td>
+                <td>{{key.vehicle_ownership_details}}</td>
                 <td>{{key.vehicle_ownership}}</td>
                 <td>{{key.vehicle_type}}</td>
                 <td>{{key.vehicle_seating_capacity}}</td>
-                <td>{{value.0.volume}}</td>
-                <td>{{value.0.amount_Rs}}</td>
-                <td></td>
-                <td></td>
+                <td>{{diesel_litres_dict|get_item:key.pk}}</td>
+                <td>{{diesel_data_amount_dict|get_item:key.pk}}</td>
+                <td>{{diesel_data_km_runs_dict|get_item:key.pk}}</td>
+                <td>{{diesel_data_average_dict|get_item:key.pk}}</td>
                 <td>{{key.minimum_average}}</td>
-                <td>1</td>
-                <td>1</td>
-                <td>1</td>
+                <td>{{diesel_data_performance_dict|get_item:key.pk}}</td>
+                <td><a href="{% url 'trax_vehicle_manager_data:vehicle_diesel_report_one_vehicle' key.pk %}" class="btn btn-danger">View Report</a></td>
             </tr>
         {% endfor %}
         </tbody>
