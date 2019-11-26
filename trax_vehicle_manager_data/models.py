@@ -113,7 +113,7 @@ class Expenses(models.Model):
 #Child class of Expenses
 class Diesel(Expenses):
     terminal_id = models.CharField(max_length=900,blank=True)
-    transaction_date = models.DateTimeField(blank=True)
+    transaction_date = models.DateTimeField(default=timezone.now,blank=True)
     merchant = models.CharField(max_length=900,blank=True)
     account_number = models.CharField(max_length=900,blank=True)
     card_used = models.CharField(max_length=900,blank=True)

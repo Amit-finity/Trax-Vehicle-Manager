@@ -13,7 +13,7 @@
   margin-right: 110px;
   cursor: pointer;
   float: right;
-  margin-top : -300px;
+  margin-top : -302px;
   border-radius:6px;
   background-color:#28a745;
   color:white;
@@ -24,7 +24,7 @@
   border: 2px solid #dc3545;
   cursor: pointer;
   float: right;
-  margin-top : -300px;
+  margin-top : -302px;
   border-radius:6px;
   background-color:#dc3545;
   color:white;
@@ -41,6 +41,34 @@
         <div class="modal-content"></div>
     </div>
 </div>
+<span id="btn">
+<button class="upload_diesel_data_form btn btn-info" style="margin-left:-500px;margin-top:-3px">Upload Form </button>
+<button type="button" class="btn btn-primary" style="margin-left:-5px;margin-top:-3px" data-toggle="modal" data-target="#exampleModalforUploadFile">Upload File</button>
+</span>
+<hr>
+<h3>Full Diesel Details</h3>
+<hr>
+
+<div class="modal fade" id="exampleModalforUploadFile" tabindex="-1" role="dialog" aria-labelledby="exampleModalforUploadFileLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalforUploadFileLabel">Upload File</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h3>Coming Soon</h3>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 
 <form action={% url 'trax_vehicle_manager_data:full_diesel_details_filtered_by_date' %} method="post">
                      {% csrf_token %}
@@ -63,13 +91,7 @@
                         <br>
                     </form> 
 
-<span id="btn">
-<button class="upload_diesel_data_form btn btn-info" style="margin-left:-500px;margin-top:-270px">Upload Form </button>
-<button type="button" class="btn btn-primary" style="margin-left:-5px;margin-top:-270px" data-toggle="modal" data-target="#exampleModalforUploadFile">Upload File</button>
-</span>
-<hr>
-<h3>Full Diesel Details</h3>
-<hr>
+
 <div>
 
     <form>
