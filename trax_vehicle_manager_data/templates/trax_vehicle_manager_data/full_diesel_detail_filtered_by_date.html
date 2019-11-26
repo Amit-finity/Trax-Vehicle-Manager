@@ -13,7 +13,7 @@
   margin-right: 110px;
   cursor: pointer;
   float: right;
-  margin-top : -205px;
+  margin-top : -300px;
   border-radius:6px;
   background-color:#28a745;
   color:white;
@@ -24,7 +24,7 @@
   border: 2px solid #dc3545;
   cursor: pointer;
   float: right;
-  margin-top : -205px;
+  margin-top : -300px;
   border-radius:6px;
   background-color:#dc3545;
   color:white;
@@ -35,6 +35,12 @@
 {% endblock stylesheets %}
 
 {% block content %}
+<!-- Modal for CURD Operation -->
+<div class="modal fade" tabindex="-1" role="dialog" id="modal">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content"></div>
+    </div>
+</div>
 
 <form action={% url 'trax_vehicle_manager_data:full_diesel_details_filtered_by_date' %} method="post">
                      {% csrf_token %}
@@ -57,7 +63,10 @@
                         <br>
                     </form> 
 
-
+<span id="btn">
+<button class="upload_diesel_data_form btn btn-info" style="margin-left:-500px;margin-top:-270px">Upload Form </button>
+<button type="button" class="btn btn-primary" style="margin-left:-5px;margin-top:-270px" data-toggle="modal" data-target="#exampleModalforUploadFile">Upload File</button>
+</span>
 <hr>
 <h3>Full Diesel Details</h3>
 <hr>
@@ -81,34 +90,34 @@
         <thead>
             <tr>
                 <th>Vehicle No.</th>
-                <th>Card USed</th>
-                <th>Company Name</th>
+                <th>Terminal ID</th>
+                <th>Merchant Name</th>
+                <th>Card Used</th>
                 <th>Ownership</th>
                 <th>Date</th>
                 <th>Litres</th>
                 <th>Amount</th>
                 <th>OD Readings</th>
-                <th>KM Runs</th>
-                <th>Avg</th>
-                <th>Remarks</th>
-                <th>Odometer Issues</th>
+                <th>Edit</th>
             </tr>
         </thead>
         <tbody>
-        {% for key,value in diesel_data_dict.items %}
+        {% for onedieselobject in dieselobjectlist %}
             <tr>
-                <td>{{key.vehicle_number}}</td>
-                <td>{{ diesel_data_card_used_dict|get_item:key.pk }}</td>
-                <td>{{key.vehicle_ownership}}</td>
-                <td>{{ diesel_ownership_dict|get_item:key.pk }}</td>
-                <td>{{ diesel_transaction_date_dict|get_item:key.pk }}</td>
-                <td>{{ diesel_litres_dict|get_item:key.pk }}</td>
-                <td>{{ diesel_data_amount_dict|get_item:key.pk }}</td>
-                <td>{{ diesel_data_odometer_dict|get_item:key.pk }}</td>
-                <td>{{ diesel_data_km_runs_dict|get_item:key.pk }}</td>
-                <td>{{value.odometer_reading}}</td>
-                <td>{{diesel.}}</td>
-                <td>{{diesel.}}</td>
+                <td>{{onedieselobject.vehicle_number}}</td>
+                <td>{{ onedieselobject.terminal_id }}</td>
+                <td>{{onedieselobject.merchant }}</td>
+                <td>{{ onedieselobject.card_used }}</td>
+                <td>{{ onedieselobject.ownership }}</td>
+                <td>{{ onedieselobject.transaction_date }}</td>
+                <td>{{ onedieselobject.volume }}</td>
+                <td>{{ onedieselobject.amount_Rs }}</td>
+                <td>{{ onedieselobject.odometer_reading }}</td>
+                <td>
+					<button type="button" class="update-data-entered btn btn-sm btn-primary" data-id="{% url 'trax_vehicle_manager_data:update_diesel_odometer_reading' pk=onedieselobject.pk  %}">
+					<span class="fa fa-edit"></span>
+					</button>
+				</td>
             </tr>
         {% endfor %}
         </tbody>
@@ -127,6 +136,27 @@
 <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>
 {% endblock %}
 {% block extrascript %}
+<script type="text/javascript">
+    $(function() {
+         $(".upload_diesel_data_form").modalForm({
+        formURL: "{% url 'trax_vehicle_manager_data:diesel_data_create_form' %}"
+    });
+        $(".update-data-entered").each(function() {
+            $(this).modalForm({
+                formURL: $(this).data('id')
+            });
+        });
+         $(".delete-data-entered").each(function() {
+			$(this).modalForm({
+				formURL: $(this).data('id')
+			});
+		});
+        
+      $(".read-data-entered").each(function () {
+        $(this).modalForm({formURL: $(this).data('id')});
+      });
+    });
+</script>
 <script type="text/javascript">
  $(document).ready(function() {
 $('#test_table').DataTable({

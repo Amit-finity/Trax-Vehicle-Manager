@@ -9,7 +9,7 @@ from bootstrap_modal_forms.generic import (BSModalCreateView,
 
 
 from trax_vehicle_manager_data.models import Drivers,Vehicles,Cleaners,Drivers_Odometer_Data,Expenses,Maintenance,Diesel
-from trax_vehicle_manager_data.forms import MaintenanceForm,DriverForm,DriverOdometerForm
+from trax_vehicle_manager_data.forms import MaintenanceForm,DriverForm,DriverOdometerForm,DieselOdometerReadingUpdateForm,DieselDataForm
 
 from django.db.models import Sum
 
@@ -119,14 +119,18 @@ def full_diesel_details(request):
     return render(request,'trax_vehicle_manager_data/full_diesel_details.html',data)
 
 #Full diesel details page filtered by date
-def full_diesel_details_filtered_by_date(request):
+""" def full_diesel_details_filtered_by_date(request):
     diesel_litres_dict = {}
+    total_liters = 0
     diesel_data_dict = {}
-    diesel_ownership_dict = {}
+    #diesel_ownership_dict = {}
     diesel_transaction_date_dict = {}
     diesel_data_amount_dict = {}
+    total_amount = 0
     diesel_data_odometer_dict = {}
+    total_odometer = 0
     diesel_data_km_runs_dict = {}
+    total_km = 0
     diesel_data_card_used_dict = {}
     dieselobjectlist = []
     if request.method == "POST":
@@ -140,22 +144,38 @@ def full_diesel_details_filtered_by_date(request):
         vehicle_objects_all = Vehicles.objects.all()
         for one_vehicle_object in vehicle_objects_all:
             dieselobjectlist = Diesel.objects.filter(expense_vehicle_id=one_vehicle_object.pk).all()
-            litres_sum = Diesel.objects.filter(expense_vehicle_id=one_vehicle_object.pk).aggregate(Sum('volume'))
-            amount_sum = Diesel.objects.filter(expense_vehicle_id=one_vehicle_object.pk).aggregate(Sum('amount_Rs'))
-            odometer_sum = Diesel.objects.filter(expense_vehicle_id=one_vehicle_object.pk).aggregate(Sum('odometer_reading'))
-            km_runs =  Drivers_Odometer_Data.objects.filter(drivers_odometer_data_vehicle_number=one_vehicle_object.pk).aggregate(Sum('drivers_odometer_data_odometer_kilometer'))
-            diesel_litres_dict[one_vehicle_object.pk]=litres_sum
             for one_diesel_object in dieselobjectlist:
-                diesel_ownership_dict[one_diesel_object.pk]=one_diesel_object.ownership
-                diesel_transaction_date_dict[one_diesel_object.pk]=one_diesel_object.transaction_date
-                diesel_data_card_used_dict[one_vehicle_object.pk]=one_diesel_object.card_used
-            diesel_data_amount_dict[one_vehicle_object.pk]=amount_sum
-            diesel_data_odometer_dict[one_vehicle_object.pk]=odometer_sum
-            diesel_data_km_runs_dict[one_vehicle_object.pk]=km_runs
+                total_liters=total_liters+int(one_diesel_object.volume)
+                total_amount=total_amount+int(one_diesel_object.amount_Rs)
+                total_odometer=total_odometer+int(one_diesel_object.odometer_reading)
+            diesel_litres_dict[one_vehicle_object.pk]=total_liters
+            diesel_data_amount_dict[one_vehicle_object.pk]=total_amount
+            diesel_data_odometer_dict[one_vehicle_object.pk]=total_odometer
+            driver_odometer_object =  Drivers_Odometer_Data.objects.filter(drivers_odometer_data_vehicle_number=one_vehicle_object.pk).all()
+            for one_driver_odometer_object in driver_odometer_object:
+                total_km=total_km+int(one_driver_odometer_object.drivers_odometer_data_odometer_kilometer)
+            diesel_data_km_runs_dict[one_vehicle_object.pk]=total_km
+
+
+            latest_diesel_object = Diesel.objects.latest('transaction_date')
+            diesel_ownership_dict=latest_diesel_object.ownership
+            diesel_transaction_date_dict[one_diesel_object.pk]=latest_diesel_object.transaction_date 
+            diesel_data_card_used_dict[one_vehicle_object.pk]=latest_diesel_object.card_used
             diesel_data_dict[one_vehicle_object] = dieselobjectlist
     data =  {'diesel_litres_dict':diesel_litres_dict,'diesel_data_dict':diesel_data_dict,'diesel_data_amount_dict':diesel_data_amount_dict,'diesel_data_odometer_dict':diesel_data_odometer_dict,'diesel_data_km_runs_dict':diesel_data_km_runs_dict,'diesel_data_card_used_dict':diesel_data_card_used_dict,'diesel_transaction_date_dict':diesel_transaction_date_dict,'diesel_ownership_dict':diesel_ownership_dict}
+    return render(request,'trax_vehicle_manager_data/full_diesel_detail_filtered_by_date.html',data) """
+
+def full_diesel_details_filtered_by_date(request):
+    dieselobjectlist = []
+    if request.method == "POST":
+        date1=request.POST['date1']
+        date2=request.POST['date2']
+        dieselobjectlist = Diesel.objects.filter(transaction_date__range=[date1,date2]).all()
+    else:
+        dieselobjectlist = Diesel.objects.all()
+    data =  {'dieselobjectlist':dieselobjectlist}
     return render(request,'trax_vehicle_manager_data/full_diesel_detail_filtered_by_date.html',data)
-    
+
 
 #Vehicle Diesel Report view
 def vehicle_diesel_report(request):
@@ -320,4 +340,16 @@ class DriverOdometerDeleteView(BSModalDeleteView):
     success_message = 'Success: Driver Odometer data was Deleted.'
     success_url = reverse_lazy('trax_vehicle_manager_data:driver_odometer')
 
+class DieselOdometerReadingUpdateView(BSModalUpdateView):
+    model = Diesel
+    template_name = 'trax_vehicle_manager_data/update_data.html'
+    form_class = DieselOdometerReadingUpdateForm
+    success_message = 'Success: Diesel Odometer Reading was updated.'
+    success_url = reverse_lazy('trax_vehicle_manager_data:full_diesel_details_filtered_by_date')
+
+class Upload_Diesel_Data_Form(BSModalCreateView):
+    template_name = 'trax_vehicle_manager_data/upload_diesel_data_form.html'
+    form_class = DieselDataForm
+    success_message = 'Success: Diesel Data was Uploaded Successfully.'
+    success_url = reverse_lazy('trax_vehicle_manager_data:full_diesel_details_filtered_by_date')
     

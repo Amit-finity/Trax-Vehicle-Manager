@@ -63,3 +63,29 @@ class DriverOdometerForm(BSModalForm):
         'drivers_odometer_data_odometer_kilometer',
         'drivers_odometer_data_cleaner_id')
 
+class DieselOdometerReadingUpdateForm(BSModalForm):
+    class Meta:
+        model = Diesel
+        fields = ('odometer_reading',)
+
+class DieselDataForm(BSModalForm):
+    class Meta:
+        model = Diesel
+        fields = ('expense_name',
+        'expense_id',
+        'expense_vehicle_id',
+        'terminal_id',
+        'transaction_date',
+        'merchant',
+        'account_number',
+        'card_used',
+        'vehicle_number',
+        'vehicle_detail',
+        'transaction_type',
+        'diesel_rate',
+        'volume',
+        'amount_Rs',
+        'balance_Rs',
+        'odometer_reading',
+        'ownership')
+

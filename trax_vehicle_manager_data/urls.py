@@ -81,6 +81,12 @@ urlpatterns = [
     #url for Full Diesel details page filtered by date
     path('diesel/full_diesel_details_filtered_by_date',views.full_diesel_details_filtered_by_date,name='full_diesel_details_filtered_by_date'),
 
+    #url for full diesel detail odometer update view
+    path('diesel/full_diesel_details_filtered_by_date/update_diesel_odometer_reading/<int:pk>', views.DieselOdometerReadingUpdateView.as_view(), name='update_diesel_odometer_reading'),
+    
+    #url for Upload Diesel Data Form
+    path('diesel/diesel_data_create_form', views.Upload_Diesel_Data_Form.as_view(), name='diesel_data_create_form'),
+    
     #url for Diesel Transaction details page
     path('diesel/diesel_transaction_details',views.diesel_transaction_details,name='diesel_transaction_details'),
     
