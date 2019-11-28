@@ -106,22 +106,39 @@
             </tr>
         </thead>
         <tbody>
-        {% for key,value in diesel_dict.items %}
+        {% for vehicle in vehicle_objects_all %}
             <tr>
-                <td>{{key.vehicle_number}}</td>
-                <td>{{key.vehicle_ownership_details}}</td>
-                <td>{{key.vehicle_ownership}}</td>
-                <td>{{key.vehicle_type}}</td>
-                <td>{{key.vehicle_seating_capacity}}</td>
-                <td>{{diesel_litres_dict|get_item:key.pk}}</td>
-                <td>{{diesel_data_amount_dict|get_item:key.pk}}</td>
-                <td>{{diesel_data_km_runs_dict|get_item:key.pk}}</td>
-                <td>{{diesel_data_average_dict|get_item:key.pk}}</td>
-                <td>{{key.minimum_average}}</td>
-                <td>{{diesel_data_performance_dict|get_item:key.pk}}</td>
-                <td><a href="{% url 'trax_vehicle_manager_data:vehicle_diesel_report_one_vehicle' key.pk %}" class="btn btn-danger">View Report</a></td>
+                <td>{{vehicle.vehicle_number}}</td>
+                <td>{{vehicle.vehicle_ownership_details}}</td>
+                <td>{{vehicle.vehicle_ownership}}</td>
+                <td>{{vehicle.vehicle_type}}</td>
+                <td>{{vehicle.vehicle_seating_capacity}}</td>
+                <td>{{vehicle_diesel_litre|get_item:vehicle.pk}}</td>
+                <td>{{vehicle_amount_dict|get_item:vehicle.pk}}</td>
+                <td>{{vehicle_km_runs_dict|get_item:vehicle.pk}}</td>
+                <td></td>
+                <td>{{vehicle.minimum_average}}</td>
+                <td></td>
+                <td><a href="{% url 'trax_vehicle_manager_data:vehicle_diesel_report_one_vehicle' vehicle.pk %}" class="btn btn-danger">View Report</a></td>
             </tr>
         {% endfor %}
+
+        {% comment %} {% for vehicle in vehicle_objects_all %}
+            <tr>
+                <td>{{vehicle.vehicle_number}}</td>
+                <td>{{vehicle.vehicle_number}}</td>
+                <td>{{vehicle.vehicle_number}}</td>
+                <td>{{vehicle.vehicle_number}}</td>
+                <td>{{vehicle.vehicle_number}}</td>
+                <td></td>
+                <td></td>
+                <td>{{km_runs}}</td>
+                <td>{{vehicle_average_dict|get_item:vehicle.pk}}</td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        {% endfor %} {% endcomment %}
         </tbody>
     </table>
 </div>

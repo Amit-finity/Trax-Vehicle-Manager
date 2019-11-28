@@ -51,6 +51,9 @@ urlpatterns = [
     #url for delete a driver in driver master
     path('driver/driver_master/delete_driver_data/<int:pk>', views.DriverDeleteView.as_view(), name='delete_driver_data'),
 
+    #url for Read Driver KYC Data on Driver Master Page
+    path('driver/driver_master/read_driver_kyc_data/<int:pk>', views.DriverKYCFormReadView.as_view(), name='read_driver_kyc_data'),
+
     #url for driver odometer page
     path('driver/driver_odometer',views.driver_odometer,name='driver_odometer'),
 
@@ -119,6 +122,9 @@ urlpatterns = [
 
     #url for maintenance details page
     path('maintenance/maintenance_details/',views.maintenance_details,name='maintenance_details'),
+
+    #url for maintenance summary for one vehicle 
+    path('maintenance/maintenance_details/one_vehicle/<int:pk>',views.maintenance_summary_one_vehicle,name='maintenance_summary_one_vehicle'),
     
     #url for maintenance update payment page
     path('maintenance/maintenance_update_payment',views.maintenance_update_payment,name='maintenance_update_payment'),

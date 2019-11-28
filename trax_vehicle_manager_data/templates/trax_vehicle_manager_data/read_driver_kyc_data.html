@@ -1,0 +1,96 @@
+{% load widget_tweaks %}
+
+<div class="modal-header">
+  <h3 class="modal-title">Driver KYC Data</h3>
+  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<div class="modal-body">
+    <div class="">
+    Aadhar Number:
+    {{ driver_kyc_data.driver_aadhar_number }}
+  </div>
+  <br>
+  <div class="">
+    Pan Number:
+    {{ driver_kyc_data.driver_pan_number }}
+  </div>
+  <br>
+  <div class="">
+    Address Proof:
+    {{ driver_kyc_data.driver_address_proof }}
+  </div>
+  <br>
+  <div class="">
+    Photo Id Proof:
+    {{ driver_kyc_data.driver_photoid_proof }}
+    
+  </div>
+  <br>
+  <div class="">
+    Driver Bank Name:
+    {{ driver_kyc_data.driver_driver_bank_name }}
+    
+  </div>
+  <br>
+  <div class="">
+    Bank Name:
+    {{ driver_kyc_data.driver_bank_name }}
+    
+  </div>
+  <br>
+  <div class="">
+    Bank Account Number:
+    {{ driver_kyc_data.driver_bank_account_number }}
+    
+  </div>
+  <br>
+  <div class="">
+    Bank IFSC Code:
+    {{ driver_kyc_data.driver_ban_ifsc_code }}
+    
+  </div>
+  <br>
+  <div class="">
+    Bank Branch:
+    {{ driver_kyc_data.driver_bank_branch }}
+    
+  </div>
+  <br>
+  <div class="">
+    License Residence Address:
+    {{ driver_kyc_data.driver_license_residence_address }}
+    
+  </div>
+  <br>
+  <div class="">
+    Aadhar Card Residence Address:
+    {{ driver_kyc_data.driver_aadhar_card_residence_address }}
+    
+  </div>
+  <br>
+  <div class="">
+    Years of Experience:
+    {{ driver_kyc_data.driver_years_of_experience }}
+    
+  </div>
+  <br>
+  <div class="">
+    Last Employer Name:
+    {{ driver_kyc_data.driver_last_employer_name }}
+    
+  </div>
+  <br>
+  <div class="">
+    Years with Kruze or Aaron:
+    {{ driver_kyc_data.driver_years_with_kruze_or_aaron }}
+    
+  </div>
+
+</div>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+</div>

@@ -89,3 +89,19 @@ class DieselDataForm(BSModalForm):
         'odometer_reading',
         'ownership')
 
+class DriverKYCForm(BSModalForm):
+    class Meta:
+        model = Drivers
+        fields = ('driver_pan_number',
+        'driver_address_proof',
+        'driver_photoid_proof',
+        'driver_driver_bank_name',
+        'driver_bank_name',
+        'driver_bank_account_number',
+        'driver_ban_ifsc_code',
+        'driver_bank_branch',
+        'driver_license_residence_address',
+        'driver_aadhar_card_residence_address',
+        'driver_years_of_experience',
+        'driver_last_employer_name',
+        'driver_years_with_kruze_or_aaron')

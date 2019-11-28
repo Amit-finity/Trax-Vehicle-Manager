@@ -2,9 +2,18 @@
 
 {% load static %}
 
+{% load maintenance_data_filters %}
 {% block stylesheets %}
 <link rel="stylesheet" href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
 <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+
+<style>
+        table, th, td,caption{
+        border: 1px solid black;
+        border-collapse: collapse;
+        } 
+</style>
+
 {% endblock stylesheets %}
 
 {% block content %}
@@ -14,55 +23,38 @@
         <div class="modal-content"></div>
     </div>
 </div>
+
 <hr>
-<h3>Driver Master<span style="float: right"><button class="add_a_new_driver_form btn btn-info">Add a new Driver</button></span></h3>
+<h3>Maintenance Summary for {{vehicle_number}}</h3>
 <hr>
+
 <div>
-    <table id="test_table" class="display" style="width:100%;text-align: center">
+    <table id="test_table" class="display" style="width:100%">
         <thead>
             <tr>
-                <th>Reference No</th>
-                <th>Driver Name</th>
-                <th>License Number</th>
-                <th>Contact Number</th>
-                <th>Alternate Contact Number</th>
-                <th>KYC Details</th>
-                <th>Edit</th>
-                <th>Delete</th>
-
+                <th>Sr. No. </th>
+                <th>Kms</th>
+                <th>Amount</th>
             </tr>
         </thead>
-        <tbody>
-            {% for master in driver_master_list %}
+       <tbody>
+        {% for maintenance in all_maintenance_objects %}
             <tr>
-                <td>{{ master.driver_reference_no }}</td>
-                <td>{{ master.driver_driver_name }}</td>
-                <td>{{ master.driver_license_number }}</td>
-                <td>{{ master.driver_contact_number }}</td>
-                <td>{{ master.driver_alternate_contact_number }}</td>
-                <td>
-                        <button type="button" class="read-data-entered btn btn-sm btn-primary" data-id="{% url 'trax_vehicle_manager_data:read_driver_kyc_data' pk=master.pk %}">
-        <span class="fa fa-eye"></span>
-      </button>
-      </td>
-                <td>
-					<button type="button" class="update-data-entered btn btn-sm btn-primary" data-id="{% url 'trax_vehicle_manager_data:update_driver_data' pk=master.pk  %}">
-					<span class="fa fa-edit"></span>
-					</button>
-				</td>
-                        
-				<td>
-					<button type="button" class="delete-data-entered btn btn-sm btn-danger" data-id="{% url 'trax_vehicle_manager_data:delete_driver_data' pk=master.pk  %}">
-					<span class="fa fa-trash"></span>
-					</button>
-				</td>
-                
+                <td>{{forloop.counter}}</td>
+                <td>{{maintenance.odometer_reading}}</td>
+                <td>{{maintenance.amount}}</td>
             </tr>
-            {% endfor %}
+        {% endfor %}
         </tbody>
+        <tfoot>
+            <tr>
+            <td>Total</td>
+                            <td>{{ km_sum.odometer_reading__sum }}</td>
+                            <td>{{ amount_sum.amount__sum }}</td>
+                                                    </tr>
+                                                  </tfoot>
     </table>
 </div>
-
 {% endblock %}
 
 {% block script %}
@@ -75,14 +67,11 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>
 {% endblock %}
-
-
-
 {% block extrascript %}
 <script type="text/javascript">
     $(function() {
-         $(".add_a_new_driver_form").modalForm({
-        formURL: "{% url 'trax_vehicle_manager_data:driver_master_create' %}"
+         $(".upload_diesel_data_form").modalForm({
+        formURL: "{% url 'trax_vehicle_manager_data:diesel_data_create_form' %}"
     });
         $(".update-data-entered").each(function() {
             $(this).modalForm({
@@ -100,7 +89,6 @@
       });
     });
 </script>
-
 <script type="text/javascript">
 $(document).ready(function() {
     $('#test_table').DataTable();

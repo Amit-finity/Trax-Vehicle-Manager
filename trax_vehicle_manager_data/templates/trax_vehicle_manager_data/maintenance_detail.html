@@ -92,14 +92,14 @@
                 <th>Vehicle Details</th>
                 <th>Company</th>
                 <th>Type</th>
-                <th>Total Amount</th>
                 <th>Total Kms</th>
-
+                <th>Total Amount</th>
+            </tr>
         </thead>
         <tbody>
         {% for key,value in vehicle_dict.items %}
             <tr>
-                <td>{{key.vehicle_number}}</td>
+                <td><a href="{% url 'trax_vehicle_manager_data:maintenance_summary_one_vehicle' pk=key.pk  %}"> {{key.vehicle_number}} </a></td>
                 <td>{{key.vehicle_ownership_name}}</td>
                 <td>{{key.vehicle_type}}</td>
                 <td>{{value.0.odometer_reading__sum}}</td>

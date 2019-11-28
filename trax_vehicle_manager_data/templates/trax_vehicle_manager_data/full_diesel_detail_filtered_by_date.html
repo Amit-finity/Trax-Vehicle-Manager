@@ -19,7 +19,7 @@
   color:white;
   width:120px;
 }
-.exportPDF{
+{% comment %} .exportPDF{
   padding: 5.5px;
   border: 2px solid #dc3545;
   cursor: pointer;
@@ -30,7 +30,7 @@
   color:white;
   width:100px;
   margin-left:-20px;
-}
+} {% endcomment %}
 </style>
 {% endblock stylesheets %}
 
@@ -203,7 +203,7 @@ $('#test_table').DataTable({
             }
         }
         }, 
-       {
+       {% comment %} {
         extend: 'pdf',
         text: 'Export PDF',
         className: 'exportPDF',
@@ -213,7 +213,7 @@ $('#test_table').DataTable({
             page: 'all'
             }
         }
-        },
+        }, {% endcomment %}
         ]
 });
 });
