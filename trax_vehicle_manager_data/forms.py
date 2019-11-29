@@ -105,3 +105,23 @@ class DriverKYCForm(BSModalForm):
         'driver_years_of_experience',
         'driver_last_employer_name',
         'driver_years_with_kruze_or_aaron')
+
+class VehicleDataForm(BSModalForm):
+    class Meta:
+        model = Vehicles
+        fields = ('vehicle_ownership_name',
+        'vehicle_id',
+        'vehicle_number',
+        'vehicle_card_number',
+        'vehicle_seating_capacity',
+        'minimum_average',
+        'incremental_average',
+        'vehicle_current_status',
+        'vehicle_buying_date',
+        'vehicle_type',
+        'vehicle_ownership',
+        'vehicle_ownership_details',
+        'vehicle_manufacturer',
+        'vehicle_registered_number',
+        'driver_id',
+        'cleaner_id')

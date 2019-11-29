@@ -38,11 +38,20 @@ urlpatterns = [
 
     #url for vehicle list page
     path('vehicles',views.vehicles,name='vehicles'),
+
+    #url for update a vehicle
+    path('vehicles/update_vehicle_data/<int:pk>',views.VehicleUpdateView.as_view(), name='update_vehicle_data'),   
     
+    #url for delete a vehicle
+    path('vehicles/delete_vehicle_data/<int:pk>', views.VehicleDeleteView.as_view(), name='delete_vehicle_data'),
+
+    #url for add a new vehicle 
+    path('vehicles/vehicle_create',views.Create_New_Vehicle.as_view(),name='vehicle_create'),
+
     #url for driver master page
     path('driver/driver_master',views.driver_master,name='driver_master'),
 
-    #url for add a new driver Create_New_Driver
+    #url for add a new driver
     path('driver/driver_master/create',views.Create_New_Driver.as_view(),name='driver_master_create'),
 
     #url for update a driver in driver master

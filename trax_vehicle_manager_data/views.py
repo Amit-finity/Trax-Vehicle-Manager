@@ -9,7 +9,7 @@ from bootstrap_modal_forms.generic import (BSModalCreateView,
 
 
 from trax_vehicle_manager_data.models import Drivers,Vehicles,Cleaners,Drivers_Odometer_Data,Expenses,Maintenance,Diesel
-from trax_vehicle_manager_data.forms import MaintenanceForm,DriverForm,DriverOdometerForm,DieselOdometerReadingUpdateForm,DieselDataForm,DriverKYCForm
+from trax_vehicle_manager_data.forms import MaintenanceForm,DriverForm,DriverOdometerForm,DieselOdometerReadingUpdateForm,DieselDataForm,DriverKYCForm,VehicleDataForm
 
 from trax_vehicle_manager_data import functions
 
@@ -40,7 +40,17 @@ def forgetpassword(request):
 
 #Vehicle page view
 def vehicles(request):
-    return render(request,'trax_vehicle_manager_data/vehicles.html')
+    vehicleobjectlist = []
+    if request.method == "POST":
+        date1=request.POST['date1']
+        date2=request.POST['date2']
+        vehicleobjectlist = Vehicles.objects.filter(vehicle_buying_date__range=[date1,date2]).all()
+        filter_date = "True"
+        data = {'vehicleobjectlist':vehicleobjectlist,'date1':date1,'date2':date2,'filter_date':filter_date}
+    else:
+        vehicleobjectlist = Vehicles.objects.all()
+        data = {'vehicleobjectlist':vehicleobjectlist}
+    return render(request,'trax_vehicle_manager_data/vehicles.html',data)
 
 #Driver master page view
 def driver_master(request):
@@ -538,3 +548,22 @@ class DriverKYCFormReadView(BSModalReadView):
     model = Drivers
     context_object_name = 'driver_kyc_data'
     template_name = 'trax_vehicle_manager_data/read_driver_kyc_data.html'   
+
+class VehicleUpdateView(BSModalUpdateView):
+    model = Vehicles
+    template_name = 'trax_vehicle_manager_data/update_data.html'
+    form_class = VehicleDataForm
+    success_message = 'Success: Vehicle data was updated.'
+    success_url = reverse_lazy('trax_vehicle_manager_data:vehicles')
+
+class VehicleDeleteView(BSModalDeleteView):
+    model = Vehicles
+    template_name = 'trax_vehicle_manager_data/delete_data.html'
+    success_message = 'Success: Vehicle data was Deleted.'
+    success_url = reverse_lazy('trax_vehicle_manager_data:vehicles')
+
+class Create_New_Vehicle(BSModalCreateView):
+    template_name = 'trax_vehicle_manager_data/add_a_new_vehicle.html'
+    form_class = VehicleDataForm
+    success_message = 'Success: Vehicles Data was added Successfully.'
+    success_url = reverse_lazy('trax_vehicle_manager_data:vehicles')
