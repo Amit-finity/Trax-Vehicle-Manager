@@ -1,4 +1,6 @@
 {% extends 'trax_vehicle_manager_data/base.html' %}
+{% load maintenance_data_filters %}
+
 
 {% load static %}
 
@@ -36,7 +38,8 @@
             <tr>
                 <th>Refrence Number</th>
                 <th>Driver Name</th>
-                <th>Driver Contact Number</th>
+                <th>Latest Average</th>
+                <th>Date of Latest Average</th>
                 <th>View Odometer Report</th>
             </tr>
         </thead>
@@ -45,8 +48,8 @@
             <tr>
                 <td>{{driver.driver_reference_no}}</td>
                 <td>{{driver.driver_driver_name}}</td>
-                <td>{{driver.driver_contact_number}}</td>
-        
+                <td>{{latest_average_dict|get_item:driver.pk}}</td>
+                <td>{{latest_date_of_average_dict|get_item:driver.pk}}</td>
                 <td><button type="button" class="btn btn-sm btn-primary">
                                 <a href="{% url 'trax_vehicle_manager_data:drivers_details' pk=driver.pk %}">
                                     Click Here
