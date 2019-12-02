@@ -1,0 +1,141 @@
+<html>
+
+<head>
+    <title>Show Report
+    </title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.0/css/bootstrap.min.css" integrity="sha384-SI27wrMjH3ZZ89r4o+fGIJtnzkAnFs3E4qz9DIYioCQ5l9Rd/7UAa8DHcaL8jkWt" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.0/js/bootstrap.min.js" integrity="sha384-3qaqj0lc6sV/qpzrc1N5DC6i1VRn/HyX4qdPaiEFbn54VjQBEU341pvjz7Dv3n6P" crossorigin="anonymous"></script>
+    <style>
+        .maintenance{
+            font-weight: bold;
+            background-color: plum;
+            padding-top: 12px;
+            cursor: pointer;
+        }
+        .maintenance:after{
+            background-color: red;
+        }
+        
+        .company{
+            font-weight: bold;
+            background-color: plum;
+            padding-top: 12px;
+            cursor: pointer;
+        }
+        th,td{
+            border: 1px solid;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+        Show Report
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Report</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="row" style="text-align: center; border: 1px solid;height: 50px;">
+                            <div class="col maintenance" id="maintenanceReport">Maintenance Report </div>
+                            <div class="col company" id="companyReport">Company Report</div>
+                        </div><br>
+                        <div class="row">
+                            <div class="col">
+                                <table id="maintenanceTable" style="text-align: center; width: 100%;border: 1px solid;">
+                                    <head>
+                                    <tr>
+                                        <th>Particular Type</th>
+                                        <th>Total Amount</th>
+                                        <th>Average</th>
+                                    </tr>
+                                        </head>
+                                    <body>
+                                    
+                                    <tr>
+                                        <td>1</td>
+                                        <td>2</td>
+                                        <td>3</td>
+                                    </tr>
+                                    <tr>
+                                        <td>4</td>
+                                        <td>5</td>
+                                        <td>5</td>
+                                    </tr>
+                                   </body>
+                                    <tfoot>
+                                        <tr>
+                                        <th>Total Amount</th>
+                                        <th>222</th>
+                                        <th>222</th>
+                                    </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col">
+                                <table id="companyTable" style="text-align: center; width: 100%;border: 1px solid; display: none">
+                                    <tr>
+                                        <th>Company Name</th>
+                                        <th>Total Amount</th>
+                                    </tr>
+
+                                    <tr>
+                                        <td>1</td>
+                                        <td>2</td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td>4</td>
+                                    </tr>
+                                     <tfoot>
+                                        <tr>
+                                        <th>Total Amount</th>
+                                        <th></th>
+                                    </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        $("#maintenanceReport").click(function() {
+            $("#companyTable").hide();
+            $("#maintenanceTable").show();
+            $("#maintenanceReport").backgroundColor= red;
+        })
+
+        $("#companyReport").click(function() {
+            $("#companyTable").show();
+            $("#maintenanceTable").hide();
+        })
+    </script>
+
+
+
+</body>
+
+</html>

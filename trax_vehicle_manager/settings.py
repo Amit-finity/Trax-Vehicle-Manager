@@ -129,3 +129,5 @@ STATICFILES_DIRS = (
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 AUTH_USER_MODEL = "trax_vehicle_manager_data.CustomUser"
+
+LOGIN_URL = '/login'

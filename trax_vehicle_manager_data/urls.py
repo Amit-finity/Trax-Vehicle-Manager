@@ -23,7 +23,7 @@ urlpatterns = [
     #<----------- Authentication URLs ---------------
 
     #url for login page
-    path("",views.user_login,name='login'),
+    path("login",views.user_login,name='login'),
     
     #url for Register page
     path('register',views.user_sign_up,name='register'),
@@ -38,6 +38,10 @@ urlpatterns = [
 
 
     #<------------ Projects Page URLs ----------------
+
+
+    #url for importing excel 
+    path('import',views.fileimport,name='import'),
 
     #url for vehicle list page
     path('vehicles',views.vehicles,name='vehicles'),
@@ -82,7 +86,7 @@ urlpatterns = [
     path('driver/drivers_details/<int:pk>',views.drivers_details,name='drivers_details'),
     
     #url for driver form page
-    path('driver/drivers_odometer/form',views.drivers_odometer_form,name='drivers_odometer_form'),
+    path('',views.drivers_odometer_form,name='drivers_odometer_form'),
     
     #url for driver form submit page
     path('drivers_odometer_form_submit',views.drivers_odometer_form_submit,name='drivers_odometer_form_submit'),
@@ -147,6 +151,9 @@ urlpatterns = [
 
     #url for Maintenance delete page
     path('maintenance/maintenance_delete_data',views.maintenance_delete_data,name='maintenance_delete_data'),   
+
+    #url for Maintenance Company Show Report
+    path('maintenance/maintenance_details/maintenance_company_show_report',views.maintenance_company_show_report,name='maintenance_company_show_report'),  
 
     #url for Maintenance data delete within given bill date
     #re_path(r'^maintenance/maintenance_delete_data/',views.maintenance_delete_within_date,name='maintenance_delete_within_date'), 
