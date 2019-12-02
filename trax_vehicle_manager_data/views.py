@@ -1,14 +1,15 @@
 from django.shortcuts import render,HttpResponseRedirect
 from django.http import HttpResponse
 from django.urls import reverse, reverse_lazy
-
+from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.hashers import make_password
 from bootstrap_modal_forms.generic import (BSModalCreateView,
                                            BSModalUpdateView,
                                            BSModalReadView,
                                            BSModalDeleteView)
 
 
-from trax_vehicle_manager_data.models import Drivers,Vehicles,Cleaners,Drivers_Odometer_Data,Expenses,Maintenance,Diesel
+from trax_vehicle_manager_data.models import Drivers,Vehicles,Cleaners,Drivers_Odometer_Data,Expenses,Maintenance,Diesel,CustomUser
 from trax_vehicle_manager_data.forms import MaintenanceForm,DriverForm,DriverOdometerForm,DieselOdometerReadingUpdateForm,DieselDataForm,DriverKYCForm,VehicleDataForm
 
 from trax_vehicle_manager_data import functions
@@ -22,12 +23,46 @@ from django.db.models.functions import Cast
 #<----------------- Authentication Views --------------------
 
 #Login Page view
-def login(request):
-    return render(request,'trax_vehicle_manager_data/login.html')
+def user_login(request):
+    """Logs in a user if the credentials are valid and the user is active,
+    else redirects to the same page and displays an error message."""
+    if request.method == "POST":
+        username =  request.POST['username']
+        password = request.POST['password']
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            if user.is_active:
+                login(request, user)
+                return HttpResponseRedirect(reverse('trax_vehicle_manager_data:drivers_odometer_form'))
+        else:
+            return render(request, 'trax_vehicle_manager_data/registration/login.html',{'error_message': 'Username or Password Incorrect!'})
+
+    else:
+        return render(request, 'trax_vehicle_manager_data/registration/login.html')
 
 #Register Page view
-def register(request):
-    return render(request,'trax_vehicle_manager_data/register.html')
+def user_sign_up(request):
+    """Registers a user"""
+    if request.method == "POST":
+        username =  request.POST['username']
+        password = request.POST['password']
+        confirm_password = request.POST['confirm_password']
+        if password != confirm_password:
+            return render(request, 'trax_vehicle_manager_data/registration/register.html',{'error_message':'Passwords do not match!'})
+        if CustomUser.objects.filter(username = username).exists():
+            return render(request, 'trax_vehicle_manager_data/registration/register.html',{'error_message':'Username already exists!'})
+        else:
+            # Role 2 is for admin, 1 is for super admin.
+            user = CustomUser.objects.create(username=username, password= make_password(password), user_role=2)
+            login(request, user)
+            return HttpResponseRedirect(reverse('trax_vehicle_manager_data:drivers_odometer_form'))
+    else:
+        return render(request, 'trax_vehicle_manager_data/registration/register.html')
+
+# Logout
+def user_sign_out(request):
+    logout(request)
+    return HttpResponseRedirect(reverse('trax_vehicle_manager_data:login'))
 
 #forget password view
 def forgetpassword(request):
@@ -383,8 +418,16 @@ def diesel_delete_data(request):
 
 #Maintenance Data page view
 def maintenance_data(request):
-    maintenance_data_objects = Maintenance.objects.all()
-    data = {'maintenance_data_objects':maintenance_data_objects}
+    maintenanceobjectlist = []
+    if request.method == "POST":
+        date1=request.POST['date1']
+        date2=request.POST['date2']
+        maintenanceobjectlist = Maintenance.objects.filter(bill_date__range=[date1,date2]).all()
+        filter_date = "True"
+        data =  {'maintenance_data_objects':maintenanceobjectlist,'date1':date1,'date2':date2,'filter_date':filter_date}
+    else:
+        maintenanceobjectlist = Maintenance.objects.all()
+        data = {'maintenance_data_objects':maintenanceobjectlist}
     return render(request,'trax_vehicle_manager_data/maintenance_data.html',data)
 
 #Maintenance Details page view
@@ -403,13 +446,42 @@ def maintenance_details(request):
 
         ItemPrice.objects.aggregate(Sum('price'))
     data = {'maintenance_data_objects':maintenance_data_objects,'maintenance_details_monthly_expense_total_dict':maintenance_details_monthly_expense_total_dict,'maintenance_details_vehicle_km_dict':maintenance_details_vehicle_km_dict} """
-    vehicle_dict = {}
-    vehicle_objects_all = Vehicles.objects.all()
-    for one_vehicle_object in vehicle_objects_all:
-        km_sum = Maintenance.objects.filter(expense_vehicle_id=one_vehicle_object.pk).aggregate(Sum('odometer_reading'))
-        amount_sum = Maintenance.objects.filter(expense_vehicle_id=one_vehicle_object.pk).aggregate(Sum('amount'))
-        vehicle_dict[one_vehicle_object] = km_sum,amount_sum
-    data = {'vehicle_dict':vehicle_dict}
+
+    vehicleobjectlist = []
+    if request.method == "POST":
+        date1=request.POST['date1']
+        date2=request.POST['date2']
+        vehicleobjectlist = Vehicles.objects.filter(vehicle_buying_date__range=[date1,date2]).all()
+        filter_date = "True"
+        vehicle_km_sum = {}
+        vehicle_amount_sum = {}
+        vehicle_objects_all = Vehicles.objects.all()
+        for vehicle in vehicle_objects_all:
+            """ km_sum = Maintenance.objects.filter(expense_vehicle_id=one_vehicle_object.pk).aggregate(Sum('odometer_reading'))
+            amount_sum = Maintenance.objects.filter(expense_vehicle_id=one_vehicle_object.pk).aggregate(Sum('amount'))
+            vehicle_dict[one_vehicle_object] = km_sum,amount_sum """
+            vehicle_odometer_value_list = []
+            vehicle_amount_value_list = []
+            vehicle_odometer_value_list = Maintenance.objects.filter(expense_vehicle_id=vehicle).values_list('odometer_reading',flat=True)
+            vehicle_amount_value_list = Maintenance.objects.filter(expense_vehicle_id=vehicle).values_list('amount',flat=True)
+            vehicle_km_sum[vehicle.pk]=functions.diesel_volume_sum(vehicle_odometer_value_list)
+            vehicle_amount_sum[vehicle.pk]=functions.diesel_volume_sum(vehicle_amount_value_list)
+        data = {'vehicle_km_sum':vehicle_km_sum,'vehicle_amount_sum':vehicle_amount_sum,'vehicleobjectlist':vehicleobjectlist,'date1':date1,'date2':date2,'filter_date':filter_date}
+    else:
+        vehicle_km_sum = {}
+        vehicle_amount_sum = {}
+        vehicle_objects_all = Vehicles.objects.all()
+        for vehicle in vehicle_objects_all:
+            """ km_sum = Maintenance.objects.filter(expense_vehicle_id=one_vehicle_object.pk).aggregate(Sum('odometer_reading'))
+            amount_sum = Maintenance.objects.filter(expense_vehicle_id=one_vehicle_object.pk).aggregate(Sum('amount'))
+            vehicle_dict[one_vehicle_object] = km_sum,amount_sum """
+            vehicle_odometer_value_list = []
+            vehicle_amount_value_list = []
+            vehicle_odometer_value_list = Maintenance.objects.filter(expense_vehicle_id=vehicle).values_list('odometer_reading',flat=True)
+            vehicle_amount_value_list = Maintenance.objects.filter(expense_vehicle_id=vehicle).values_list('amount',flat=True)
+            vehicle_km_sum[vehicle.pk]=functions.diesel_volume_sum(vehicle_odometer_value_list)
+            vehicle_amount_sum[vehicle.pk]=functions.diesel_volume_sum(vehicle_amount_value_list)
+        data = {'vehicle_km_sum':vehicle_km_sum,'vehicle_amount_sum':vehicle_amount_sum,'vehicleobjectlist':vehicle_objects_all}
     return render(request,'trax_vehicle_manager_data/maintenance_detail.html',data)
 
 #Maintenance Summary for one vehicle
@@ -424,15 +496,42 @@ def maintenance_summary_one_vehicle(request,pk):
 
 #Maintenance update payment page view
 def maintenance_update_payment(request):
-    maintenance_data_objects = Maintenance.objects.all()
-    data = {'maintenance_data_objects':maintenance_data_objects}
+    maintenanceobjectlist = []
+    if request.method == "POST":
+        date1=request.POST['date1']
+        date2=request.POST['date2']
+        maintenanceobjectlist = Maintenance.objects.filter(bill_date__range=[date1,date2]).all()
+        filter_date = "True"
+        data =  {'maintenance_data_objects':maintenanceobjectlist,'date1':date1,'date2':date2,'filter_date':filter_date}
+    else:
+        maintenanceobjectlist = Maintenance.objects.all()
+        data = {'maintenance_data_objects':maintenanceobjectlist}
     return render(request,'trax_vehicle_manager_data/maintenance_update_payment.html',data)
 
 #Maintenance Delete data page view
 def maintenance_delete_data(request):
-    maintenance_data_objects = Maintenance.objects.all()
-    data = {'maintenance_data_objects':maintenance_data_objects}
+    maintenanceobjectlist = []
+    if request.method == "POST":
+        date1=request.POST['date1']
+        date2=request.POST['date2']
+        maintenanceobjectlist = Maintenance.objects.filter(bill_date__range=[date1,date2]).all()
+        filter_date = "True"
+        data =  {'maintenance_data_objects':maintenanceobjectlist,'date1':date1,'date2':date2,'filter_date':filter_date}
+    else:
+        maintenanceobjectlist = Maintenance.objects.all()
+        data = {'maintenance_data_objects':maintenanceobjectlist}
     return render(request,'trax_vehicle_manager_data/maintenance_delete.html',data)
+
+#Maintenance Delete data within date
+""" def maintenance_delete_within_date(request):
+    maintenanceobjectlist = []
+    if request.method == "POST":
+        date1=request.POST['date1']
+        date2=request.POST['date2']
+        maintenanceobjectlist = Maintenance.objects.filter(bill_date__range=[date1,date2]).delete()
+        filter_date = "True"
+        data =  {'maintenance_data_objects':maintenanceobjectlist,'date1':date1,'date2':date2,'filter_date':filter_date}
+        return reverse_lazy('trax_vehicle_manager_data:maintenance_delete_data',data) """
 
 #Recurring expense page view
 def recurring_expense(request):

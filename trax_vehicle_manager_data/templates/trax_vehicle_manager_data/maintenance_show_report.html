@@ -1,0 +1,84 @@
+{% load vendor_list_filters %}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Maintenance & Company Report</title>
+    <style>
+        table, th, td,caption,h5 {
+        border: 1px solid black;
+        border-collapse: collapse;
+        }
+        th ,td{
+            text-align: left;
+           
+        }  
+        
+        .pnl_bal th{
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+        .pnl_bal td{
+            padding-left: 10px;
+            padding-right: 10px;
+        }       
+</style>
+    </head>
+<body>
+    <div>
+      <section class="hk-sec-wrapper">
+                            
+                            <div class="row">
+                                <div class="col-sm">
+                                    <div class="table-wrap">
+                                        <div class="table-responsive">
+                                            <table class="table mb-0" style="width: 100%">
+                                                <caption>Maintenance Report</caption>
+                                                <thead>
+                                                    <tr>
+                                                        <th>Sr. No</th>
+                                                        <th>Particulars</th>
+                                                        <th>Particulars Details</th>
+                                                        <th>Amount</th>
+                                                    </tr>
+                                                     </thead>
+                                                   <tbody>
+                                                    {% for service_list in service_list %}
+                                                    <tr>
+                                                       <td>{{ forloop.counter }}</td>
+                                                       <td>{{ service_list.service_type }}</td>
+                                                       
+                                                       <td>{{ vendor_dict|get_item:service_list.service_vendor_id }}</td>
+                                                       <td>{{ service_list.service_number_of_passengers }}</td>
+                                                       <td>{{ service_list.service_roe }}</td>
+                                                       <td>{{ service_list.service_quote_per_head }}</td>
+                                                       <td>{{ service_list.service_gst }}</td>
+                                                       <td>{{ service_list.service_total_amount }}</td>
+                                                       <td>{{ service_list.service_payment_method }}</td>
+                                                       <td>{{ service_list.service_vendor_payment_status }}</td>
+                                                       <!-- <td>{{ service_list.service_vendor_id }}</td>
+                                                       <td>{{ service_list.service_vendor_id }}</td> -->
+                                                       
+                                                    </tr>
+                                                    {% endfor %}
+                                               </tbody>
+                                              <tfoot>
+                                                    <tr>
+                                                      <td>Total Amount</td>
+                                                      <td colspan="6"></td>
+                                                        <td>{{ payment_total }}</td>
+                                                        
+                                                        <td></td>
+                                                        <td></td>
+                                                    </tr>
+                                                  </tfoot>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+        <br>
+    </body>
+</html>

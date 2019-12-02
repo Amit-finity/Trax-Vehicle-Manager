@@ -12,7 +12,7 @@
   margin-right: 150px;
   cursor: pointer;
   float: right;
-  margin-top : -205px;
+  margin-top : -340px;
   border-radius:6px;
   background-color:#28a745;
   color:white;
@@ -42,13 +42,42 @@
     </div>
 </div>
 
-<span><span id="date"><b>From:</b><input type="date"> - <b>To:</b><input type="date"></span><span id="btn"></span> </span>
-
 <hr>
 <h3>Maintenance Data Delete</h3>
 <hr>
 
-<div id="del_btn"><button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalforUploadFile">Delete Data</button></div>
+<form action={% url 'trax_vehicle_manager_data:maintenance_delete_data' %} method="post">
+                     {% csrf_token %}
+                       
+                        <div>
+                        <div class="form-row">
+                        <div class="form-group col-md-3">
+                            <label for="start_date_lbl">From:</label><br>
+                            <input type="date" class="datepicker" id="date1" name="date1">
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label for="end_date_lbl">To:</label><br>
+                            <input type="date" class="datepicker" id="date2" name="date2">
+                        </div>
+                        <div class="form-group col-md-3">
+                        <br>
+                        <button type="submit" class="submit-btn btn btn-primary">Search</button>
+                        </div>
+                        </div>
+                        <br>
+                    </form> 
+
+<div>
+{% if filter_date == "True" %}
+<h4>{{date1|title}}To{{date2|title}}</h4>
+{% else %}
+<h4>Please select Dates to filter Data by Bill Date</h4>
+{% endif %}
+
+</div>
+<div id="del_btn"><button type="button" class="btn btn-danger"> {% comment %} <a href="{% url 'trax_vehicle_manager_data:maintenance_delete_within_date' %}" {% endcomment %}
+										Delete Data
+									{% comment %} </a> {% endcomment %}</button></div>
 
 <div class="modal fade" id="exampleModalforUploadFile" tabindex="-1" role="dialog" aria-labelledby="exampleModalforUploadFileLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -71,7 +100,6 @@
 
 
 <div>
-{% if maintenance_data_objects %}
     <table id="test_table" class="display" style="width:100%">
         <thead>
             <tr>
@@ -121,9 +149,7 @@
 
         </tbody>
     </table>
-     {% else %}
-    <p class="no-leads text-primary">No data added yet.</p>
-    {% endif %}
+    
 </div>
 {% endblock %}
 

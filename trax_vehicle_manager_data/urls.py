@@ -3,7 +3,7 @@
 from django.contrib import admin
 
 #path,include
-from django.urls import path
+from django.urls import path,re_path
 
 #</------- imported libraries ---------
 
@@ -23,10 +23,13 @@ urlpatterns = [
     #<----------- Authentication URLs ---------------
 
     #url for login page
-    path('login',views.login,name='login'),
+    path("",views.user_login,name='login'),
     
     #url for Register page
-    path('register',views.register,name='register'),
+    path('register',views.user_sign_up,name='register'),
+
+    # Logout
+    path('logout/', views.user_sign_out, name='logout'),
 
     #url for forgot password page
     path('forgetpassword',views.forgetpassword,name='forgetpassword'),
@@ -79,7 +82,7 @@ urlpatterns = [
     path('driver/drivers_details/<int:pk>',views.drivers_details,name='drivers_details'),
     
     #url for driver form page
-    path('',views.drivers_odometer_form,name='drivers_odometer_form'),
+    path('driver/drivers_odometer/form',views.drivers_odometer_form,name='drivers_odometer_form'),
     
     #url for driver form submit page
     path('drivers_odometer_form_submit',views.drivers_odometer_form_submit,name='drivers_odometer_form_submit'),
@@ -142,8 +145,11 @@ urlpatterns = [
     #url for Read Maintenance Data on Delete Page
     path('maintenance/read_maintenance_data_on_delete_page/<int:pk>', views.MaintenanceReadOnDeletePageView.as_view(), name='read_maintenance_data_on_delete_page'),
 
-    #url for Diesel delete page
-    path('maintenance/maintenance_delete_data',views.maintenance_delete_data,name='maintenance_delete_data'),    
+    #url for Maintenance delete page
+    path('maintenance/maintenance_delete_data',views.maintenance_delete_data,name='maintenance_delete_data'),   
+
+    #url for Maintenance data delete within given bill date
+    #re_path(r'^maintenance/maintenance_delete_data/',views.maintenance_delete_within_date,name='maintenance_delete_within_date'), 
 
     #url for recurring expense page
     path('recurring_expense',views.recurring_expense,name='recurring_expense'),
