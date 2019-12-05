@@ -7,6 +7,9 @@
 {% block stylesheets %}
 <link rel="stylesheet" href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
 <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.22/pdfmake.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
 <style>
         .maintenance{
             font-weight: bold;
@@ -34,7 +37,7 @@
 .exportExcel{
   padding: 5.5px;
   border: 2px solid #28a745;
-  margin-right: 110px;
+  margin-right: 5px;
   cursor: pointer;
   float: right;
   margin-top : -306px;
@@ -68,8 +71,207 @@
 
 
 <span id="btn">
-<button class="upload_maintenance_form btn btn-info" style="margin-top:-50px;margin-left:-500px;">Upload Form </button>
+<button type="button" class="btn btn-info" style="margin-top:-50px;margin-left:-500px;" data-toggle="modal" data-target="#exampleModal">Upload Form </button>
 <button type="button" class="btn btn-primary" style="margin-top:-50px;" data-toggle="modal" data-target="#exampleModalforUploadFile">Upload File</button>
+<input type="button" class="btn btn-danger" id="btnExport" style="margin-top:-50px;margin-right:30px;"  value="Export PDF" onclick="Export()" />
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Maintenanace Data</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action={% url 'trax_vehicle_manager_data:maintenance_details_form_submit' %} method="post" autocomplete="off">
+                         {% csrf_token %}
+                         <div class="form-group row">
+                            <label for="dealer" class="col-sm-4 col-form-label form-control-sm">Dealer</label>
+                            <div class="col-sm-8">
+                                <input list="vehicle-type" id="maintenance_dealer_name" name="maintenance_dealer_name" class="form-control form-control-sm" />
+                                <datalist id="vehicle-type">
+                                    <option value="Bus"></option>
+                                    <option value="Innova"></option>
+                                    <option value="Enjoy"></option>
+                                    <option value="Audi"></option>
+                                    <option value="BMW"></option>
+                                </datalist>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="vehicledetail" class="col-sm-4 form-control-sm col-form-label">Vehicle Detail</label>
+                            <div class="col-sm-8">
+                                <input list="vehicle-detail" id="vehicle_detail" name="vehicle_detail" class="form-control form-control-sm" />
+                                <datalist id="vehicle-detail">
+                                    <option value="MH07AK8888"></option>
+                                    <option value="MH07AK8883"></option>
+                                    <option value="MH07AK8886"></option>
+                                    <option value="MH07AK8889"></option>
+                                    <option value="MH07AK8880"></option>
+                                </datalist>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="vehicletype" class="col-sm-4 form-control-sm col-form-label">Vehicle Type</label>
+                            <div class="col-sm-8">
+                                <input list="vehicle-type" id="vehicle_type" name="vehicle_type" class="form-control form-control-sm" />
+                                <datalist id="vehicle-type">
+                                    <option value="Bus"></option>
+                                    <option value="Innova"></option>
+                                    <option value="Enjoy"></option>
+                                    <option value="Audi"></option>
+                                    <option value="BMW"></option>
+                                </datalist>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="billnumber" class="col-sm-4 col-form-label form-control-sm">Bill Number</label>
+                            <div class="col-sm-8">
+                                <input type="text" id="bill_number" name="bill_number" class="form-control form-control-sm" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="billdate" class="col-sm-4 col-form-label form-control-sm">Bill Date</label>
+                            <div class="col-sm-8">
+                                <input type="date" id="bill_date" name="bill_date" class="form-control form-control-sm" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="travelname" class="col-sm-4 col-form-label form-control-sm">Travel Name</label>
+                            <div class="col-sm-8">
+                                <select id="company_name" name="company_name" class="form-control form-control-sm">
+                                    <option selected>Aaron Tour</option>
+                                    <option>Gokruze</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="odometer" class="col-sm-4 col-form-label form-control-sm">Odometer</label>
+                            <div class="col-sm-8">
+                                <input type="number" id="odometer_reading" name="odometer_reading" class="form-control form-control-sm" />
+                            </div>
+                        </div>
+                       
+                        <div class="form-group row">
+                            <label for="partnumber" class="col-sm-4 col-form-label form-control-sm">Part Number</label>
+                            <div class="col-sm-8">
+                                <input type="text" id="dealer_part_number" name="dealer_part_number" class="form-control form-control-sm" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="particular" class="col-sm-4 col-form-label form-control-sm">Particular</label>
+                            <div class="col-sm-8">
+                                <input list="Particular" id="particular" name="particular" class="form-control form-control-sm" />
+                                <datalist id="Particular">
+                                    <option value="Bus">Bus</option>
+                                    <option value="Innova">Innova</option>
+                                    <option value="Enjoy"></option>
+                                    <option value="Audi"></option>
+                                    <option value="BMW"></option>
+                                </datalist>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="particulardeatil" class="col-sm-4 col-form-label form-control-sm">Particular Detail</label>
+                            <div class="col-sm-8">
+                                <input type="text" id="particular_details" name="particular_details" class="form-control form-control-sm" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="totalquantity" class="col-sm-4 col-form-label form-control-sm">Total Quantity</label>
+                            <div class="col-sm-8">
+                                <input type="text" id="quantity" name="quantity" class="form-control form-control-sm" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="rate" class="col-sm-4 col-form-label form-control-sm">Rate</label>
+                            <div class="col-sm-8">
+                                <input type="text" id="rate" name="rate" class="form-control form-control-sm" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="totakamount" class="col-sm-4 col-form-label form-control-sm">Total Amount</label>
+                            <div class="col-sm-8">
+                                <input type="text" id="amount" name="amount" class="form-control form-control-sm" onclick="TotalAmount()" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="labourcharge" class="col-sm-4 col-form-label form-control-sm">Labour Charge</label>
+                            <div class="col-sm-8">
+                                <input type="text" id="labour_charge" name="labour_charge" class="form-control form-control-sm"  />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="discount" class="col-sm-4 col-form-label form-control-sm">Discount</label>
+                            <div class="col-sm-4">
+                                <input type="text" id="discountInput" name="discountInput" class="form-control form-control-sm" />
+                            </div>
+                            <div class="col-sm-4">
+                                <input list="discountPercent" id="discount" name="discount" class="form-control form-control-sm" />
+                                <datalist id="discountPercent">
+                                    <option value="5"></option>
+                                    <option value="10"></option>
+                                    <option value="15"></option>
+                                    <option value="20"></option>
+                                    <option value="25"></option>
+                                    <option value="30"></option>
+                                </datalist>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="tax" class="col-sm-4 col-form-label form-control-sm">Tax</label>
+                            <div class="col-sm-4">
+                                <input type="text" id="taxInput" name="taxInput" class="form-control form-control-sm" />
+                            </div>
+                            <div class="col-sm-4">
+                                <input list="taxPercent" id="tax" name="tax" class="form-control form-control-sm" />
+                                <datalist id="taxPercent">
+                                    <option value="5"></option>
+                                    <option value="18"></option>
+                                    <option value="28"></option>
+                                </datalist>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="tds" class="col-sm-4 col-form-label form-control-sm">TDS</label>
+                            <div class="col-sm-4">
+                                <input type="text" id="tdsInput" name="tdsInput" class="form-control form-control-sm"  />
+                            </div>
+                            <div class="col-sm-4">
+                                <input list="tdsPercent" id="tds" name="tds" class="form-control form-control-sm" />
+                                <datalist id="tdsPercent">
+                                    <option value="2"></option>
+                                    <option value="4"></option>
+                                    <option value="8"></option>
+                                </datalist>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group row">
+                            <label for="finalamount" class="col-sm-4 col-form-label form-control-sm">Final Amount</label>
+                            <div class="col-sm-8">
+                                <input type="text" id="total_amount" name="total_amount" class="form-control form-control-sm"  onclick="FinalAmount()" readonly/>
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <label for="Chalak Malak">Chalak Malak</label>
+                            <div class="form-group">
+                                <select class="form-control" id="chalak_malal" name="chalak_malal">
+                                    <option value="YES">YES</option>
+                                    <option value="NO">NO</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        
+                        
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </span>
 
 <hr>
@@ -222,7 +424,7 @@
 
 
 <div>
-    <table id="test_table" class="display" style="width:100%">
+    <table id="test_table" name="test_table" class="display" style="width:100%">
         <thead>
             <tr>
                 <th>Vehicle Details</th>
@@ -333,4 +535,86 @@ $('#test_table').DataTable({
       });
     });
 </script>
+<script>
+    function TotalAmount(){
+        var quantity = Number(document.getElementById("quantity").value);
+        var Rate = Number(document.getElementById("rate").value);
+        var Total_Amount = quantity*Rate;
+        document.getElementById("amount").value = Total_Amount;
+        document.getElementById("total_amount").value = Total_Amount;
+    }
+    function FinalAmount(){
+        var Total_amount = Number(document.getElementById("amount").value);
+        var Labour = Number(document.getElementById("labour_charge").value);
+        var Discount = Number(document.getElementById("discountInput").value);
+        var Tax = Number(document.getElementById("taxInput").value);
+        var Tds = Number(document.getElementById("tdsInput").value);
+        
+//        
+//        var TotalAmountDiscount = Total_amount - Discount+ Labour;
+//        
+//         document.getElementById("final_amount").value = TotalAmountDiscount;
+//        
+//        var TotalAmountDiscountTax = TotalAmountDiscount + Tax;
+//        
+//        document.getElementById("final_amount").value = TotalAmountDiscountTax;
+//       
+//        var Final_Amount =  TotalAmountDiscountTax - Tds ;
+//        
+//        document.getElementById("final_amount").value = Final_Amount;
+        
+        
+        
+        
+        var DISCOUNT = Number(document.getElementById("discount").value);
+        var TAX = Number(document.getElementById("tax").value);
+        var TDS = Number(document.getElementById("tds").value);
+        
+        var discout_percent = ( Total_amount * (DISCOUNT / 100));
+        
+        document.getElementById("discountInput").value = discout_percent;
+        
+        var totalamount_discount = Total_amount - discout_percent +Labour;
+        
+        
+          document.getElementById("total_amount").value = totalamount_discount;
+        
+
+        var taxPercent = (totalamount_discount * (TAX / 100));
+        
+        document.getElementById("taxInput").value = taxPercent;
+        
+        
+        var totalamount_discount_tax = totalamount_discount + taxPercent;
+        
+        
+          document.getElementById("total_amount").value = totalamount_discount_tax;
+
+        
+        var Tdspercent = (Total_amount * (TDS / 100));
+        
+        document.getElementById("tdsInput").value = Tdspercent;
+        
+        var final_Amount =  totalamount_discount_tax - Tdspercent ;
+        
+        document.getElementById("total_amount").value = final_Amount;       
+    }
+    
+    </script>
+     <script type="text/javascript">
+        function Export() {
+            html2canvas(document.getElementsByName('test_table'), {
+                onrendered: function (canvas) {
+                    var data = canvas.toDataURL();
+                    var docDefinition = {
+                        content: [{
+                            image: data,
+                            width: 500
+                        }]
+                    };
+                    pdfMake.createPdf(docDefinition).download("Table.pdf");
+                }
+            });
+        }
+    </script>
 {% endblock extrascript %}

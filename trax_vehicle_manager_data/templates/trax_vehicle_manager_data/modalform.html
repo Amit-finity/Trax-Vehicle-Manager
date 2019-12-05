@@ -1,0 +1,280 @@
+<html>
+
+<head>
+    <title>Modal
+    </title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.0/css/bootstrap.min.css" integrity="sha384-SI27wrMjH3ZZ89r4o+fGIJtnzkAnFs3E4qz9DIYioCQ5l9Rd/7UAa8DHcaL8jkWt" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.0/js/bootstrap.min.js" integrity="sha384-3qaqj0lc6sV/qpzrc1N5DC6i1VRn/HyX4qdPaiEFbn54VjQBEU341pvjz7Dv3n6P" crossorigin="anonymous"></script>
+</head>
+<body>
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+        Upload Form
+    </button>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Maintenanace Data</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form autocomplete="off">
+                         <div class="form-group row">
+                            <label for="dealer" class="col-sm-4 col-form-label form-control-sm">Dealer</label>
+                            <div class="col-sm-8">
+                                <input list="vehicle-type" id="" name="" class="form-control form-control-sm" />
+                                <datalist id="vehicle-type">
+                                    <option value="Bus"></option>
+                                    <option value="Innova"></option>
+                                    <option value="Enjoy"></option>
+                                    <option value="Audi"></option>
+                                    <option value="BMW"></option>
+                                </datalist>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="vehicledetail" class="col-sm-4 form-control-sm col-form-label">Vehicle Detail</label>
+                            <div class="col-sm-8">
+                                <input list="vehicle-detail" id="" name="" class="form-control form-control-sm" />
+                                <datalist id="vehicle-detail">
+                                    <option value="MH07AK8888"></option>
+                                    <option value="MH07AK8883"></option>
+                                    <option value="MH07AK8886"></option>
+                                    <option value="MH07AK8889"></option>
+                                    <option value="MH07AK8880"></option>
+                                </datalist>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="vehicletype" class="col-sm-4 form-control-sm col-form-label">Vehicle Type</label>
+                            <div class="col-sm-8">
+                                <input list="vehicle-type" id="" name="" class="form-control form-control-sm" />
+                                <datalist id="vehicle-type">
+                                    <option value="Bus"></option>
+                                    <option value="Innova"></option>
+                                    <option value="Enjoy"></option>
+                                    <option value="Audi"></option>
+                                    <option value="BMW"></option>
+                                </datalist>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="billnumber" class="col-sm-4 col-form-label form-control-sm">Bill Number</label>
+                            <div class="col-sm-8">
+                                <input type="text" id="" name="" class="form-control form-control-sm" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="billdate" class="col-sm-4 col-form-label form-control-sm">Bill Date</label>
+                            <div class="col-sm-8">
+                                <input type="date" id="" name="" class="form-control form-control-sm" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="travelname" class="col-sm-4 col-form-label form-control-sm">Travel Name</label>
+                            <div class="col-sm-8">
+                                <select id="travel_name" class="form-control form-control-sm">
+                                    <option selected>Aaron Tour</option>
+                                    <option>Gokruze</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="odometer" class="col-sm-4 col-form-label form-control-sm">Odometer</label>
+                            <div class="col-sm-8">
+                                <input type="number" id="" name="" class="form-control form-control-sm" />
+                            </div>
+                        </div>
+                       
+                        <div class="form-group row">
+                            <label for="partnumber" class="col-sm-4 col-form-label form-control-sm">Part Number</label>
+                            <div class="col-sm-8">
+                                <input type="text" id="" name="" class="form-control form-control-sm" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="particular" class="col-sm-4 col-form-label form-control-sm">Particular</label>
+                            <div class="col-sm-8">
+                                <input list="Particular" id="" name="" class="form-control form-control-sm" />
+                                <datalist id="Particular">
+                                    <option value="Bus">Bus</option>
+                                    <option value="Innova">Innova</option>
+                                    <option value="Enjoy"></option>
+                                    <option value="Audi"></option>
+                                    <option value="BMW"></option>
+                                </datalist>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="particulardeatil" class="col-sm-4 col-form-label form-control-sm">Particular Detail</label>
+                            <div class="col-sm-8">
+                                <input type="text" id="" name="" class="form-control form-control-sm" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="totalquantity" class="col-sm-4 col-form-label form-control-sm">Total Quantity</label>
+                            <div class="col-sm-8">
+                                <input type="text" id="total_quantity" name="" class="form-control form-control-sm" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="rate" class="col-sm-4 col-form-label form-control-sm">Rate</label>
+                            <div class="col-sm-8">
+                                <input type="text" id="rate" name="" class="form-control form-control-sm" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="totakamount" class="col-sm-4 col-form-label form-control-sm">Total Amount</label>
+                            <div class="col-sm-8">
+                                <input type="text" id="total_amount" name="" class="form-control form-control-sm" onclick="TotalAmount()" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="labourcharge" class="col-sm-4 col-form-label form-control-sm">Labour Charge</label>
+                            <div class="col-sm-8">
+                                <input type="text" id="labourInput" name="" class="form-control form-control-sm"  />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="discount" class="col-sm-4 col-form-label form-control-sm">Discount</label>
+                            <div class="col-sm-4">
+                                <input type="text" id="discountInput" name="" class="form-control form-control-sm" />
+                            </div>
+                            <div class="col-sm-4">
+                                <input list="discountPercent" id="discount" name="" class="form-control form-control-sm" />
+                                <datalist id="discountPercent">
+                                    <option value="5"></option>
+                                    <option value="10"></option>
+                                    <option value="15"></option>
+                                    <option value="20"></option>
+                                    <option value="25"></option>
+                                    <option value="30"></option>
+                                </datalist>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="tax" class="col-sm-4 col-form-label form-control-sm">Tax</label>
+                            <div class="col-sm-4">
+                                <input type="text" id="taxInput" name="" class="form-control form-control-sm" />
+                            </div>
+                            <div class="col-sm-4">
+                                <input list="taxPercent" id="tax" name="" class="form-control form-control-sm" />
+                                <datalist id="taxPercent">
+                                    <option value="5"></option>
+                                    <option value="18"></option>
+                                    <option value="28"></option>
+                                </datalist>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="tds" class="col-sm-4 col-form-label form-control-sm">TDS</label>
+                            <div class="col-sm-4">
+                                <input type="text" id="tdsInput" name="" class="form-control form-control-sm"  />
+                            </div>
+                            <div class="col-sm-4">
+                                <input list="tdsPercent" id="tds" name="" class="form-control form-control-sm" />
+                                <datalist id="tdsPercent">
+                                    <option value="2"></option>
+                                    <option value="4"></option>
+                                    <option value="8"></option>
+                                </datalist>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group row">
+                            <label for="finalamount" class="col-sm-4 col-form-label form-control-sm">Final Amount</label>
+                            <div class="col-sm-8">
+                                <input type="text" id="final_amount" name="" class="form-control form-control-sm"  onclick="FinalAmount()" readonly/>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group ">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="chalakmalak" name="chalakmalak">
+                                 <label class="form-check-label" for="gridCheck">
+                                    Chalak Malak
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+    function TotalAmount(){
+        var quantity = Number(document.getElementById("total_quantity").value);
+        var Rate = Number(document.getElementById("rate").value);
+        var Total_Amount = quantity*Rate;
+        document.getElementById("total_amount").value = Total_Amount;
+        document.getElementById("final_amount").value = Total_Amount;
+    }
+    function FinalAmount(){
+        var Total_amount = Number(document.getElementById("total_amount").value);
+        var Labour = Number(document.getElementById("labourInput").value);
+        var Discount = Number(document.getElementById("discountInput").value);
+        var Tax = Number(document.getElementById("taxInput").value);
+        var Tds = Number(document.getElementById("tdsInput").value);
+        
+//        
+//        var TotalAmountDiscount = Total_amount - Discount+ Labour;
+//        
+//         document.getElementById("final_amount").value = TotalAmountDiscount;
+//        
+//        var TotalAmountDiscountTax = TotalAmountDiscount + Tax;
+//        
+//        document.getElementById("final_amount").value = TotalAmountDiscountTax;
+//       
+//        var Final_Amount =  TotalAmountDiscountTax - Tds ;
+//        
+//        document.getElementById("final_amount").value = Final_Amount;
+        
+        
+        
+        
+        var DISCOUNT = Number(document.getElementById("discount").value);
+        var TAX = Number(document.getElementById("tax").value);
+        var TDS = Number(document.getElementById("tds").value);
+        
+        var discout_percent = ( Total_amount * (DISCOUNT / 100));
+        
+        document.getElementById("discountInput").value = discout_percent;
+        
+        var totalamount_discount = Total_amount - discout_percent +Labour;
+        
+        
+          document.getElementById("final_amount").value = totalamount_discount;
+        
+
+        var taxPercent = (totalamount_discount * (TAX / 100));
+        
+        document.getElementById("taxInput").value = taxPercent;
+        
+        
+        var totalamount_discount_tax = totalamount_discount + taxPercent;
+        
+        
+          document.getElementById("final_amount").value = totalamount_discount_tax;
+
+        
+        var Tdspercent = (Total_amount * (TDS / 100));
+        
+        document.getElementById("tdsInput").value = Tdspercent;
+        
+        var final_Amount =  totalamount_discount_tax - Tdspercent ;
+        
+        document.getElementById("final_amount").value = final_Amount;       
+    }
+    
+    </script>
+</body>
+
+</html>

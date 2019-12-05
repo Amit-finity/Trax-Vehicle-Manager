@@ -6,11 +6,13 @@
 <link rel="stylesheet" href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
 <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.22/pdfmake.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
 <style>
 .exportExcel{
   padding: 5.5px;
   border: 2px solid #28a745;
-  margin-right: 110px;
+  margin-right: 5px;
   cursor: pointer;
   float: right;
   margin-top : -276px;
@@ -46,6 +48,7 @@
 
 <span id="btn">
 <button class="upload_maintenance_form btn btn-info" style="margin-left:-370px;">Upload Form </button>
+<input type="button" class="btn btn-danger" id="btnExport" style="margin-top:-1px;margin-right:10px;"  value="Export PDF" onclick="Export()" />
 {% comment %}<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalforUploadFile">Upload File</button>{% comment %}
 {% comment %} <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalforUploadFile" style="margin-right:50px">Export PDF</button> {% endcomment %}
 </span>
@@ -105,7 +108,7 @@
 
 
 <div>
-    <table id="test_table" class="display" style="width:100%">
+    <table id="test_table" name="test_table" class="display" style="width:100%">
         <thead>
             <tr>
                 <th>Vehicle Details</th>
@@ -222,6 +225,22 @@ $('#test_table').DataTable({
 });
 });
 </script>
+<script type="text/javascript">
+        function Export() {
+            html2canvas(document.getElementsByName('test_table'), {
+                onrendered: function (canvas) {
+                    var data = canvas.toDataURL();
+                    var docDefinition = {
+                        content: [{
+                            image: data,
+                            width: 500
+                        }]
+                    };
+                    pdfMake.createPdf(docDefinition).download("Table.pdf");
+                }
+            });
+        }
+    </script>
 
 {% endblock extrascript %}
 

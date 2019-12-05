@@ -23,8 +23,12 @@
         <div class="modal-content"></div>
     </div>
 </div>
+ 
+<hr>
+<h3>Full Diesel Details of {{vehicle_number}}</h3>
+<hr>
 
-{% comment %} <form action="{% url 'trax_vehicle_manager_data:vehicle_diesel_report_one_vehicle' pk=pk %}" method="post">
+<form action="{% url 'trax_vehicle_manager_data:vehicle_diesel_report_one_vehicle' pk=pk %}" method="post">
                      {% csrf_token %}
                        
                         <div>
@@ -43,11 +47,17 @@
                         </div>
                         </div>
                         <br>
-                    </form> {% endcomment %}
- 
-<hr>
-<h3>Full Diesel Details of {{vehicle_number}}</h3>
-<hr>
+                    </form> 
+
+
+<div>
+{% if filter_date == "True" %}
+<h4>{{date1|title}}To{{date2|title}}</h4>
+{% else %}
+<h4>Please select Dates to filter Data</h4>
+{% endif %}
+
+
 
 <div>
     <table id="test_table" class="display" style="width:100%">

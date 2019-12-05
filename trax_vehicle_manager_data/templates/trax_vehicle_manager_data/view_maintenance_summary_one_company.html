@@ -2,7 +2,6 @@
 
 {% load static %}
 
-{% load maintenance_data_filters %}
 {% block stylesheets %}
 <link rel="stylesheet" href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
 <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
@@ -16,15 +15,13 @@
 
 {% endblock stylesheets %}
 
-{% block content %}
-<!-- Modal for CURD Operation -->
-<div class="modal fade" tabindex="-1" role="dialog" id="modal">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content"></div>
-    </div>
-</div>
 
-<form action="{% url 'trax_vehicle_manager_data:maintenance_summary_one_vehicle' pk=pk %}" method="post">
+{% block content %}
+
+<hr>
+<h3>Maintenance Details for {{maintenance_dealer_name}}</h3>
+<hr>
+<form action="{% url 'trax_vehicle_manager_data:maintenance_summary_one_company' dealer_name=maintenance_dealer_name %}" method="post">
                      {% csrf_token %}
                        
                         <div>
@@ -53,29 +50,12 @@
 <h4>Please select Dates to filter Data</h4>
 {% endif %}
 
-    {% comment %} <form>
-        <h6> Company Name:
-            <select>
-                <option>All</option>
-                <option>Aaron Tours</option>
-                <option>Aaron Travels</option>
-                <option>Aaron Comet</option>
-            </select>
-        </h6>
-    </form> {% endcomment %}
 
-</div>
-
-
-<hr>
-<h3>Maintenance Summary for {{vehicle_number}}</h3>
-<hr>
 
 <div>
     <table id="test_table" class="display" style="width:100%">
         <thead>
             <tr>
-                <th>Sr. No. </th>
                 <th>Vehicle Details</th>
                 <th>Dealer</th>
                 <th>Bill Number</th>
@@ -87,38 +67,25 @@
                 <th>Discount</th>
                 <th>Tax</th>
                 <th>Total Amount</th>
-                <th>Kms</th>
-                <th>Amount</th>
             </tr>
         </thead>
-       <tbody>
-        {% for maintenance in all_maintenance_objects %}
+        <tbody>
+            {% for maintenance_data in all_maintenance_objects %}
             <tr>
-                <td>{{forloop.counter}}</td>
-                <td>{{maintenance.vehicle_detail}}</td>
-                <td>{{maintenance.maintenance_dealer_name}}</td>
-                <td>{{maintenance.bill_number}}</td>
-                <td>{{maintenance.bill_date}}</td>
-                <td>{{maintenance.particular}}</td>
-                <td>{{maintenance.quantity}}</td>
-                <td>{{maintenance.rate}}</td>
-                <td>{{maintenance.labour_charge}}</td>
-                <td>{{maintenance.discount}}</td>
-                <td>{{maintenance.tax}}</td>
-                <td>{{maintenance.total_amount}}</td>
-                <td>{{maintenance.odometer_reading}}</td>
-                <td>{{maintenance.amount}}</td>
+                <td>{{maintenance_data.vehicle_detail}}</td>
+                <td>{{maintenance_data.maintenance_dealer_name}}</td>
+                <td>{{maintenance_data.bill_number}}</td>
+                <td>{{maintenance_data.bill_date}}</td>
+                <td>{{maintenance_data.particular}}</td>
+                <td>{{maintenance_data.quantity}}</td>
+                <td>{{maintenance_data.rate}}</td>
+                <td>{{maintenance_data.labour_charge}}</td>
+                <td>{{maintenance_data.discount}}</td>
+                <td>{{maintenance_data.tax}}</td>
+                <td>{{maintenance_data.total_amount}}</td>
             </tr>
-        {% endfor %}
+            {% endfor %}
         </tbody>
-        <tfoot>
-            <tr>
-            <td>Total</td>
-            <td colspan="11"></td>
-                            <td>{{ km_sum.odometer_reading__sum }}</td>
-                            <td>{{ amount_sum.amount__sum }}</td>
-                                                    </tr>
-                                                  </tfoot>
     </table>
 </div>
 {% endblock %}
@@ -133,11 +100,12 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>
 {% endblock %}
+
 {% block extrascript %}
 <script type="text/javascript">
     $(function() {
-         $(".upload_diesel_data_form").modalForm({
-        formURL: "{% url 'trax_vehicle_manager_data:diesel_data_create_form' %}"
+         $(".upload_maintenance_form").modalForm({
+        formURL: "{% url 'trax_vehicle_manager_data:upload_maintenance_form' %}"
     });
         $(".update-data-entered").each(function() {
             $(this).modalForm({
@@ -155,9 +123,13 @@
       });
     });
 </script>
+
 <script type="text/javascript">
 $(document).ready(function() {
     $('#test_table').DataTable();
     });
 </script>
+
 {% endblock extrascript %}
+
+

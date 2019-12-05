@@ -139,13 +139,18 @@ urlpatterns = [
     #url for maintenance details page
     path('maintenance/maintenance_details/',views.maintenance_details,name='maintenance_details'),
 
+    #url for maintenance details form Submit
+    path('maintenance/maintenance_details/maintenance_details_form_submit/', views.maintenance_details_form_submit, name='maintenance_details_form_submit'),
+
     #url for maintenance summary for one vehicle 
     path('maintenance/maintenance_details/one_vehicle/<int:pk>',views.maintenance_summary_one_vehicle,name='maintenance_summary_one_vehicle'),
     
     #url for maintenance update payment page
     path('maintenance/maintenance_update_payment',views.maintenance_update_payment,name='maintenance_update_payment'),
 
-    
+    #url for maintenance details for one company 
+    re_path(r'^maintenance/maintenance_update_payment/one_dealer/(?P<dealer_name>\w+)/$',views.maintenance_summary_one_company,name='maintenance_summary_one_company'),
+
     #url for Read Maintenance Data on Delete Page
     path('maintenance/read_maintenance_data_on_delete_page/<int:pk>', views.MaintenanceReadOnDeletePageView.as_view(), name='read_maintenance_data_on_delete_page'),
 

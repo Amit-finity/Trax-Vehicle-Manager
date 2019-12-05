@@ -37,7 +37,7 @@ def user_login(request):
         if user is not None:
             if user.is_active:
                 login(request, user)
-                return HttpResponseRedirect(reverse('trax_vehicle_manager_data:drivers_odometer_form'))
+                return HttpResponseRedirect(reverse('trax_vehicle_manager_data:vehicles'))
         else:
             return render(request, 'trax_vehicle_manager_data/registration/login.html',{'error_message': 'Username or Password Incorrect!'})
 
@@ -59,7 +59,7 @@ def user_sign_up(request):
             # Role 2 is for admin, 1 is for super admin.
             user = CustomUser.objects.create(username=username, password= make_password(password), user_role=2)
             login(request, user)
-            return HttpResponseRedirect(reverse('trax_vehicle_manager_data:drivers_odometer_form'))
+            return HttpResponseRedirect(reverse('trax_vehicle_manager_data:vehicles'))
     else:
         return render(request, 'trax_vehicle_manager_data/registration/register.html')
 
@@ -407,37 +407,34 @@ def vehicle_diesel_report(request):
 
 @login_required(login_url='/login')
 def vehicle_diesel_report_one_vehicle(request,pk):
-    
-    """ dieselobjectlist = []
-    if request.method == "POST":
+    if request.method=="POST":
         date1=request.POST['date1']
         date2=request.POST['date2']
-        one_vehicle_diesel = Diesel.objects.filter(expense_vehicle_id=pk).all()
-        diesel_objects = one_vehicle_diesel.filter(transaction_date__range=[date1,date2]).all()
-        vehicle_number = Vehicles.objects.get(pk=pk).vehicle_number
-        data = {'diesel_objects':diesel_objects,'vehicle_number':vehicle_number}
-    else:
-        diesel_objects = Diesel.objects.filter(expense_vehicle_id=pk).all()
+        diesel_objects = Diesel.objects.filter(expense_vehicle_id=pk).all() 
+        diesel_objects_filter_by_transaction_date = diesel_objects.filter(transaction_date__range=[date1,date2]).all()
         total_liters = 0
         total_amount = 0
         total_odometer = 0
+        for one_diesel_objects in diesel_objects_filter_by_transaction_date:
+            total_liters=total_liters+int(one_diesel_objects.volume)
+            total_amount=total_amount+int(one_diesel_objects.amount_Rs)
+            total_odometer=total_odometer+int(one_diesel_objects.odometer_reading)
+        vehicle_number = Vehicles.objects.get(pk=pk).vehicle_number
+        pk = Vehicles.objects.get(pk=pk)
+        filter_date = "True"
+        data = {'pk':pk,'date1':date1,'date2':date2,'filter_date':filter_date,'diesel_objects':diesel_objects_filter_by_transaction_date,'total_liters':total_liters,'total_amount':total_amount,'total_odometer':total_odometer,'vehicle_number':vehicle_number}
+    else:
+        total_liters = 0
+        total_amount = 0
+        total_odometer = 0
+        diesel_objects = Diesel.objects.filter(expense_vehicle_id=pk).all() 
         for one_diesel_objects in diesel_objects:
             total_liters=total_liters+int(one_diesel_objects.volume)
             total_amount=total_amount+int(one_diesel_objects.amount_Rs)
             total_odometer=total_odometer+int(one_diesel_objects.odometer_reading)
         vehicle_number = Vehicles.objects.get(pk=pk).vehicle_number
-        data = {'diesel_objects':diesel_objects,'total_liters':total_liters,'total_amount':total_amount,'total_odometer':total_odometer,'vehicle_number':vehicle_number} """
-
-    diesel_objects = Diesel.objects.filter(expense_vehicle_id=pk).all()
-    total_liters = 0
-    total_amount = 0
-    total_odometer = 0
-    for one_diesel_objects in diesel_objects:
-        total_liters=total_liters+int(one_diesel_objects.volume)
-        total_amount=total_amount+int(one_diesel_objects.amount_Rs)
-        total_odometer=total_odometer+int(one_diesel_objects.odometer_reading)
-    vehicle_number = Vehicles.objects.get(pk=pk).vehicle_number
-    data = {'diesel_objects':diesel_objects,'total_liters':total_liters,'total_amount':total_amount,'total_odometer':total_odometer,'vehicle_number':vehicle_number}
+        pk = Vehicles.objects.get(pk=pk)
+        data = {'pk':pk,'diesel_objects':diesel_objects,'total_liters':total_liters,'total_amount':total_amount,'total_odometer':total_odometer,'vehicle_number':vehicle_number}
     return render(request,'trax_vehicle_manager_data/view_vehicle_diesel_report.html',data)
 
 
@@ -449,8 +446,15 @@ def diesel_transaction_details(request):
 #Diesel transaction tally page view
 @login_required(login_url='/login')
 def transaction_tally(request):
-    diesel_objects = Diesel.objects.all()
-    data = {'diesel_objects':diesel_objects}
+    if request.method=="POST":
+        date1=request.POST['date1']
+        date2=request.POST['date2']
+        diesel_objects = Diesel.objects.filter(transaction_date__range=[date1,date2]).all()
+        filter_date = "True"
+        data = {'date1':date1,'date2':date2,'filter_date':filter_date,'diesel_objects':diesel_objects}
+    else:
+        diesel_objects = Diesel.objects.all()
+        data = {'diesel_objects':diesel_objects}
     return render(request,'trax_vehicle_manager_data/diesel_transaction_tally.html',data)
 
 #Diesel delete data page view
@@ -538,16 +542,94 @@ def maintenance_details(request):
         data = {'total_amount':total_amount,'maintenance_objects':maintenance_objects,'vehicle_km_sum':vehicle_km_sum,'vehicle_amount_sum':vehicle_amount_sum,'vehicleobjectlist':vehicle_objects_all}
     return render(request,'trax_vehicle_manager_data/maintenance_detail.html',data)
 
+def maintenance_details_form_submit(request):
+    if request.method == "POST":
+        #vehicle_number = request.POST['']
+        vehicle_detail = request.POST['vehicle_detail']
+        bill_date = request.POST['bill_date']
+        vehicle_type = request.POST['vehicle_type']
+        chalak_malal = request.POST['chalak_malal']
+        company_name = request.POST['company_name']
+        odometer_reading = request.POST['odometer_reading']
+        bill_number = request.POST['bill_number']
+        dealer_part_number = request.POST['dealer_part_number']
+        maintenance_dealer_name = request.POST['maintenance_dealer_name']
+        particular = request.POST['particular']
+        particular_details = request.POST['particular_details']
+        quantity = request.POST['quantity']
+        rate = request.POST['rate']
+        amount = request.POST['amount']
+        discount = request.POST['discount']
+        tax = request.POST['tax']
+        tds = request.POST['tds']
+        labour_charge = request.POST['labour_charge']
+        total_amount = request.POST['total_amount']
+        vehicle_object = Vehicles.objects.get(pk=5)
+        Maintenance.objects.create(expense_name="dfds",
+                                   expense_id =3,
+                                   expense_vehicle_id = vehicle_object,
+                                   vehicle_number = 2,
+                                   vehicle_detail = vehicle_detail,
+                                   bill_date = bill_date,
+                                   vehicle_type = vehicle_type,
+                                   chalak_malal = chalak_malal,
+                                   company_name = company_name,
+                                   odometer_reading = odometer_reading,
+                                   bill_number = bill_number,
+                                   dealer_part_number = dealer_part_number,
+                                   maintenance_dealer_name = maintenance_dealer_name,
+                                   particular = particular,
+                                   particular_details = particular_details,
+                                   quantity = quantity,
+                                   rate = rate,
+                                   amount = amount,
+                                   discount = discount,
+                                   tax = tax,
+                                   tds = tds,
+                                   labour_charge = labour_charge,
+                                   total_amount = total_amount )
+        
+        return HttpResponseRedirect(reverse('trax_vehicle_manager_data:maintenance_details'))
+
+
 #Maintenance Summary for one vehicle
 @login_required(login_url='/login')
 def maintenance_summary_one_vehicle(request,pk):
-    #vehicle_objects_all = Vehicles.objects.all()
-    vehicle_number = Vehicles.objects.get(pk=pk).vehicle_number
-    all_maintenance_objects = Maintenance.objects.filter(expense_vehicle_id=pk).all()
-    km_sum = Maintenance.objects.filter(expense_vehicle_id=pk).aggregate(Sum('odometer_reading'))
-    amount_sum = Maintenance.objects.filter(expense_vehicle_id=pk).aggregate(Sum('amount'))
-    data={'all_maintenance_objects':all_maintenance_objects,'vehicle_number':vehicle_number,'km_sum':km_sum,'amount_sum':amount_sum}
+    if request.method == "POST":
+        date1=request.POST['date1']
+        date2=request.POST['date2']
+        all_maintenance_objects = Maintenance.objects.filter(expense_vehicle_id=pk).all()
+        maintenance_object_filter_by_bill_date = all_maintenance_objects.filter(bill_date__range=[date1,date2]).all()
+        km_sum = maintenance_object_filter_by_bill_date.aggregate(Sum('odometer_reading'))
+        amount_sum = maintenance_object_filter_by_bill_date.aggregate(Sum('amount'))
+        vehicle_number = Vehicles.objects.get(pk=pk).vehicle_number
+        pk = Vehicles.objects.get(pk=pk)
+        filter_date = "True"
+        data={'pk':pk,'date1':date1,'date2':date2,'filter_date':filter_date,'all_maintenance_objects':maintenance_object_filter_by_bill_date,'vehicle_number':vehicle_number,'km_sum':km_sum,'amount_sum':amount_sum}
+    else:
+        vehicle_number = Vehicles.objects.get(pk=pk).vehicle_number
+        all_maintenance_objects = Maintenance.objects.filter(expense_vehicle_id=pk).all()
+        km_sum = Maintenance.objects.filter(expense_vehicle_id=pk).aggregate(Sum('odometer_reading'))
+        amount_sum = Maintenance.objects.filter(expense_vehicle_id=pk).aggregate(Sum('amount'))
+        pk = Vehicles.objects.get(pk=pk)
+        data={'pk':pk,'all_maintenance_objects':all_maintenance_objects,'vehicle_number':vehicle_number,'km_sum':km_sum,'amount_sum':amount_sum}
     return render(request,'trax_vehicle_manager_data/view_maintenance_summary_one_vehicle.html',data)
+
+def maintenance_summary_one_company(request,dealer_name):
+    if request.method=="POST":
+        date1=request.POST['date1']
+        date2=request.POST['date2']
+        all_maintenance_objects = Maintenance.objects.filter(maintenance_dealer_name=dealer_name).all()
+        maintenance_object_filter_by_bill_date = all_maintenance_objects.filter(bill_date__range=[date1,date2]).all()
+        maintenance_dealer_name = Maintenance.objects.get(maintenance_dealer_name=dealer_name).maintenance_dealer_name
+        filter_date = "True"
+        data = {'date1':date1,'date2':date2,'filter_date':filter_date,'maintenance_dealer_name':maintenance_dealer_name,'all_maintenance_objects':maintenance_object_filter_by_bill_date}
+    else:
+        all_maintenance_objects = Maintenance.objects.filter(maintenance_dealer_name=dealer_name).all()
+        maintenance_dealer_name = Maintenance.objects.get(maintenance_dealer_name=dealer_name).maintenance_dealer_name
+        data = {'maintenance_dealer_name':maintenance_dealer_name,'all_maintenance_objects':all_maintenance_objects}
+    return render(request,'trax_vehicle_manager_data/view_maintenance_summary_one_company.html',data)
+
 
 #Maintenance update payment page view
 @login_required(login_url='/login')

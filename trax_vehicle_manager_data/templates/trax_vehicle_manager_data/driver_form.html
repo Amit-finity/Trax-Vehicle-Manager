@@ -44,7 +44,7 @@
                            <select class="form-control" id="driverdata_driver_id" name="driverdata_driver_id">
                             <option disabled selected style="display: none">कृपया सूची से अपना ड्राइवर आईडी नंबर चुनें</option>
                               {% for driver in drivers %}
-                            <option value="{{ driver.pk }}">{{ driver.driver_reference_no }}</option>
+                            <option value="{{ driver.pk }}">{{ driver.driver_reference_no }}--{{driver.driver_driver_name}}</option>
                             {% endfor %}
                         </select>
                         </div>
@@ -82,7 +82,7 @@
                        <select class="form-control" id="driverdata_cleaner_id" name="driverdata_cleaner_id">
                         <option disabled selected style="display: none">कृपया सूची से क्लीनर का आईडी नंबर चुनें</option>
                            {% for cleaner in cleaners %}
-                        <option value={{ cleaner.pk }}>{{ cleaner.cleaner_Id }}</option>
+                        <option value={{ cleaner.pk }}>{{ cleaner.cleaner_Id }}--{{cleaner.cleaner_Name}}</option>
                         {% endfor %}    
                     </select>
                     </div>

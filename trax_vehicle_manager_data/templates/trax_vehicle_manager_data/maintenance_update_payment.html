@@ -83,7 +83,7 @@
         <tbody>
         {% for maintenance_data in maintenance_data_objects %}
             <tr>
-                <td>{{maintenance_data.maintenance_dealer_name}}</td>
+                <td><a href="{% url 'trax_vehicle_manager_data:maintenance_summary_one_company' dealer_name=maintenance_data.maintenance_dealer_name %}">{{maintenance_data.maintenance_dealer_name}}</td>
                 <td>{{maintenance_data.bill_number}}</td>
                 <td>{{maintenance_data.bill_date}}</td>
                 <td>{{maintenance_data.total_amount}}</td>

@@ -8,26 +8,41 @@
 {% endblock stylesheets %}
 
 {% block content %}
-<span><span id="date"><b>From:</b><input type="date"> - <b>To:</b><input type="date"></span><span id="btn"><button class="btn btn-primary">Upload File</button>
+<span><span id="btn"><button class="btn btn-primary">Upload File</button>
         <button class="btn btn-success">Export Excel</button><button class="btn btn-danger">Export PDF</button></span> </span>
 
 <hr>
 <h3>Diesel Transaction Tally</h3>
 <hr>
+
+<form action={% url 'trax_vehicle_manager_data:transaction_tally' %} method="post">
+                     {% csrf_token %}
+                       
+                        <div>
+                        <div class="form-row">
+                        <div class="form-group col-md-3">
+                            <label for="start_date_lbl">From:</label><br>
+                            <input type="date" class="datepicker" id="date1" name="date1">
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label for="end_date_lbl">To:</label><br>
+                            <input type="date" class="datepicker" id="date2" name="date2">
+                        </div>
+                        <div class="form-group col-md-3">
+                        <br>
+                        <button type="submit" class="submit-btn btn btn-primary">Search</button>
+                        </div>
+                        </div>
+                        <br>
+                    </form> 
+
+
 <div>
-
-    <form>
-        <h6> Company Name:
-            <select>
-                <option>Default</option>
-                <option>Aaron Tours</option>
-                <option>Aaron Travels</option>
-                <option>Aaron Comet</option>
-            </select>
-        </h6>
-    </form>
-
-</div>
+{% if filter_date == "True" %}
+<h4>{{date1|title}}To{{date2|title}}</h4>
+{% else %}
+<h4>Please select Dates to filter Data</h4>
+{% endif %}
 <hr>
 <div>
     <table id="test_table" class="display" style="width:100%">
