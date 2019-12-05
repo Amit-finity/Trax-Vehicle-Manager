@@ -103,8 +103,8 @@ class Vehicles(models.Model):
                 verbose_name = "Vehicle"
 
 class Expenses(models.Model):
-    expense_name = models.CharField(max_length=50)
-    expense_id = models.PositiveSmallIntegerField()
+    expense_name = models.CharField(max_length=900,blank=True)
+    expense_id = models.CharField(max_length=900,blank=True)
     expense_vehicle_id = models.ForeignKey(Vehicles, on_delete = models.CASCADE)
     
     def __str__(self):
@@ -131,33 +131,35 @@ class Diesel(Expenses):
                 return str(self.pk)
 
 #Child class of Expenses
-class Maintenance(Expenses):
+class Maintenance(models.Model):
     YES = 'yes'
     NO = 'no'
     chalak_malak_choices = ((YES,'yes'),(NO,'no'))
-    vehicle_number = models.PositiveIntegerField()
-    vehicle_detail = models.CharField(max_length=50)
-    bill_date = models.DateTimeField(default=timezone.now)
-    vehicle_type = models.CharField(max_length=50)
-    chalak_malal = models.CharField(choices=chalak_malak_choices,max_length=100)
-    company_name = models.CharField(max_length=50)
-    odometer_reading = models.PositiveIntegerField()
-    bill_number = models.PositiveIntegerField()
-    dealer_part_number = models.PositiveIntegerField()
-    maintenance_dealer_name = models.CharField(max_length=900)
-    particular = models.CharField(max_length=50)
-    particular_details = models.CharField(max_length=50)
-    quantity = models.PositiveIntegerField()
-    rate = models.PositiveIntegerField()
-    amount = models.PositiveIntegerField()
-    discount = models.PositiveIntegerField()
-    tax = models.PositiveIntegerField()
-    tds = models.PositiveIntegerField()
-    labour_charge = models.PositiveIntegerField()	
-    total_amount = models.PositiveIntegerField()
+    vehicle_number = models.CharField(max_length=900,blank=True)
+    vehicle_detail = models.CharField(max_length=900,blank=True)
+    bill_date = models.DateTimeField(default=timezone.now,blank=True)
+    vehicle_type = models.CharField(max_length=900,blank=True)
+    chalak_malal = models.CharField(choices=chalak_malak_choices,max_length=900,blank=True)
+    company_name = models.CharField(max_length=900,blank=True)
+    odometer_reading = models.FloatField(blank=True)
+    bill_number = models.CharField(max_length=900,blank=True)
+    dealer_part_number = models.CharField(max_length=900,blank=True)
+    maintenance_dealer_name = models.CharField(max_length=900,blank=True)
+    particular = models.CharField(max_length=900,blank=True)
+    particular_details = models.CharField(max_length=900,blank=True)
+    quantity = models.FloatField(blank=True)
+    rate = models.FloatField(blank=True)
+    amount = models.FloatField(blank=True)
+    discount = models.FloatField(blank=True)
+    tax = models.FloatField(blank=True)
+    tds = models.FloatField(blank=True)
+    labour_charge = models.FloatField(blank=True)
+    total_amount = models.FloatField(blank=True)
+    maintenance_vehicle_id = models.ForeignKey(Vehicles, on_delete = models.CASCADE)
+
 
     def __str__(self):
-                return str(self.pk)
+        return str(self.pk)
 
 #Child class of Maintenance
 class GarageBilling(Maintenance):

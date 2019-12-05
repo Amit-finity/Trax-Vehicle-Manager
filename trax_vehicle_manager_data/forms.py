@@ -5,9 +5,7 @@ from bootstrap_modal_forms.forms import BSModalForm
 class MaintenanceForm(BSModalForm):
     class Meta:
         model = Maintenance
-        fields = ('expense_name',
-        'expense_id',
-        'vehicle_number',
+        fields = ('vehicle_number',
         'vehicle_detail',
         'vehicle_type',
         'chalak_malal',

@@ -1,6 +1,6 @@
 from import_export.admin import ImportExportModelAdmin
 from django.contrib import admin
-from trax_vehicle_manager_data.models import Drivers,Cleaners,Vehicles,Expenses,Diesel,Maintenance,GarageBilling,CustomUser,Insurance,Client,PoliceSettlements,RecurringExpenses,OilChange,PUC,Drivers_Odometer_Data
+from trax_vehicle_manager_data.models import Drivers,Cleaners,Vehicles,Expenses,Diesel,CustomUser,Client,RecurringExpenses,OilChange,PUC,Drivers_Odometer_Data,Maintenance,GarageBilling,Insurance,PoliceSettlements
 
 # Register your models here.
 class DriversAdmin(ImportExportModelAdmin):

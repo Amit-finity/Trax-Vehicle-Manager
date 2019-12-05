@@ -87,54 +87,62 @@
                     <form action={% url 'trax_vehicle_manager_data:maintenance_details_form_submit' %} method="post" autocomplete="off">
                          {% csrf_token %}
                          <div class="form-group row">
-                            <label for="dealer" class="col-sm-4 col-form-label form-control-sm">Dealer</label>
+                            <label for="vehiclenumber" class="col-sm-4 form-control-sm col-form-label">Maintenance Vehicle Id</label>
                             <div class="col-sm-8">
-                                <input list="vehicle-type" id="maintenance_dealer_name" name="maintenance_dealer_name" class="form-control form-control-sm" />
-                                <datalist id="vehicle-type">
-                                    <option value="Bus"></option>
-                                    <option value="Innova"></option>
-                                    <option value="Enjoy"></option>
-                                    <option value="Audi"></option>
-                                    <option value="BMW"></option>
+                                <input list="Maintenanace-vehicle-id" id="maintenance_vehicle_id" name="maintenance_vehicle_id" class="form-control form-control-sm" />
+                                <datalist id="Maintenanace-vehicle-id">
+                                {% for vehicle in vehicles %}
+                                <option value={{ vehicle.pk }}>{{ vehicle.pk }}</option>
+                                {% endfor %}
                                 </datalist>
                             </div>
                         </div>
-                        <div class="form-group row">
+                         <div class="form-group row">
+                            <label for="vehiclenumber" class="col-sm-4 form-control-sm col-form-label">Vehicle Number</label>
+                            <div class="col-sm-8">
+                                <input list="vehicle-number" id="vehicle_number" name="vehicle_number" class="form-control form-control-sm" />
+                                <datalist id="vehicle-number">
+                                {% for vehicle in vehicles %}
+                                <option value={{ vehicle.vehicle_id }}>{{ vehicle.vehicle_id }}</option>
+                                {% endfor %}
+                                </datalist>
+                            </div>
+                        </div>
+                         <div class="form-group row">
                             <label for="vehicledetail" class="col-sm-4 form-control-sm col-form-label">Vehicle Detail</label>
                             <div class="col-sm-8">
                                 <input list="vehicle-detail" id="vehicle_detail" name="vehicle_detail" class="form-control form-control-sm" />
                                 <datalist id="vehicle-detail">
-                                    <option value="MH07AK8888"></option>
-                                    <option value="MH07AK8883"></option>
-                                    <option value="MH07AK8886"></option>
-                                    <option value="MH07AK8889"></option>
-                                    <option value="MH07AK8880"></option>
+                                {% for vehicle in vehicles %}
+                                <option value={{ vehicle.vehicle_number }}>{{ vehicle.vehicle_number }}</option>
+                                {% endfor %}
                                 </datalist>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="vehicletype" class="col-sm-4 form-control-sm col-form-label">Vehicle Type</label>
-                            <div class="col-sm-8">
-                                <input list="vehicle-type" id="vehicle_type" name="vehicle_type" class="form-control form-control-sm" />
-                                <datalist id="vehicle-type">
-                                    <option value="Bus"></option>
-                                    <option value="Innova"></option>
-                                    <option value="Enjoy"></option>
-                                    <option value="Audi"></option>
-                                    <option value="BMW"></option>
-                                </datalist>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="billnumber" class="col-sm-4 col-form-label form-control-sm">Bill Number</label>
-                            <div class="col-sm-8">
-                                <input type="text" id="bill_number" name="bill_number" class="form-control form-control-sm" />
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="billdate" class="col-sm-4 col-form-label form-control-sm">Bill Date</label>
                             <div class="col-sm-8">
                                 <input type="date" id="bill_date" name="bill_date" class="form-control form-control-sm" />
+                            </div>
+                        </div>
+                         <div class="form-group row">
+                            <label for="vehicletype" class="col-sm-4 form-control-sm col-form-label">Vehicle Type</label>
+                            <div class="col-sm-8">
+                                <input list="vehicle-type-1" id="vehicle_type" name="vehicle_type" class="form-control form-control-sm" />
+                                <datalist id="vehicle-type-1">
+                                {% for vehicle in vehicles %}
+                                <option value={{ vehicle.vehicle_type }}>{{ vehicle.vehicle_type }}</option>
+                                {% endfor %}
+                                </datalist>
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <label for="Chalak Malak">Chalak Malak</label>
+                            <div class="form-group">
+                                <select class="form-control" id="chalak_malal" name="chalak_malal">
+                                    <option value="yes">YES</option>
+                                    <option value="no">NO</option>
+                                </select>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -152,11 +160,29 @@
                                 <input type="number" id="odometer_reading" name="odometer_reading" class="form-control form-control-sm" />
                             </div>
                         </div>
-                       
+                        <div class="form-group row">
+                            <label for="billnumber" class="col-sm-4 col-form-label form-control-sm">Bill Number</label>
+                            <div class="col-sm-8">
+                                <input type="text" id="bill_number" name="bill_number" class="form-control form-control-sm" />
+                            </div>
+                        </div>
                         <div class="form-group row">
                             <label for="partnumber" class="col-sm-4 col-form-label form-control-sm">Part Number</label>
                             <div class="col-sm-8">
                                 <input type="text" id="dealer_part_number" name="dealer_part_number" class="form-control form-control-sm" />
+                            </div>
+                        </div>
+                         <div class="form-group row">
+                            <label for="dealer" class="col-sm-4 col-form-label form-control-sm">Dealer</label>
+                            <div class="col-sm-8">
+                                <input list="vehicle-type" id="maintenance_dealer_name" name="maintenance_dealer_name" class="form-control form-control-sm" />
+                                <datalist id="vehicle-type">
+                                    <option value="Bus"></option>
+                                    <option value="Innova"></option>
+                                    <option value="Enjoy"></option>
+                                    <option value="Audi"></option>
+                                    <option value="BMW"></option>
+                                </datalist>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -164,8 +190,8 @@
                             <div class="col-sm-8">
                                 <input list="Particular" id="particular" name="particular" class="form-control form-control-sm" />
                                 <datalist id="Particular">
-                                    <option value="Bus">Bus</option>
-                                    <option value="Innova">Innova</option>
+                                    <option value="Bus"></option>
+                                    <option value="Innova"></option>
                                     <option value="Enjoy"></option>
                                     <option value="Audi"></option>
                                     <option value="BMW"></option>
@@ -194,12 +220,6 @@
                             <label for="totakamount" class="col-sm-4 col-form-label form-control-sm">Total Amount</label>
                             <div class="col-sm-8">
                                 <input type="text" id="amount" name="amount" class="form-control form-control-sm" onclick="TotalAmount()" />
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="labourcharge" class="col-sm-4 col-form-label form-control-sm">Labour Charge</label>
-                            <div class="col-sm-8">
-                                <input type="text" id="labour_charge" name="labour_charge" class="form-control form-control-sm"  />
                             </div>
                         </div>
                         <div class="form-group row">
@@ -247,25 +267,18 @@
                                 </datalist>
                             </div>
                         </div>
-                        
+                        <div class="form-group row">
+                            <label for="labourcharge" class="col-sm-4 col-form-label form-control-sm">Labour Charge</label>
+                            <div class="col-sm-8">
+                                <input type="text" id="labour_charge" name="labour_charge" class="form-control form-control-sm"  />
+                            </div>
+                        </div>
                         <div class="form-group row">
                             <label for="finalamount" class="col-sm-4 col-form-label form-control-sm">Final Amount</label>
                             <div class="col-sm-8">
                                 <input type="text" id="total_amount" name="total_amount" class="form-control form-control-sm"  onclick="FinalAmount()" readonly/>
                             </div>
                         </div>
-                        <div class="form-group ">
-                            <label for="Chalak Malak">Chalak Malak</label>
-                            <div class="form-group">
-                                <select class="form-control" id="chalak_malal" name="chalak_malal">
-                                    <option value="YES">YES</option>
-                                    <option value="NO">NO</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        
-                        
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </form>
                 </div>

@@ -504,6 +504,7 @@ def maintenance_details(request):
         vehicle_km_sum = {}
         vehicle_amount_sum = {}
         vehicle_objects_all = Vehicles.objects.all()
+        vehicle_object_used_for_maintenance_form=Vehicles.objects.all()
         maintenance_objects_within_bill_date = Maintenance.objects.filter(bill_date__range=[date1,date2]).all()
         total_amount = 0
         for maintenance_data in maintenance_objects_within_bill_date:
@@ -514,18 +515,19 @@ def maintenance_details(request):
             vehicle_dict[one_vehicle_object] = km_sum,amount_sum """
             vehicle_odometer_value_list = []
             vehicle_amount_value_list = []
-            vehicle_odometer_value_list = Maintenance.objects.filter(expense_vehicle_id=vehicle).values_list('odometer_reading',flat=True)
+            vehicle_odometer_value_list = Maintenance.objects.filter(maintenance_vehicle_id=vehicle).values_list('odometer_reading',flat=True)
             vehicle_odometer_value_list_within_bill_date = vehicle_odometer_value_list.filter(bill_date__range=[date1,date2]).all()
-            vehicle_amount_value_list = Maintenance.objects.filter(expense_vehicle_id=vehicle).values_list('amount',flat=True)
+            vehicle_amount_value_list = Maintenance.objects.filter(maintenance_vehicle_id=vehicle).values_list('amount',flat=True)
             vehicle_amount_value_list_within_bill_date = vehicle_amount_value_list.filter(bill_date__range=[date1,date2]).all()
             vehicle_km_sum[vehicle.pk]=functions.diesel_volume_sum(vehicle_odometer_value_list_within_bill_date)
             vehicle_amount_sum[vehicle.pk]=functions.diesel_volume_sum(vehicle_amount_value_list_within_bill_date)
-        data = {'total_amount':total_amount,'maintenance_objects':maintenance_objects_within_bill_date,'vehicle_km_sum':vehicle_km_sum,'vehicle_amount_sum':vehicle_amount_sum,'vehicleobjectlist':vehicleobjectlist,'date1':date1,'date2':date2,'filter_date':filter_date}
+        data = {'vehicles':vehicle_object_used_for_maintenance_form,'total_amount':total_amount,'maintenance_objects':maintenance_objects_within_bill_date,'vehicle_km_sum':vehicle_km_sum,'vehicle_amount_sum':vehicle_amount_sum,'vehicleobjectlist':vehicleobjectlist,'date1':date1,'date2':date2,'filter_date':filter_date}
     else:
         vehicle_km_sum = {}
         vehicle_amount_sum = {}
         vehicle_objects_all = Vehicles.objects.all()
         maintenance_objects = Maintenance.objects.all()
+        vehicle_object_used_for_maintenance_form=Vehicles.objects.all()
         total_amount = 0
         for maintenance_data in maintenance_objects:
             total_amount = total_amount + int(maintenance_data.amount)     
@@ -535,62 +537,64 @@ def maintenance_details(request):
             vehicle_dict[one_vehicle_object] = km_sum,amount_sum """
             vehicle_odometer_value_list = []
             vehicle_amount_value_list = []
-            vehicle_odometer_value_list = Maintenance.objects.filter(expense_vehicle_id=vehicle).values_list('odometer_reading',flat=True)
-            vehicle_amount_value_list = Maintenance.objects.filter(expense_vehicle_id=vehicle).values_list('amount',flat=True)
+            vehicle_odometer_value_list = Maintenance.objects.filter(maintenance_vehicle_id=vehicle).values_list('odometer_reading',flat=True)
+            vehicle_amount_value_list = Maintenance.objects.filter(maintenance_vehicle_id=vehicle).values_list('amount',flat=True)
             vehicle_km_sum[vehicle.pk]=functions.diesel_volume_sum(vehicle_odometer_value_list)
             vehicle_amount_sum[vehicle.pk]=functions.diesel_volume_sum(vehicle_amount_value_list)
-        data = {'total_amount':total_amount,'maintenance_objects':maintenance_objects,'vehicle_km_sum':vehicle_km_sum,'vehicle_amount_sum':vehicle_amount_sum,'vehicleobjectlist':vehicle_objects_all}
+        data = {'vehicles':vehicle_object_used_for_maintenance_form,'total_amount':total_amount,'maintenance_objects':maintenance_objects,'vehicle_km_sum':vehicle_km_sum,'vehicle_amount_sum':vehicle_amount_sum,'vehicleobjectlist':vehicle_objects_all}
     return render(request,'trax_vehicle_manager_data/maintenance_detail.html',data)
 
 def maintenance_details_form_submit(request):
     if request.method == "POST":
-        #vehicle_number = request.POST['']
-        vehicle_detail = request.POST['vehicle_detail']
-        bill_date = request.POST['bill_date']
-        vehicle_type = request.POST['vehicle_type']
-        chalak_malal = request.POST['chalak_malal']
-        company_name = request.POST['company_name']
-        odometer_reading = request.POST['odometer_reading']
-        bill_number = request.POST['bill_number']
-        dealer_part_number = request.POST['dealer_part_number']
-        maintenance_dealer_name = request.POST['maintenance_dealer_name']
-        particular = request.POST['particular']
-        particular_details = request.POST['particular_details']
-        quantity = request.POST['quantity']
-        rate = request.POST['rate']
-        amount = request.POST['amount']
-        discount = request.POST['discount']
-        tax = request.POST['tax']
-        tds = request.POST['tds']
-        labour_charge = request.POST['labour_charge']
-        total_amount = request.POST['total_amount']
-        vehicle_object = Vehicles.objects.get(pk=5)
-        Maintenance.objects.create(expense_name="dfds",
-                                   expense_id =3,
-                                   expense_vehicle_id = vehicle_object,
-                                   vehicle_number = 2,
-                                   vehicle_detail = vehicle_detail,
-                                   bill_date = bill_date,
-                                   vehicle_type = vehicle_type,
-                                   chalak_malal = chalak_malal,
-                                   company_name = company_name,
-                                   odometer_reading = odometer_reading,
-                                   bill_number = bill_number,
-                                   dealer_part_number = dealer_part_number,
-                                   maintenance_dealer_name = maintenance_dealer_name,
-                                   particular = particular,
-                                   particular_details = particular_details,
-                                   quantity = quantity,
-                                   rate = rate,
-                                   amount = amount,
-                                   discount = discount,
-                                   tax = tax,
-                                   tds = tds,
-                                   labour_charge = labour_charge,
-                                   total_amount = total_amount )
+        vehicle_number=request.POST['vehicle_number']
+        vehicle_detail=request.POST['vehicle_detail']
+        bill_date=request.POST['bill_date']
+        vehicle_type=request.POST['vehicle_type']
+        chalak_malal=request.POST['chalak_malal']
+        company_name=request.POST['company_name']
+        odometer_reading=request.POST['odometer_reading']
+        bill_number=request.POST['bill_number']
+        dealer_part_number=request.POST['dealer_part_number']
+        maintenance_dealer_name=request.POST['maintenance_dealer_name']
+        particular=request.POST['particular']
+        particular_details=request.POST['particular_details']
+        quantity=request.POST['quantity']
+        rate=request.POST['rate']
+        amount=request.POST['amount']
+        discount=request.POST['discountInput']
+        tax=request.POST['taxInput']
+        tax_float=float(tax)
+        tds=request.POST['tdsInput']
+        tds_float=float(tds)
+        labour_charge=request.POST['labour_charge']
+        labour_charge_float=float(labour_charge)
+        total_amount=request.POST['total_amount']
+        total_amount_float=float(total_amount)
+        maintenance_vehicle_id=request.POST['maintenance_vehicle_id']
+        Maintenance.objects.create(maintenance_vehicle_id=Vehicles.objects.get(pk=maintenance_vehicle_id),
+                                    vehicle_number=vehicle_number,
+                                    vehicle_detail=vehicle_detail,
+                                    bill_date=bill_date,
+                                    vehicle_type=vehicle_type,
+                                    chalak_malal=chalak_malal,
+                                    company_name=company_name,
+                                    odometer_reading=odometer_reading,
+                                    bill_number=bill_number,
+                                    dealer_part_number=dealer_part_number,
+                                    maintenance_dealer_name=maintenance_dealer_name,
+                                    particular=particular,
+                                    particular_details=particular_details,
+                                    quantity=quantity,
+                                    rate=rate,
+                                    amount=amount,
+                                    discount=discount,
+                                    tax=tax_float,
+                                    tds=tds_float,
+                                    labour_charge=labour_charge_float,
+                                    total_amount=total_amount_float,
+                                    )
         
         return HttpResponseRedirect(reverse('trax_vehicle_manager_data:maintenance_details'))
-
 
 #Maintenance Summary for one vehicle
 @login_required(login_url='/login')
@@ -598,7 +602,7 @@ def maintenance_summary_one_vehicle(request,pk):
     if request.method == "POST":
         date1=request.POST['date1']
         date2=request.POST['date2']
-        all_maintenance_objects = Maintenance.objects.filter(expense_vehicle_id=pk).all()
+        all_maintenance_objects = Maintenance.objects.filter(maintenance_vehicle_id=pk).all()
         maintenance_object_filter_by_bill_date = all_maintenance_objects.filter(bill_date__range=[date1,date2]).all()
         km_sum = maintenance_object_filter_by_bill_date.aggregate(Sum('odometer_reading'))
         amount_sum = maintenance_object_filter_by_bill_date.aggregate(Sum('amount'))
@@ -608,9 +612,9 @@ def maintenance_summary_one_vehicle(request,pk):
         data={'pk':pk,'date1':date1,'date2':date2,'filter_date':filter_date,'all_maintenance_objects':maintenance_object_filter_by_bill_date,'vehicle_number':vehicle_number,'km_sum':km_sum,'amount_sum':amount_sum}
     else:
         vehicle_number = Vehicles.objects.get(pk=pk).vehicle_number
-        all_maintenance_objects = Maintenance.objects.filter(expense_vehicle_id=pk).all()
-        km_sum = Maintenance.objects.filter(expense_vehicle_id=pk).aggregate(Sum('odometer_reading'))
-        amount_sum = Maintenance.objects.filter(expense_vehicle_id=pk).aggregate(Sum('amount'))
+        all_maintenance_objects = Maintenance.objects.filter(maintenance_vehicle_id=pk).all()
+        km_sum = Maintenance.objects.filter(maintenance_vehicle_id=pk).aggregate(Sum('odometer_reading'))
+        amount_sum = Maintenance.objects.filter(maintenance_vehicle_id=pk).aggregate(Sum('amount'))
         pk = Vehicles.objects.get(pk=pk)
         data={'pk':pk,'all_maintenance_objects':all_maintenance_objects,'vehicle_number':vehicle_number,'km_sum':km_sum,'amount_sum':amount_sum}
     return render(request,'trax_vehicle_manager_data/view_maintenance_summary_one_vehicle.html',data)
