@@ -302,85 +302,15 @@ def full_diesel_details_filtered_by_date(request):
 #Vehicle Diesel Report view
 @login_required(login_url='/login')
 def vehicle_diesel_report(request):
-    """     diesel_dict = {}
-    diesel_litres_dict = {}
-    total_liters = 0
-    diesel_data_amount_dict = {}
-    total_amount = 0
-    diesel_data_km_runs_dict = {}
-    total_km = 0
-    diesel_data_average_dict = {}
-    diesel_data_performance_dict = {}
-    dieselobjectlist = []
     if request.method == "POST":
         date1=request.POST['date1']
         date2=request.POST['date2']
         vehicle_objects_all = Vehicles.objects.all()
-        for one_vehicle_object in vehicle_objects_all:
-            dieselobjectlist = Diesel.objects.filter(transaction_date__range=[date1,date2]).all()
-            vehicle_object_list = []
-            for one_diesel_object in dieselobjectlist:
-                vehicle_object_list.append(one_diesel_object.expense_vehicle_id)
-            diesel_dict[one_vehicle_object]=vehicle_object_list
-    else:
-        vehicle_objects_all = Vehicles.objects.all()
-        for one_vehicle_object in vehicle_objects_all:
-            dieselobjectlist = Diesel.objects.filter(expense_vehicle_id=one_vehicle_object.pk).all()
-            for one_diesel_object in dieselobjectlist:
-                total_liters=total_liters+int(one_diesel_object.volume)
-                total_amount=total_amount+int(one_diesel_object.amount_Rs)
-            driver_odometer_object =  Drivers_Odometer_Data.objects.filter(drivers_odometer_data_vehicle_number=one_vehicle_object.pk).all()
-            for one_driver_odometer_object in driver_odometer_object:
-                total_km=total_km+int(one_driver_odometer_object.drivers_odometer_data_odometer_kilometer)
-            total_average = total_amount/total_km
-            #performance = int(total_average)-one_vehicle_object.minimum_average
-            #if performance>0:
-                #performance_name = "Good"
-            #else:
-                #performance_name = "Bad"
-            #diesel_data_performance_dict[one_vehicle_object.pk]=performance_name
-            diesel_data_average_dict[one_vehicle_object.pk]=total_average
-            diesel_data_km_runs_dict[one_vehicle_object.pk]=total_km
-            diesel_litres_dict[one_vehicle_object.pk]=total_liters
-            diesel_data_amount_dict[one_vehicle_object.pk]=total_amount
-            diesel_dict[one_vehicle_object]=dieselobjectlist
-    data={'diesel_dict':diesel_dict,'diesel_litres_dict':diesel_litres_dict,'diesel_data_amount_dict':diesel_data_amount_dict,'diesel_data_km_runs_dict':diesel_data_km_runs_dict,'diesel_data_average_dict':diesel_data_average_dict,'diesel_data_performance_dict':diesel_data_performance_dict} """
-    
-
-    """ dieselobjectlist = []
-    diesel_km_runs_dict={}
-    if request.method == "POST":
-        date1=request.POST['date1']
-        date2=request.POST['date2']
-        dieselobjectlist = Diesel.objects.filter(transaction_date__range=[date1,date2])
-        latest_diesel_object=dieselobjectlist.latest('transaction_date')
-        earliest_diesel_object=dieselobjectlist.earliest('transaction_date')
-        km_runs=int(latest_diesel_object.odometer_reading)-int(earliest_diesel_object.odometer_reading)
-        diesel_objects_all = Diesel.objects.all()
-        vehicle_objects_all = Vehicles.objects.all()
+        vehicle_diesel_litre = {}
         vehicle_amount_dict = {}
+        vehicle_km_runs_dict = {}
         vehicle_average_dict = {}
-        for vehicle in vehicle_objects_all:
-            vehicle_diesel_amount_value_list = []
-            vehicle_diesel_amount_value_list=Diesel.objects.filter(expense_vehicle_id=vehicle).values_list('amount_Rs',flat=True)
-            vehicle_amount_dict[vehicle.pk]=functions.diesel_volume_sum(vehicle_diesel_amount_value_list)
-            amount = functions.diesel_volume_sum(vehicle_diesel_amount_value_list)
-            average = amount/km_runs
-            vehicle_average_dict[vehicle.pk]=average
-        for diesel in diesel_objects_all:
-            diesel_km_runs_dict[diesel]=km_runs
-        data =  {'vehicle_objects_all':vehicle_objects_all,'vehicle_average_dict':vehicle_average_dict,'vehicle_amount_dict':vehicle_amount_dict,'dieselobjectlist':dieselobjectlist,'date1':date1,'date2':date2,'km_runs':km_runs,'diesel_km_runs_dict':diesel_km_runs_dict,'average':average}
-    else:
-        dieselobjectlist = Diesel.objects.all()
-        data =  {'dieselobjectlist':dieselobjectlist} """
-
-    vehicle_objects_all = Vehicles.objects.all()
-    vehicle_diesel_litre = {}
-    vehicle_amount_dict = {}
-    vehicle_km_runs_dict = {}
-    if request.method == "POST":
-        date1=request.POST['date1']
-        date2=request.POST['date2']
+        vehicle_performance_dict = {}
         for vehicle in vehicle_objects_all:
             vehicle_diesel_litre_value_list = []
             vehicle_diesel_amount_value_list = []
@@ -388,20 +318,42 @@ def vehicle_diesel_report(request):
             vehicle_diesel_amount_value_list=Diesel.objects.filter(expense_vehicle_id=vehicle).values_list('amount_Rs',flat=True)
             vehicle_diesel_litre[vehicle.pk]=functions.diesel_volume_sum(vehicle_diesel_litre_value_list)
             vehicle_amount_dict[vehicle.pk]=functions.diesel_volume_sum(vehicle_diesel_amount_value_list)
-            dieselobjectlist = Diesel.objects.filter(transaction_date__range=[date1,date2])
-            latest_diesel_object=dieselobjectlist.latest('transaction_date')
-            earliest_diesel_object=dieselobjectlist.earliest('transaction_date')
-            km_runs=int(latest_diesel_object.odometer_reading)-int(earliest_diesel_object.odometer_reading)
-            vehicle_km_runs_dict[vehicle.pk]=km_runs
-        """ 
-            date1=request.POST['date1']
-            date2=request.POST['date2']
-            dieselobjectlist = Diesel.objects.filter(transaction_date__range=[date1,date2])
-            latest_diesel_object=dieselobjectlist.latest('transaction_date')
-            earliest_diesel_object=dieselobjectlist.earliest('transaction_date')
-            km_runs=int(latest_diesel_object.odometer_reading)-int(earliest_diesel_object.odometer_reading) """
-        
-    data={'vehicle_km_runs_dict':vehicle_km_runs_dict,'vehicle_objects_all':vehicle_objects_all,'vehicle_amount_dict':vehicle_amount_dict,'vehicle_diesel_litre':vehicle_diesel_litre}
+            one_vehicle_amount_value=functions.diesel_volume_sum(vehicle_diesel_amount_value_list) 
+            diesel_objects=Diesel.objects.filter(expense_vehicle_id=vehicle).all()
+            diesel_objects_count=Diesel.objects.filter(expense_vehicle_id=vehicle).all().count()
+            if diesel_objects_count>1:
+                diesel_object_filtered_by_date=diesel_objects.filter(transaction_date__range=[date1,date2])
+                latest_diesel_object=diesel_object_filtered_by_date.latest('transaction_date')
+                earliest_diesel_object=diesel_object_filtered_by_date.earliest('transaction_date')
+                km_runs=int(latest_diesel_object.odometer_reading)-int(earliest_diesel_object.odometer_reading)
+                average=one_vehicle_amount_value/km_runs
+                performance=average-float(vehicle.minimum_average)
+                vehicle_km_runs_dict[vehicle.pk]=km_runs
+                vehicle_average_dict[vehicle.pk]=average
+                if performance>0:
+                    vehicle_performance_dict[vehicle.pk]="Good"
+                else:
+                    vehicle_performance_dict[vehicle.pk]="Bad"
+            else:
+                vehicle_km_runs_dict[vehicle.pk]=0
+                vehicle_average_dict[vehicle.pk]=0
+                vehicle_performance_dict[vehicle.pk]="None"
+        data={'vehicle_performance_dict':vehicle_performance_dict,'vehicle_average_dict':vehicle_average_dict,'vehicle_km_runs_dict':vehicle_km_runs_dict,'vehicle_objects_all':vehicle_objects_all,'vehicle_amount_dict':vehicle_amount_dict,'vehicle_diesel_litre':vehicle_diesel_litre}
+    else:
+        vehicle_objects_all = Vehicles.objects.all()
+        vehicle_diesel_litre = {}
+        vehicle_amount_dict = {}
+        vehicle_km_runs_dict = {}
+        vehicle_average_dict = {}
+        vehicle_performance_dict = {}
+        for vehicle in vehicle_objects_all:
+            vehicle_diesel_litre_value_list = []
+            vehicle_diesel_amount_value_list = []
+            vehicle_diesel_litre_value_list=Diesel.objects.filter(expense_vehicle_id=vehicle).values_list('volume',flat=True)
+            vehicle_diesel_amount_value_list=Diesel.objects.filter(expense_vehicle_id=vehicle).values_list('amount_Rs',flat=True)
+            vehicle_diesel_litre[vehicle.pk]=functions.diesel_volume_sum(vehicle_diesel_litre_value_list)
+            vehicle_amount_dict[vehicle.pk]=functions.diesel_volume_sum(vehicle_diesel_amount_value_list)
+        data={'vehicle_performance_dict':vehicle_performance_dict,'vehicle_average_dict':vehicle_average_dict,'vehicle_km_runs_dict':vehicle_km_runs_dict,'vehicle_objects_all':vehicle_objects_all,'vehicle_amount_dict':vehicle_amount_dict,'vehicle_diesel_litre':vehicle_diesel_litre}  
     
     return render(request,'trax_vehicle_manager_data/vehicle_diesel_report.html',data)
 
