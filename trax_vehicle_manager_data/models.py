@@ -123,6 +123,8 @@ class Diesel(Expenses):
     diesel_rate = models.CharField(max_length=900,blank=True)
     volume = models.CharField(max_length=900,blank=True)
     amount_Rs = models.CharField(max_length=900,blank=True)
+    diesel_debit = models.CharField(max_length=900,blank=True)
+    diesel_credit = models.CharField(max_length=900,blank=True)
     balance_Rs = models.CharField(max_length=900,blank=True)
     odometer_reading = models.CharField(max_length=900,blank=True)
     ownership = models.CharField(max_length=900,blank=True)
