@@ -1,6 +1,6 @@
 from import_export.admin import ImportExportModelAdmin
 from django.contrib import admin
-from trax_vehicle_manager_data.models import Drivers,Cleaners,Vehicles,Expenses,Diesel,CustomUser,Client,RecurringExpenses,OilChange,PUC,Drivers_Odometer_Data,Maintenance,GarageBilling,Insurance,PoliceSettlements
+from trax_vehicle_manager_data.models import CustomUser,Drivers,Cleaners,Vehicles,Expenses,Diesel,Maintenance,GarageBilling,Insurance,PoliceSettlements,RecurringExpenses,PUC,OilChange,Client,Drivers_Odometer_Data,RecurringExpensesModel,PUCRecurringExpenses,OilChangeRecurringExpenses,HubGreasingRecurringExpenses
 
 # Register your models here.
 class DriversAdmin(ImportExportModelAdmin):
@@ -49,7 +49,7 @@ class CleanersAdmin(ImportExportModelAdmin):
 
 
 
-
+admin.site.register(CustomUser)
 admin.site.register(Drivers,DriversAdmin)
 admin.site.register(Cleaners,CleanersAdmin)
 admin.site.register(Vehicles,VehiclesAdmin)
@@ -57,11 +57,14 @@ admin.site.register(Expenses)
 admin.site.register(Diesel)
 admin.site.register(Maintenance)
 admin.site.register(GarageBilling)
-admin.site.register(CustomUser)
 admin.site.register(Insurance)
-admin.site.register(Client)
 admin.site.register(PoliceSettlements)
 admin.site.register(RecurringExpenses)
-admin.site.register(OilChange)
 admin.site.register(PUC)
+admin.site.register(OilChange)
+admin.site.register(Client)
 admin.site.register(Drivers_Odometer_Data)
+admin.site.register(RecurringExpensesModel)
+admin.site.register(PUCRecurringExpenses)
+admin.site.register(OilChangeRecurringExpenses)
+admin.site.register(HubGreasingRecurringExpenses)

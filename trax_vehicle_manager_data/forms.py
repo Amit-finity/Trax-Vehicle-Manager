@@ -1,5 +1,5 @@
 from django import forms
-from trax_vehicle_manager_data.models import CustomUser,Drivers,Cleaners,Vehicles,Expenses,Diesel,Maintenance,GarageBilling,Insurance,PoliceSettlements,RecurringExpenses,PUC,OilChange,Client,Drivers_Odometer_Data
+from trax_vehicle_manager_data.models import CustomUser,Drivers,Cleaners,Vehicles,Expenses,Diesel,Maintenance,GarageBilling,Insurance,PoliceSettlements,RecurringExpenses,PUC,OilChange,Client,Drivers_Odometer_Data,RecurringExpensesModel,PUCRecurringExpenses,OilChangeRecurringExpenses,HubGreasingRecurringExpenses
 from bootstrap_modal_forms.forms import BSModalForm
 
 class MaintenanceForm(BSModalForm):
@@ -123,3 +123,43 @@ class VehicleDataForm(BSModalForm):
         'vehicle_registered_number',
         'driver_id',
         'cleaner_id')
+
+class PUCDataForm(BSModalForm):
+    class Meta:
+        model = PUCRecurringExpenses
+        fields = ('recurring_expense_vehicle_id',
+        'puc_number',
+        'center_name',
+        'test_date',
+        'expiry_date',
+        'puc_amount',
+        'date_of_entry',
+        'current_odometer_km',
+        'last_odometer_km',
+        'current_km_date')
+
+class OilChangeForm(BSModalForm):
+    class Meta:
+        model = OilChangeRecurringExpenses
+        fields = ('recurring_expense_vehicle_id',
+        'last_date_of_oil_change',
+        'actual_km',
+        'minimum_oil_change_km',
+        'over_km',
+        'date_of_entry',
+        'current_odometer_km',
+        'last_odometer_km',
+        'current_km_date')
+
+class HubGreasingForm(BSModalForm):
+    class Meta:
+        model = HubGreasingRecurringExpenses
+        fields = ('recurring_expense_vehicle_id',
+        'last_date_of_hub_greasing',
+        'actual_km',
+        'minimum_hub_grease_change_km',
+        'over_km',
+        'date_of_entry',
+        'current_odometer_km',
+        'last_odometer_km',
+        'current_km_date')

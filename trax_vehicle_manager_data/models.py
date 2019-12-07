@@ -166,33 +166,75 @@ class Maintenance(models.Model):
 #Child class of Maintenance
 class GarageBilling(Maintenance):
     def __str__(self):
-                return str(self.pk)
+        return str(self.pk)
 
 #Child class of Maintenance
 class Insurance(Maintenance):
     def __str__(self):
-                return str(self.pk)
+        return str(self.pk)
 
 
 #Child class of Maintenance
 class PoliceSettlements(Maintenance):
     def __str__(self):
-                return str(self.pk)
+        return str(self.pk)
 
 #Child class of Expenses
 class RecurringExpenses(Expenses):
     def __str__(self):
-                return str(self.pk)
+        return str(self.pk)
 
 #Child class of RecurringExpenses
 class PUC(RecurringExpenses):
     def __str__(self):
-                return str(self.pk)
+        return str(self.pk)
 
 #Child class of RecurringExpenses
 class OilChange(RecurringExpenses):
     def __str__(self):
-                return str(self.pk)
+        return str(self.pk)
+
+class RecurringExpensesModel(models.Model):
+    date_of_entry = models.DateTimeField(default=timezone.now,blank=True)
+    current_odometer_km = models.CharField(max_length=900,blank=True)
+    last_odometer_km = models.CharField(max_length=900,blank=True)
+    recurring_expense_vehicle_id = models.ForeignKey(Vehicles, on_delete = models.CASCADE,blank=True)
+    current_km_date = models.DateTimeField(blank=True)
+
+    def __str__(self):
+        return str(self.pk)
+
+class PUCRecurringExpenses(RecurringExpensesModel):
+    puc_number = models.CharField(max_length=900,blank=True)
+    center_name = models.CharField(max_length=900,blank=True)
+    test_date = models.DateTimeField(blank=True)
+    expiry_date = models.DateTimeField(blank=True)
+    puc_amount = models.CharField(max_length=900,blank=True)
+
+    def __str__(self):
+        return str(self.pk)
+
+class OilChangeRecurringExpenses(RecurringExpensesModel):
+    last_date_of_oil_change = models.DateTimeField(blank=True)
+    actual_km = models.CharField(max_length=900,blank=True)
+    minimum_oil_change_km = models.CharField(max_length=900,blank=True)
+    over_km = models.CharField(max_length=900,blank=True)
+
+    def __str__(self):
+        return str(self.pk)
+
+class HubGreasingRecurringExpenses(RecurringExpensesModel):
+    last_date_of_hub_greasing = models.DateTimeField(blank=True)
+    actual_km = models.CharField(max_length=900,blank=True)
+    minimum_hub_grease_change_km = models.CharField(max_length=900,blank=True)
+    over_km = models.CharField(max_length=900,blank=True)
+
+    def __str__(self):
+        return str(self.pk)
+
+
+
+    
 
 class Client(models.Model):
 

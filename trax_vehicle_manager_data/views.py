@@ -11,8 +11,8 @@ from bootstrap_modal_forms.generic import (BSModalCreateView,
                                            BSModalDeleteView)
 
 
-from trax_vehicle_manager_data.models import Drivers,Vehicles,Cleaners,Drivers_Odometer_Data,Expenses,Maintenance,Diesel,CustomUser
-from trax_vehicle_manager_data.forms import MaintenanceForm,DriverForm,DriverOdometerForm,DieselOdometerReadingUpdateForm,DieselDataForm,DriverKYCForm,VehicleDataForm
+from trax_vehicle_manager_data.models import Drivers,Vehicles,Cleaners,Drivers_Odometer_Data,Expenses,Maintenance,Diesel,CustomUser,RecurringExpensesModel,PUCRecurringExpenses,OilChangeRecurringExpenses,HubGreasingRecurringExpenses
+from trax_vehicle_manager_data.forms import MaintenanceForm,DriverForm,DriverOdometerForm,DieselOdometerReadingUpdateForm,DieselDataForm,DriverKYCForm,VehicleDataForm,PUCDataForm,OilChangeForm,HubGreasingForm
 
 from trax_vehicle_manager_data import functions
 
@@ -237,52 +237,6 @@ def full_diesel_details(request):
     data = {'diesel_objects':diesel_objects}
     return render(request,'trax_vehicle_manager_data/full_diesel_details.html',data)
 
-#Full diesel details page filtered by date
-""" def full_diesel_details_filtered_by_date(request):
-    diesel_litres_dict = {}
-    total_liters = 0
-    diesel_data_dict = {}
-    #diesel_ownership_dict = {}
-    diesel_transaction_date_dict = {}
-    diesel_data_amount_dict = {}
-    total_amount = 0
-    diesel_data_odometer_dict = {}
-    total_odometer = 0
-    diesel_data_km_runs_dict = {}
-    total_km = 0
-    diesel_data_card_used_dict = {}
-    dieselobjectlist = []
-    if request.method == "POST":
-        date1=request.POST['date1']
-        date2=request.POST['date2']
-        vehicle_objects_all = Vehicles.objects.all()
-        for one_vehicle_object in vehicle_objects_all:
-            dieselobjectlist = Diesel.objects.filter(transaction_date__range=[date1,date2]).all()
-            diesel_dict[one_vehicle_object]=dieselobjectlist
-    else:
-        vehicle_objects_all = Vehicles.objects.all()
-        for one_vehicle_object in vehicle_objects_all:
-            dieselobjectlist = Diesel.objects.filter(expense_vehicle_id=one_vehicle_object.pk).all()
-            for one_diesel_object in dieselobjectlist:
-                total_liters=total_liters+int(one_diesel_object.volume)
-                total_amount=total_amount+int(one_diesel_object.amount_Rs)
-                total_odometer=total_odometer+int(one_diesel_object.odometer_reading)
-            diesel_litres_dict[one_vehicle_object.pk]=total_liters
-            diesel_data_amount_dict[one_vehicle_object.pk]=total_amount
-            diesel_data_odometer_dict[one_vehicle_object.pk]=total_odometer
-            driver_odometer_object =  Drivers_Odometer_Data.objects.filter(drivers_odometer_data_vehicle_number=one_vehicle_object.pk).all()
-            for one_driver_odometer_object in driver_odometer_object:
-                total_km=total_km+int(one_driver_odometer_object.drivers_odometer_data_odometer_kilometer)
-            diesel_data_km_runs_dict[one_vehicle_object.pk]=total_km
-
-
-            latest_diesel_object = Diesel.objects.latest('transaction_date')
-            diesel_ownership_dict=latest_diesel_object.ownership
-            diesel_transaction_date_dict[one_diesel_object.pk]=latest_diesel_object.transaction_date 
-            diesel_data_card_used_dict[one_vehicle_object.pk]=latest_diesel_object.card_used
-            diesel_data_dict[one_vehicle_object] = dieselobjectlist
-    data =  {'diesel_litres_dict':diesel_litres_dict,'diesel_data_dict':diesel_data_dict,'diesel_data_amount_dict':diesel_data_amount_dict,'diesel_data_odometer_dict':diesel_data_odometer_dict,'diesel_data_km_runs_dict':diesel_data_km_runs_dict,'diesel_data_card_used_dict':diesel_data_card_used_dict,'diesel_transaction_date_dict':diesel_transaction_date_dict,'diesel_ownership_dict':diesel_ownership_dict}
-    return render(request,'trax_vehicle_manager_data/full_diesel_detail_filtered_by_date.html',data) """
 
 @login_required(login_url='/login')
 def full_diesel_details_filtered_by_date(request):
@@ -432,21 +386,6 @@ def maintenance_data(request):
 #Maintenance Details page view
 @login_required(login_url='/login')
 def maintenance_details(request):
-    """ maintenance_data_objects = Maintenance.objects.all()
-    maintenance_details_monthly_expense_total_dict = {}
-    maintenance_details_vehicle_km_dict = {}
-    maintenance_objects = Maintenance.objects.filter(expense_vehicle_id=Vehicles.objects.get(pk=pk)).all()
-    total_expense_per_vehicle = 0
-    total_km_per_vehicle = 0
-    for maintenance in maintenance_objects:
-        total_expense_per_vehicle = total_expense_per_vehicle + maintenance.amount
-        total_km_per_vehicle = total_km_per_vehicle + maintenance.odometer_reading
-        maintenance_details_monthly_expense_total_dict[maintenance.pk]=total_expense_per_vehicle
-        maintenance_details_vehicle_km_dict[maintenance.pk]=total_km_per_vehicle
-
-        ItemPrice.objects.aggregate(Sum('price'))
-    data = {'maintenance_data_objects':maintenance_data_objects,'maintenance_details_monthly_expense_total_dict':maintenance_details_monthly_expense_total_dict,'maintenance_details_vehicle_km_dict':maintenance_details_vehicle_km_dict} """
-
     vehicleobjectlist = []
     if request.method == "POST":
         date1=request.POST['date1']
@@ -462,9 +401,6 @@ def maintenance_details(request):
         for maintenance_data in maintenance_objects_within_bill_date:
             total_amount = total_amount + int(maintenance_data.amount)        
         for vehicle in vehicle_objects_all:
-            """ km_sum = Maintenance.objects.filter(expense_vehicle_id=one_vehicle_object.pk).aggregate(Sum('odometer_reading'))
-            amount_sum = Maintenance.objects.filter(expense_vehicle_id=one_vehicle_object.pk).aggregate(Sum('amount'))
-            vehicle_dict[one_vehicle_object] = km_sum,amount_sum """
             vehicle_odometer_value_list = []
             vehicle_amount_value_list = []
             vehicle_odometer_value_list = Maintenance.objects.filter(maintenance_vehicle_id=vehicle).values_list('odometer_reading',flat=True)
@@ -484,9 +420,6 @@ def maintenance_details(request):
         for maintenance_data in maintenance_objects:
             total_amount = total_amount + int(maintenance_data.amount)     
         for vehicle in vehicle_objects_all:
-            """ km_sum = Maintenance.objects.filter(expense_vehicle_id=one_vehicle_object.pk).aggregate(Sum('odometer_reading'))
-            amount_sum = Maintenance.objects.filter(expense_vehicle_id=one_vehicle_object.pk).aggregate(Sum('amount'))
-            vehicle_dict[one_vehicle_object] = km_sum,amount_sum """
             vehicle_odometer_value_list = []
             vehicle_amount_value_list = []
             vehicle_odometer_value_list = Maintenance.objects.filter(maintenance_vehicle_id=vehicle).values_list('odometer_reading',flat=True)
@@ -618,19 +551,35 @@ def maintenance_delete_data(request):
     return render(request,'trax_vehicle_manager_data/maintenance_delete.html',data)
 
 #Maintenance Delete data within date
-""" def maintenance_delete_within_date(request):
-    maintenanceobjectlist = []
-    if request.method == "POST":
-        date1=request.POST['date1']
-        date2=request.POST['date2']
-        maintenanceobjectlist = Maintenance.objects.filter(bill_date__range=[date1,date2]).delete()
-        filter_date = "True"
-        data =  {'maintenance_data_objects':maintenanceobjectlist,'date1':date1,'date2':date2,'filter_date':filter_date}
-        return reverse_lazy('trax_vehicle_manager_data:maintenance_delete_data',data) """
+#def maintenance_delete_within_date(request):
+ #   maintenanceobjectlist = []
+  #  if request.method == "POST":
+   #     date1=request.POST['date1']
+    #    date2=request.POST['date2']
+     #   maintenanceobjectlist = Maintenance.objects.filter(bill_date__range=[date1,date2]).delete()
+      #  filter_date = "True"
+       # data =  {'maintenance_data_objects':maintenanceobjectlist,'date1':date1,'date2':date2,'filter_date':filter_date}
+        #return reverse_lazy('trax_vehicle_manager_data:maintenance_delete_data',data)
 
-#Recurring expense page view
-def recurring_expense(request):
-    return render(request,'trax_vehicle_manager_data/recurring_expense.html')
+#Recurring expense PUC page view
+def recurring_expense_puc(request):
+    puc_objects = PUCRecurringExpenses.objects.all()
+    data = {'puc_objects':puc_objects}
+    return render(request,'trax_vehicle_manager_data/recurring_expense_puc.html',data)
+
+#Recurring expense OilChange page view
+def recurring_expense_oilchange(request):
+    oil_Change_objects = OilChangeRecurringExpenses.objects.all()
+    data = {'oil_Change_objects':oil_Change_objects}
+    return render(request,'trax_vehicle_manager_data/recurring_expense_oilchange.html',data)
+
+#Recurring expense HubGreasing page view
+def recurring_expense_hubgreasing(request):
+    hub_greasing_objects = HubGreasingRecurringExpenses.objects.all()
+    data = {'hub_greasing_objects':hub_greasing_objects}
+    return render(request,'trax_vehicle_manager_data/recurring_expense_hubgreasing.html',data)
+
+
 
 #Insurance claim page view
 def insurance_claim(request):
@@ -777,3 +726,60 @@ class Create_New_Vehicle(BSModalCreateView):
     form_class = VehicleDataForm
     success_message = 'Success: Vehicles Data was added Successfully.'
     success_url = reverse_lazy('trax_vehicle_manager_data:vehicles')
+
+class RecurringExpensePUCUpdateView(BSModalUpdateView):
+    model = PUCRecurringExpenses
+    template_name = 'trax_vehicle_manager_data/update_data.html'
+    form_class = PUCDataForm
+    success_message = 'Success: PUC data was updated.'
+    success_url = reverse_lazy('trax_vehicle_manager_data:recurring_expense_puc')
+
+class RecurringExpenseOilChangeUpdateView(BSModalUpdateView):
+    model = OilChangeRecurringExpenses
+    template_name = 'trax_vehicle_manager_data/update_data.html'
+    form_class = OilChangeForm
+    success_message = 'Success: Oil Change data was updated.'
+    success_url = reverse_lazy('trax_vehicle_manager_data:recurring_expense_oilchange')
+
+class RecurringExpenseHubGreasingUpdateView(BSModalUpdateView):
+    model = HubGreasingRecurringExpenses
+    template_name = 'trax_vehicle_manager_data/update_data.html'
+    form_class = HubGreasingForm
+    success_message = 'Success: Hub Greasing data was updated.'
+    success_url = reverse_lazy('trax_vehicle_manager_data:recurring_expense_hubgreasing')
+
+class RecurringExpensePUCDeleteView(BSModalDeleteView):
+    model = PUCRecurringExpenses
+    template_name = 'trax_vehicle_manager_data/delete_data.html'
+    success_message = 'Success: PUC data was Deleted.'
+    success_url = reverse_lazy('trax_vehicle_manager_data:recurring_expense_puc')
+
+class RecurringExpenseOilChangeDeleteView(BSModalDeleteView):
+    model = OilChangeRecurringExpenses
+    template_name = 'trax_vehicle_manager_data/delete_data.html'
+    success_message = 'Success: Oil Change data was Deleted.'
+    success_url = reverse_lazy('trax_vehicle_manager_data:recurring_expense_oilchange')
+
+class RecurringExpenseHubGreasingDeleteView(BSModalDeleteView):
+    model = HubGreasingRecurringExpenses
+    template_name = 'trax_vehicle_manager_data/delete_data.html'
+    success_message = 'Success: Hub Greasing data was Deleted.'
+    success_url = reverse_lazy('trax_vehicle_manager_data:recurring_expense_hubgreasing')
+
+class RecurringExpensePUCCreateView(BSModalCreateView):
+    template_name = 'trax_vehicle_manager_data/add_a_new_puc.html'
+    form_class = PUCDataForm
+    success_message = 'Success: PUC Data was added Successfully.'
+    success_url = reverse_lazy('trax_vehicle_manager_data:recurring_expense_puc')
+
+class RecurringExpenseOilChangeCreateView(BSModalCreateView):
+    template_name = 'trax_vehicle_manager_data/add_a_new_oilchange.html'
+    form_class = OilChangeForm
+    success_message = 'Success: Oil Change Data was added Successfully.'
+    success_url = reverse_lazy('trax_vehicle_manager_data:recurring_expense_oilchange')
+
+class RecurringExpenseHubGreasingCreateView(BSModalCreateView):
+    template_name = 'trax_vehicle_manager_data/add_a_new_hubgreasing.html'
+    form_class = HubGreasingForm
+    success_message = 'Success: Hub Greasing Data was added Successfully.'
+    success_url = reverse_lazy('trax_vehicle_manager_data:recurring_expense_hubgreasing')

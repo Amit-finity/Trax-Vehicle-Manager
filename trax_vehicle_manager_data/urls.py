@@ -163,9 +163,33 @@ urlpatterns = [
     #url for Maintenance data delete within given bill date
     #re_path(r'^maintenance/maintenance_delete_data/',views.maintenance_delete_within_date,name='maintenance_delete_within_date'), 
 
-    #url for recurring expense page
-    path('recurring_expense',views.recurring_expense,name='recurring_expense'),
+    #url for recurring expense puc page
+    path('recurring_expense/puc',views.recurring_expense_puc,name='recurring_expense_puc'),
+
+    path('recurring_expense/puc/delete/<int:pk>', views.RecurringExpensePUCDeleteView.as_view(), name='delete_recurring_expense_puc'),    
+
+    path('recurring_expense/puc/update/<int:pk>', views.RecurringExpensePUCUpdateView.as_view(), name='update_recurring_expense_puc'),  
+
+    path('recurring_expense/puc/create',views.RecurringExpensePUCCreateView.as_view(),name='puc_create'),
+
+    #url for recurring expense oilchange page
+    path('recurring_expense/oilchange',views.recurring_expense_oilchange,name='recurring_expense_oilchange'),
     
+    path('recurring_expense/oilchange/update/<int:pk>', views.RecurringExpenseOilChangeUpdateView.as_view(), name='update_recurring_expense_oilchange'),  
+
+    path('recurring_expense/oilchange/delete/<int:pk>', views.RecurringExpenseOilChangeDeleteView.as_view(), name='delete_recurring_expense_oilchange'),  
+
+    path('recurring_expense/oilchange/create',views.RecurringExpenseOilChangeCreateView.as_view(),name='oilchange_create'),
+
+    #url for recurring expense hubgreasing page
+    path('recurring_expense/hubgreasing',views.recurring_expense_hubgreasing,name='recurring_expense_hubgreasing'),
+
+    path('recurring_expense/hubgreasing/update/<int:pk>', views.RecurringExpenseHubGreasingUpdateView.as_view(), name='update_recurring_expense_hubgreasing'),  
+
+    path('recurring_expense/hubgreasing/delete/<int:pk>', views.RecurringExpenseHubGreasingDeleteView.as_view(), name='delete_recurring_expense_hubgreasing'),  
+
+    path('recurring_expense/hubgreasing/create',views.RecurringExpenseHubGreasingCreateView.as_view(),name='hubgreasing_create'),
+
     #url for insurance claim page
     path('settlement/insurance_claim',views.insurance_claim,name='insurance_claim'),
     

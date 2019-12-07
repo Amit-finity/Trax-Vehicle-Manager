@@ -120,12 +120,23 @@
                         </li>
                     </ul>
                 </li>
-                <li> 
-                    <a href="{% url 'trax_vehicle_manager_data:recurring_expense' %}">Reccuring Expense</a>
+                <li>
+                    <a href="#homeSubmenu3" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Recurring Expenses</a>
+                    <ul class="collapse list-unstyled" id="homeSubmenu3">
+                        <li>
+                            <a href="{% url 'trax_vehicle_manager_data:recurring_expense_puc' %}">PUC</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'trax_vehicle_manager_data:recurring_expense_oilchange' %}">Oil Change</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'trax_vehicle_manager_data:recurring_expense_hubgreasing' %}">Hub Greasing</a>
+                        </li>
+                    </ul>
                 </li>
                 <li>
-                    <a href="#homeSubmenu3" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Settlement</a>
-                    <ul class="collapse list-unstyled" id="homeSubmenu3">
+                    <a href="#homeSubmenu4" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Settlement</a>
+                    <ul class="collapse list-unstyled" id="homeSubmenu4">
                         <li>
                             <a href="{% url 'trax_vehicle_manager_data:insurance_claim' %}">Insurance Claims</a>
                         </li>
@@ -136,24 +147,24 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="#homeSubmenu4" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Company MIS</a>
-                    <ul class="collapse list-unstyled" id="homeSubmenu4">
+                    <a href="#homeSubmenu5" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Company MIS</a>
+                    <ul class="collapse list-unstyled" id="homeSubmenu5">
                         <li>
                             <a href="{% url 'trax_vehicle_manager_data:mis' %}">MIS</a>
                         </li>
                     </ul>
                 </li>
                 <li>
-                    <a href="#homeSubmenu5" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Tyre</a>
-                    <ul class="collapse list-unstyled" id="homeSubmenu5">
+                    <a href="#homeSubmenu6" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Tyre</a>
+                    <ul class="collapse list-unstyled" id="homeSubmenu6">
                         <li>
                             <a href="{% url 'trax_vehicle_manager_data:tyres' %}">Tyres Data</a>
                         </li>
                     </ul>
                 </li>
                 <li>
-                    <a href="#homeSubmenu6" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Supervisors</a>
-                    <ul class="collapse list-unstyled" id="homeSubmenu6">
+                    <a href="#homeSubmenu7" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Supervisors</a>
+                    <ul class="collapse list-unstyled" id="homeSubmenu7">
                         <li>
                             <a href="{% url 'trax_vehicle_manager_data:supervisor_data' %}">Supervisor Data</a>
                         </li>
